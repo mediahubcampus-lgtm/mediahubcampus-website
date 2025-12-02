@@ -73,7 +73,7 @@ export const SERVICES = [
     description:
       "Opérations terrain, street marketing, sampling, jeux-concours et activations digitales sur campus.",
     icon: "PartyPopper",
-    image: "/images/gallery/Photos MediaHub Campus - 25.jpeg",
+    image: "/images/Photos service EVENT.jpeg",
   },
 ];
 
