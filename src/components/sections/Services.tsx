@@ -49,7 +49,7 @@ export default function Services() {
           <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
             Des solutions complètes pour toucher la cible étudiante
           </p>
-          {/* Mascot */}
+          {/* Mascot - Desktop */}
           {MASCOTS.services && (
             <motion.div
               initial={{ opacity: 0, x: 20 }}
@@ -69,9 +69,28 @@ export default function Services() {
           )}
         </motion.div>
 
+        {/* Cards container with mascots */}
         <div className="relative">
+          {/* Mascot - Mobile (behind first card, peeking from top) */}
+          {MASCOTS.services && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 0.8, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className="absolute -top-16 left-1/2 -translate-x-1/2 lg:hidden z-0"
+            >
+              <Image
+                src="/images/cat-mascot/chat-parle-au-micro.png"
+                alt="Chat mascotte parle au micro"
+                width={100}
+                height={100}
+                className="w-20 h-auto drop-shadow-lg"
+              />
+            </motion.div>
+          )}
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10"
             variants={staggerContainerVariants}
             initial="hidden"
             whileInView="visible"
@@ -115,7 +134,7 @@ export default function Services() {
             })}
           </motion.div>
 
-          {/* Mascot bottom right - overlapping cards */}
+          {/* Mascot bottom right - Desktop overlapping cards */}
           {MASCOTS.servicesBottom && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -130,6 +149,24 @@ export default function Services() {
                 width={180}
                 height={180}
                 className="w-40 h-auto drop-shadow-xl"
+              />
+            </motion.div>
+          )}
+          {/* Mascot bottom - Mobile (overlapping bottom right corner of last card) */}
+          {MASCOTS.servicesBottom && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.4 }}
+              className="absolute -bottom-4 -right-2 lg:hidden z-20 pointer-events-none"
+            >
+              <Image
+                src="/images/cat-mascot/chat-mange-chips-paquet-dans-ses-pattes.png"
+                alt="Chat mascotte mange des chips"
+                width={80}
+                height={80}
+                className="w-16 h-auto drop-shadow-lg"
               />
             </motion.div>
           )}

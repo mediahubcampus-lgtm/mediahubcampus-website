@@ -135,7 +135,7 @@ export default function Clients() {
             <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
               Des marques et institutions qui nous accompagnent
             </p>
-            {/* Mascot thumbs up */}
+            {/* Mascot thumbs up - Desktop */}
             {MASCOTS.clients && (
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
@@ -156,8 +156,29 @@ export default function Clients() {
           </motion.div>
         </div>
 
-        {/* Two-row marquee */}
-        <div className="relative space-y-4">
+        {/* Marquee with mascot behind on mobile */}
+        <div className="relative">
+          {/* Mascot - Mobile (behind scrolling brands) */}
+          {MASCOTS.clients && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 0.4, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className="absolute -top-12 left-1/2 -translate-x-1/2 lg:hidden z-0"
+            >
+              <Image
+                src="/images/cat-mascot/chat-fait-un-pouve-en-l-air.png"
+                alt="Chat mascotte pouce en l'air"
+                width={140}
+                height={140}
+                className="w-28 h-auto drop-shadow-lg"
+              />
+            </motion.div>
+          )}
+
+          {/* Three-row marquee */}
+          <div className="relative space-y-4 z-10">
           {/* Gradient fade on edges */}
           <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[var(--bg-dark)] to-transparent z-10 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[var(--bg-dark)] to-transparent z-10 pointer-events-none" />
@@ -170,6 +191,7 @@ export default function Clients() {
 
           {/* Row 3 - scrolls left */}
           <MarqueeRow logos={ROW3_LOGOS} direction="left" duration={45} />
+          </div>
         </div>
       </section>
     </div>

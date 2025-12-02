@@ -42,7 +42,7 @@ export default function Target() {
           <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
             Qui sont les étudiants ? Leurs habitudes et centres d&apos;intérêts
           </p>
-          {/* Mascot student */}
+          {/* Mascot student - Desktop */}
           {MASCOTS.target && (
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -62,9 +62,28 @@ export default function Target() {
           )}
         </motion.div>
 
-        {/* Demographics */}
-        <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12"
+        {/* Demographics with mascot behind on mobile */}
+        <div className="relative mb-12">
+          {/* Mascot - Mobile (centered behind cards, overlapping) */}
+          {MASCOTS.target && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 0.6, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:hidden z-0"
+            >
+              <Image
+                src="/images/cat-mascot/chat-tasse-en-main.png"
+                alt="Chat mascotte avec tasse"
+                width={140}
+                height={140}
+                className="w-28 h-auto drop-shadow-lg"
+              />
+            </motion.div>
+          )}
+          <motion.div
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 relative z-10"
           variants={staggerContainerVariants}
           initial="hidden"
           whileInView="visible"
@@ -91,7 +110,8 @@ export default function Target() {
               </motion.div>
             );
           })}
-        </motion.div>
+          </motion.div>
+        </div>
 
         {/* Habits & Interests */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

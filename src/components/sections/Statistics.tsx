@@ -101,7 +101,7 @@ export default function Statistics() {
           <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
             Le plus vaste réseau d&apos;affichage au cœur des campus français
           </p>
-          {/* Mascot */}
+          {/* Mascot - Desktop */}
           {MASCOTS.statistics && (
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -121,8 +121,28 @@ export default function Statistics() {
           )}
         </motion.div>
 
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+        {/* Stats cards with mascot behind on mobile */}
+        <div className="relative">
+          {/* Mascot - Mobile (behind cards, overlapping) */}
+          {MASCOTS.statistics && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 0.7, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className="absolute -top-8 left-1/2 -translate-x-1/2 lg:hidden z-0"
+            >
+              <Image
+                src="/images/cat-mascot/chat-applaudit-souriant.png"
+                alt="Chat mascotte applaudit"
+                width={120}
+                height={120}
+                className="w-24 h-auto drop-shadow-lg"
+              />
+            </motion.div>
+          )}
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -145,6 +165,7 @@ export default function Statistics() {
             </motion.div>
           ))}
         </motion.div>
+        </div>
         </div>
       </section>
     </div>

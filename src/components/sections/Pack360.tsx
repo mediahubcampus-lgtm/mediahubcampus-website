@@ -84,7 +84,7 @@ export default function Pack360() {
           <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
             Pour ceux qui veulent tout, d&apos;un coup.
           </p>
-          {/* Mascot */}
+          {/* Mascot - Desktop */}
           {MASCOTS.pack360 && (
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -104,14 +104,33 @@ export default function Pack360() {
           )}
         </motion.div>
 
-        {/* Pack Components */}
-        <motion.div
-          initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.8, ease: easeOutQuart }}
-          className="bg-gradient-to-br from-[var(--primary)]/10 to-[var(--accent-purple)]/10 border border-[var(--card-border)] rounded-3xl p-6 md:p-10"
-        >
+        {/* Pack Components with mascot behind on mobile */}
+        <div className="relative">
+          {/* Mascot - Mobile (behind pack card) */}
+          {MASCOTS.pack360 && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 0.5, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className="absolute -top-16 left-1/2 -translate-x-1/2 lg:hidden z-0"
+            >
+              <Image
+                src="/images/cat-mascot/chat-yeux-plisses-main-jointes-souriant.png"
+                alt="Chat mascotte souriant"
+                width={120}
+                height={120}
+                className="w-24 h-auto drop-shadow-lg"
+              />
+            </motion.div>
+          )}
+          <motion.div
+            initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.8, ease: easeOutQuart }}
+            className="bg-gradient-to-br from-[var(--primary)]/10 to-[var(--accent-purple)]/10 border border-[var(--card-border)] rounded-3xl p-6 md:p-10 relative z-10"
+          >
           <motion.div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8"
             variants={containerVariants}
@@ -161,7 +180,8 @@ export default function Pack360() {
               <span>Télécharger la Plaquette</span>
             </a>
           </motion.div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

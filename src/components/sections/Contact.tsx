@@ -45,7 +45,7 @@ export default function Contact() {
   return (
     <section id="contact" className="py-20">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        {/* Mascot */}
+        {/* Mascot - Desktop */}
         {MASCOTS.contact && (
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -60,6 +60,24 @@ export default function Contact() {
               width={220}
               height={220}
               className="w-48 h-auto drop-shadow-xl"
+            />
+          </motion.div>
+        )}
+        {/* Mascot - Mobile */}
+        {MASCOTS.contact && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+            className="xl:hidden flex justify-center mb-6"
+          >
+            <Image
+              src="/images/cat-mascot/chat-devant-ordi-bulle-icon-mail.png"
+              alt="Chat mascotte avec ordinateur"
+              width={200}
+              height={200}
+              className="w-20 h-auto drop-shadow-lg"
             />
           </motion.div>
         )}

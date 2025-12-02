@@ -151,7 +151,7 @@ export default function PeekingMascot() {
 
   return (
     <>
-      {/* Peeking mascot */}
+      {/* Desktop: Peeking mascot from sides */}
       <AnimatePresence mode="wait">
         {shouldShow && (
           <motion.button
@@ -203,7 +203,33 @@ export default function PeekingMascot() {
         )}
       </AnimatePresence>
 
-      {/* Toggle button */}
+      {/* Mobile: Always visible FAB button - uses block lg:hidden to show only on mobile */}
+      <button
+        onClick={handleClick}
+        className="fixed z-[9999] bottom-4 right-4 block lg:hidden"
+        title={mascotsEnabled ? "Cacher les mascottes" : "Voir les mascottes !"}
+      >
+        <div className="relative">
+          <div className={`p-2 rounded-full ${mascotsEnabled ? "bg-[var(--primary)]" : "bg-[var(--card-bg)]"} border border-[var(--card-border)] shadow-lg`}>
+            <Image
+              src="/images/cat-mascot/chat-clin-d-oeil-assis.png"
+              alt="Chat mascotte"
+              width={50}
+              height={50}
+              className="w-10 h-10 object-contain"
+            />
+          </div>
+          {/* Speech bubble for mobile - shows until user interacts */}
+          {!hasInteracted && !mascotsEnabled && (
+            <div className="absolute -top-8 -left-12 bg-white text-gray-800 text-xs font-medium px-2 py-1 rounded-lg shadow-lg whitespace-nowrap">
+              Tap !
+              <div className="absolute -bottom-1 right-2 w-2 h-2 bg-white transform rotate-45" />
+            </div>
+          )}
+        </div>
+      </button>
+
+      {/* Desktop: Toggle button */}
       {hasInteracted && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -79,7 +79,7 @@ export default function Cities() {
           <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
             Plus de 65 villes universitaires couvertes à travers la France
           </p>
-          {/* Mascot - behind text */}
+          {/* Mascot - Desktop (behind text) */}
           {MASCOTS.cities && (
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
@@ -99,16 +99,36 @@ export default function Cities() {
           )}
         </motion.div>
 
-        {/* Interactive Map */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95, filter: "blur(8px)" }}
-          whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 1, ease: easeOutQuart }}
-          className="mb-12"
-        >
-          <FranceMap />
-        </motion.div>
+        {/* Interactive Map with mascot behind on mobile */}
+        <div className="relative mb-12">
+          {/* Mascot - Mobile (bigger, behind map) */}
+          {MASCOTS.cities && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 0.5, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className="absolute -bottom-4 left-1/2 -translate-x-1/2 lg:hidden z-0"
+            >
+              <Image
+                src="/images/cat-mascot/chat-chapeau-graduate-sur-vélo.png"
+                alt="Chat mascotte sur vélo"
+                width={160}
+                height={160}
+                className="w-32 h-auto drop-shadow-lg"
+              />
+            </motion.div>
+          )}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, filter: "blur(8px)" }}
+            whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 1, ease: easeOutQuart }}
+            className="relative z-10"
+          >
+            <FranceMap />
+          </motion.div>
+        </div>
 
         {/* Target Locations - Horizontal Scroll */}
         <motion.div
