@@ -1,4 +1,7 @@
 import { NextResponse } from "next/server";
+import sgMail from "@sendgrid/mail";
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
 
 export async function POST(request: Request) {
   try {
@@ -13,33 +16,35 @@ export async function POST(request: Request) {
       );
     }
 
-    // TODO: Integrate with email service (Resend, SendGrid, etc.)
-    // For now, just log the message
-    console.log("Contact form submission:", {
-      name,
-      email,
-      company,
-      message,
-      timestamp: new Date().toISOString(),
-    });
-
-    // Example Resend integration (uncomment and add RESEND_API_KEY env var):
-    /*
-    const resend = new Resend(process.env.RESEND_API_KEY);
-    await resend.emails.send({
-      from: 'MediaHub Campus <noreply@mediahubcampus.com>',
-      to: ['contact@mediahubcampus.com'],
+    // Send email via SendGrid
+    await sgMail.send({
+      to: process.env.CONTACT_EMAIL || "contact@mediahubcampus.com",
+      from: process.env.SENDGRID_FROM_EMAIL || "noreply@mediahubcampus.com",
+      replyTo: email,
       subject: `Nouveau contact: ${name}`,
       html: `
         <h2>Nouveau message de contact</h2>
         <p><strong>Nom:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Entreprise:</strong> ${company || 'Non renseigné'}</p>
+        <p><strong>Entreprise:</strong> ${company || "Non renseigné"}</p>
         <p><strong>Message:</strong></p>
-        <p>${message}</p>
+        <p>${message.replace(/\n/g, "<br>")}</p>
+        <hr>
+        <p style="color: #666; font-size: 12px;">
+          Envoyé depuis le formulaire de contact MediaHub Campus
+        </p>
       `,
+      text: `
+Nouveau message de contact
+
+Nom: ${name}
+Email: ${email}
+Entreprise: ${company || "Non renseigné"}
+
+Message:
+${message}
+      `.trim(),
     });
-    */
 
     return NextResponse.json({ success: true });
   } catch (error) {
