@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Download } from "lucide-react";
 import { SITE_CONFIG, NAV_LINKS } from "@/lib/constants";
 
@@ -9,11 +10,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-[var(--primary)] rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-xl">M</span>
-              </div>
-              <span className="font-semibold text-lg">MediaHub Campus</span>
+            <div className="mb-4">
+              <Image
+                src="/logos/brand/logo.svg"
+                alt="MediaHub Campus"
+                width={360}
+                height={90}
+                className="h-24 w-auto"
+              />
             </div>
             <p className="text-[var(--text-muted)] text-sm">
               {SITE_CONFIG.tagline}

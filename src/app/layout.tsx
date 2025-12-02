@@ -20,6 +20,10 @@ export const metadata: Metadata = {
     "régie publicitaire",
     "marketing étudiant",
   ],
+  icons: {
+    icon: "/logos/brand/favicon.png",
+    apple: "/logos/brand/favicon.png",
+  },
 };
 
 export default function RootLayout({
