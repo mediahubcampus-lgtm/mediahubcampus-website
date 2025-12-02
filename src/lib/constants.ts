@@ -20,6 +20,7 @@ export const SERVICES = [
     description:
       "Le plus vaste réseau d'affichage au cœur des universités, campus, lycées et lieux de vie étudiants. Plus de 2,4M de reach, 100% étudiant.",
     icon: "Megaphone",
+    image: "/images/gallery/Photos MediaHub Campus - 1.JPG",
   },
   {
     id: "scolaire",
@@ -27,6 +28,7 @@ export const SERVICES = [
     description:
       "Réseau Lycée pour toucher lycéens et professeurs. Enseignants partenaires, lycées à la carte, profils précis.",
     icon: "GraduationCap",
+    image: "/images/gallery/Photos MediaHub Campus - 3.jpg",
   },
   {
     id: "digital",
@@ -34,6 +36,7 @@ export const SERVICES = [
     description:
       "Achat d'espace web, création et gestion de comptes. TikTok (11M), Snapchat (10M), Instagram (9,5M) chez les 18-25 ans.",
     icon: "Smartphone",
+    image: "/images/gallery/Photos MediaHub Campus - 10.jpeg",
   },
   {
     id: "velib",
@@ -41,6 +44,7 @@ export const SERVICES = [
     description:
       "Plus de 1 400 stations à la carte. Habillages de totems et diapasons. 38% des abonnés ont 19-26 ans.",
     icon: "Bike",
+    image: "/images/gallery/Photos MediaHub Campus - 15.jpeg",
   },
   {
     id: "mediatables",
@@ -48,6 +52,7 @@ export const SERVICES = [
     description:
       "12 000 tables, 800 établissements, 50 min d'exposition. 91% des Français fréquentent les terrasses.",
     icon: "Coffee",
+    image: "/images/gallery/Photos MediaHub Campus - 20.jpeg",
   },
   {
     id: "event",
@@ -55,6 +60,7 @@ export const SERVICES = [
     description:
       "Opérations terrain, street marketing, sampling, jeux-concours et activations digitales sur campus.",
     icon: "PartyPopper",
+    image: "/images/gallery/Photos MediaHub Campus - 25.jpeg",
   },
 ];
 

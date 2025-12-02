@@ -3,6 +3,7 @@
 import { Download, ArrowDown } from "lucide-react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef } from "react";
+import Image from "next/image";
 import { SITE_CONFIG } from "@/lib/constants";
 
 // Easing curve
@@ -25,19 +26,42 @@ export default function Hero() {
   const contentY = useTransform(scrollYProgress, [0, 1], [0, 80]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
+  // Background image parallax
+  const bgY = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+
   // Smooth springs
   const smoothBlob1Y = useSpring(blob1Y, { stiffness: 50, damping: 20 });
   const smoothBlob2Y = useSpring(blob2Y, { stiffness: 50, damping: 20 });
   const smoothBlob1X = useSpring(blob1X, { stiffness: 50, damping: 20 });
   const smoothBlob2X = useSpring(blob2X, { stiffness: 50, damping: 20 });
+  const smoothBgY = useSpring(bgY, { stiffness: 50, damping: 20 });
 
   return (
     <section
       ref={sectionRef}
       className="relative min-h-screen flex items-center justify-center pt-20"
     >
-      {/* Background decoration with parallax */}
+      {/* Background image with parallax */}
       <div className="absolute inset-0 overflow-hidden">
+        <motion.div
+          className="absolute inset-0 w-full h-[120%]"
+          style={{ y: smoothBgY, scale: bgScale }}
+        >
+          <Image
+            src="/images/gallery/Photos MediaHub Campus - 18.jpeg"
+            alt="Campus universitaire"
+            fill
+            className="object-cover"
+            priority
+          />
+          {/* Dark overlay gradient */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg-dark)]/80 via-[var(--bg-dark)]/70 to-[var(--bg-dark)]" />
+        </motion.div>
+      </div>
+
+      {/* Background decoration with parallax */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           className="absolute top-1/4 right-1/4 w-96 h-96 bg-[var(--primary)]/20 rounded-full blur-3xl"
           style={{ y: smoothBlob1Y, x: smoothBlob1X }}
