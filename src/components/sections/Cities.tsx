@@ -1,18 +1,28 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MapPin, Building2 } from "lucide-react";
-import { CITIES, TARGET_LOCATIONS } from "@/lib/constants";
+import {
+  Landmark,
+  GraduationCap,
+  School,
+  UtensilsCrossed,
+  Home,
+  Users,
+  BookOpen,
+  type LucideIcon,
+} from "lucide-react";
+import FranceMap from "@/components/ui/FranceMap";
 
-function formatStudents(num: number): string {
-  if (num >= 1000000) {
-    return `${(num / 1000000).toFixed(1)}M`;
-  }
-  if (num >= 1000) {
-    return `${Math.floor(num / 1000)}k`;
-  }
-  return num.toString();
-}
+// Location types with their specific icons
+const IMPLANTATIONS: { label: string; icon: LucideIcon }[] = [
+  { label: "Campus universitaires publics", icon: Landmark },
+  { label: "Écoles du supérieur sélectives", icon: GraduationCap },
+  { label: "Écoles du supérieur privées", icon: School },
+  { label: "Restaurants universitaires", icon: UtensilsCrossed },
+  { label: "Résidences universitaires", icon: Home },
+  { label: "Lieux de vie étudiants", icon: Users },
+  { label: "Lycées", icon: BookOpen },
+];
 
 export default function Cities() {
   return (
@@ -36,72 +46,56 @@ export default function Cities() {
           </p>
         </motion.div>
 
-        {/* Cities Grid */}
+        {/* Interactive Map */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 mb-12"
+          transition={{ duration: 0.8 }}
+          className="mb-12"
         >
-          {CITIES.map((city, index) => (
-            <motion.div
-              key={city.name}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: index * 0.03 }}
-              className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl p-3 text-center hover:border-[var(--primary)]/50 transition-colors"
-            >
-              <div className="text-lg font-semibold text-white truncate">
-                {city.name}
-              </div>
-              <div className="text-[var(--accent-cyan)] text-sm font-medium">
-                {formatStudents(city.students)}
-              </div>
-            </motion.div>
-          ))}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3, delay: CITIES.length * 0.03 }}
-            className="bg-[var(--primary)]/20 border border-[var(--primary)]/30 rounded-xl p-3 text-center flex items-center justify-center"
-          >
-            <span className="text-[var(--accent-purple)] font-medium">
-              +40 autres
-            </span>
-          </motion.div>
+          <FranceMap />
         </motion.div>
 
-        {/* Target Locations */}
+        {/* Target Locations - Horizontal Scroll */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 md:p-8"
         >
-          <div className="flex items-center gap-3 mb-6">
-            <Building2 size={24} className="text-[var(--accent-cyan)]" />
-            <h3 className="text-xl font-semibold">Nos implantations</h3>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            {TARGET_LOCATIONS.map((location, index) => (
-              <motion.div
-                key={location}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="inline-flex items-center gap-2 bg-[var(--bg-dark)] rounded-full px-4 py-2"
-              >
-                <MapPin size={14} className="text-[var(--accent-purple)]" />
-                <span className="text-sm text-[var(--text-muted)]">
-                  {location}
-                </span>
-              </motion.div>
-            ))}
+          <h3 className="text-xl font-semibold text-center mb-8">
+            Nos implantations
+          </h3>
+          <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 md:overflow-visible md:flex-wrap md:justify-center">
+            {IMPLANTATIONS.map((item, index) => {
+              const Icon = item.icon;
+              return (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.05 }}
+                  className="group flex-shrink-0 snap-center w-36 md:w-40"
+                >
+                  <div className="relative bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-5 text-center hover:border-[var(--accent-cyan)]/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-[var(--primary)]/10">
+                    {/* Icon with gradient background */}
+                    <div className="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-[var(--primary)] to-[var(--accent-purple)] flex items-center justify-center shadow-lg shadow-[var(--primary)]/20">
+                      <Icon
+                        size={28}
+                        className="text-white"
+                        strokeWidth={1.5}
+                      />
+                    </div>
+                    {/* Label - fixed height for 2 lines */}
+                    <span className="text-sm text-white/90 leading-tight font-medium mt-4 h-10 flex items-center justify-center">
+                      {item.label}
+                    </span>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </motion.div>
       </div>
