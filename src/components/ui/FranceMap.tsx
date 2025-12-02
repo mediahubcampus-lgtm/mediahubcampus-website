@@ -290,19 +290,6 @@ export default function FranceMap() {
         </AnimatePresence>
       </div>
 
-      {/* Legend */}
-      <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-sm text-[var(--text-muted)]">
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-[var(--primary)]" />
-          <span>Villes couvertes</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-[var(--primary)]" />
-          <span>10k</span>
-          <div className="w-4 h-4 rounded-full bg-[var(--primary)]" />
-          <span>750k étudiants</span>
-        </div>
-      </div>
     </div>
   );
 }

@@ -41,7 +41,7 @@ export const SERVICES = [
     description:
       "Réseau Lycée pour toucher lycéens et professeurs. Enseignants partenaires, lycées à la carte, profils précis.",
     icon: "GraduationCap",
-    image: "/images/gallery/Photos MediaHub Campus - 6.jpeg",
+    image: "/images/Photos Lycées 1.jpg",
   },
   {
     id: "digital",
@@ -49,7 +49,7 @@ export const SERVICES = [
     description:
       "Achat d'espace web, création et gestion de comptes. TikTok (11M), Snapchat (10M), Instagram (9,5M) chez les 18-25 ans.",
     icon: "Smartphone",
-    image: "/images/gallery/Photos MediaHub Campus - 10.jpeg",
+    image: "/images/Photos service digital.png",
   },
   {
     id: "velib",

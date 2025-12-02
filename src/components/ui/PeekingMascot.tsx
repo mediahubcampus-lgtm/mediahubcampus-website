@@ -146,32 +146,32 @@ export default function PeekingMascot() {
   // Don't render until hydrated to avoid mismatch
   if (!isHydrated) return null;
 
-  // Should show the mascot button?
-  const shouldShow = hasInteracted || isPeeking || mascotsEnabled;
+  // Should show the peeking mascot on desktop? Only when peeking and not yet interacted
+  const shouldShowPeeking = !hasInteracted && isPeeking && !mascotsEnabled;
 
   return (
     <>
-      {/* Desktop: Peeking mascot from sides */}
+      {/* Desktop: Peeking mascot from sides - only shows before user interaction */}
       <AnimatePresence mode="wait">
-        {shouldShow && (
+        {shouldShowPeeking && (
           <motion.button
-            key={hasInteracted ? "fixed" : currentPosition}
+            key={currentPosition}
             onClick={handleClick}
             className={`fixed z-50 cursor-pointer hidden lg:block ${positionStyles.className}`}
             initial={positionStyles.initial}
             animate={{
               ...positionStyles.animate,
-              rotate: (hasInteracted || mascotsEnabled) ? 0 : [0, -5, 5, -5, 0],
+              rotate: [0, -5, 5, -5, 0],
             }}
             exit={positionStyles.exit}
             transition={{
               type: "spring",
               stiffness: 300,
               damping: 25,
-              rotate: { duration: 0.5, repeat: (hasInteracted || mascotsEnabled) ? 0 : 2 },
+              rotate: { duration: 0.5, repeat: 2 },
             }}
             whileHover={positionStyles.hover}
-            title={mascotsEnabled ? "Cacher les mascottes" : "Voir les mascottes !"}
+            title="Voir les mascottes !"
           >
             <div className="relative">
               <Image
@@ -181,23 +181,21 @@ export default function PeekingMascot() {
                 height={100}
                 className={`w-20 h-auto drop-shadow-xl ${isLeftSide ? "-scale-x-100" : ""}`}
               />
-              {/* Speech bubble when not yet interacted */}
-              {!hasInteracted && !mascotsEnabled && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className={`absolute -top-12 bg-white text-gray-800 text-xs font-medium px-3 py-2 rounded-xl shadow-lg whitespace-nowrap ${
-                    isLeftSide ? "-right-20" : "-left-20"
+              {/* Speech bubble */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className={`absolute -top-12 bg-white text-gray-800 text-xs font-medium px-3 py-2 rounded-xl shadow-lg whitespace-nowrap ${
+                  isLeftSide ? "-right-20" : "-left-20"
+                }`}
+              >
+                Clique-moi !
+                <div
+                  className={`absolute -bottom-1 w-3 h-3 bg-white transform rotate-45 ${
+                    isLeftSide ? "left-4" : "right-4"
                   }`}
-                >
-                  Clique-moi !
-                  <div
-                    className={`absolute -bottom-1 w-3 h-3 bg-white transform rotate-45 ${
-                      isLeftSide ? "left-4" : "right-4"
-                    }`}
-                  />
-                </motion.div>
-              )}
+                />
+              </motion.div>
             </div>
           </motion.button>
         )}
