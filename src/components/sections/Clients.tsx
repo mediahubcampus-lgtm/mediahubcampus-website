@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import { motion, useAnimationControls } from "framer-motion";
 import Image from "next/image";
 import { blurRevealVariants } from "@/lib/useScrollAnimations";
 
@@ -47,90 +48,144 @@ const CLIENT_LOGOS = [
   { name: "MdJ", logo: "/logos/clients/Logo MdJ.png" },
 ];
 
-// Animation variants for client logos
-const logoContainerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.03,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-// Easing curve
-const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
-
-const logoItemVariants = {
-  hidden: { opacity: 0, scale: 0.8, filter: "blur(4px)" },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.4,
-      ease: easeOutQuart,
-    },
-  },
-};
-
 export default function Clients() {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const controls = useAnimationControls();
+  const xRef = useRef(0);
+  const dragStartX = useRef(0);
+  const dragStartScrollX = useRef(0);
+
+  // Duplicate logos for seamless infinite scroll
+  const duplicatedLogos = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
+
+  const totalWidth = CLIENT_LOGOS.length * (128 + 24); // w-32 + gap-6
+
+  // Start auto-scroll animation
+  const startAutoScroll = (fromX: number, hovered: boolean) => {
+    const remainingDistance = -totalWidth - fromX;
+    const speed = hovered ? 5 : 50; // pixels per second (much slower on hover)
+    const duration = Math.abs(remainingDistance) / speed;
+
+    controls.start({
+      x: -totalWidth,
+      transition: {
+        duration,
+        ease: "linear",
+        repeat: Infinity,
+        repeatType: "loop",
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (!isDragging) {
+      startAutoScroll(xRef.current, isHovered);
+    }
+  }, [isHovered]);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    controls.stop();
+    dragStartX.current = e.clientX;
+    dragStartScrollX.current = xRef.current;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    const delta = e.clientX - dragStartX.current;
+    let newX = dragStartScrollX.current + delta;
+
+    // Wrap around
+    if (newX > 0) newX = -totalWidth + (newX % totalWidth);
+    if (newX < -totalWidth * 2) newX = -totalWidth + (newX % totalWidth);
+
+    xRef.current = newX;
+    controls.set({ x: newX });
+  };
+
+  const handleMouseUp = () => {
+    if (isDragging) {
+      setIsDragging(false);
+      startAutoScroll(xRef.current, false);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    if (isDragging) {
+      setIsDragging(false);
+      startAutoScroll(xRef.current, false);
+    }
+  };
+
   return (
-    <section id="clients" className="py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          variants={blurRevealVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Ils nous font{" "}
-            <span className="bg-gradient-to-r from-[var(--accent-cyan)] to-[var(--accent-purple)] bg-clip-text text-transparent">
-              Confiance
-            </span>
-          </h2>
-          <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
-            Des marques et institutions qui nous accompagnent
-          </p>
-        </motion.div>
+    <div className="relative">
+      {/* Full-width background */}
+      <div className="absolute inset-0 -mx-[calc(50vw-50%)] bg-[var(--accent-cyan)]/8 border-y border-[var(--accent-cyan)]/20" />
+      <section id="clients" className="py-16 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            variants={blurRevealVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+              Ils nous font{" "}
+              <span className="bg-gradient-to-r from-[var(--accent-cyan)] to-[var(--accent-purple)] bg-clip-text text-transparent">
+                Confiance
+              </span>
+            </h2>
+            <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
+              Des marques et institutions qui nous accompagnent
+            </p>
+          </motion.div>
+        </div>
 
-        <motion.div
-          variants={logoContainerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"
+        {/* Auto-scrolling marquee with drag support */}
+        <div
+          ref={containerRef}
+          className={`relative select-none ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={handleMouseLeave}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
         >
-          {CLIENT_LOGOS.map((client) => (
-            <motion.div
-              key={client.name}
-              variants={logoItemVariants}
-              className="bg-white rounded-xl p-4 flex items-center justify-center h-20 hover:shadow-lg hover:shadow-[var(--primary)]/10 hover:-translate-y-1 transition-all duration-300"
-            >
-              <Image
-                src={client.logo}
-                alt={client.name}
-                width={120}
-                height={60}
-                className="max-h-12 w-auto object-contain"
-              />
-            </motion.div>
-          ))}
-        </motion.div>
+          {/* Gradient fade on edges */}
+          <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[var(--bg-dark)] to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[var(--bg-dark)] to-transparent z-10 pointer-events-none" />
 
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="text-center text-[var(--text-muted)] text-sm mt-8"
-        >
-          Et bien d&apos;autres...
-        </motion.p>
-      </div>
-    </section>
+          <motion.div
+            className="flex gap-6"
+            animate={controls}
+            onUpdate={(latest) => {
+              if (typeof latest.x === "number") {
+                xRef.current = latest.x;
+              }
+            }}
+          >
+            {duplicatedLogos.map((client, index) => (
+              <motion.div
+                key={`${client.name}-${index}`}
+                className="flex-shrink-0 bg-white rounded-xl p-4 flex items-center justify-center h-16 w-32 transition-all duration-200 hover:scale-110 hover:shadow-xl"
+              >
+                <Image
+                  src={client.logo}
+                  alt={client.name}
+                  width={100}
+                  height={48}
+                  className="max-h-10 w-auto object-contain"
+                  draggable={false}
+                />
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+    </div>
   );
 }
