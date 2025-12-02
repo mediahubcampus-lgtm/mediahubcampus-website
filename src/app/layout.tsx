@@ -35,7 +35,7 @@ export const metadata: Metadata = {
       "Touchez 2,1 millions d'étudiants dans 65+ villes universitaires. Affichage, digital, événementiel sur les campus de France.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/logos/brand/logo.png",
         width: 1200,
         height: 630,
         alt: "MediaHub Campus - La Régie des Universités",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     title: "MediaHub Campus - Régie Publicitaire Universitaire",
     description:
       "Touchez 2,1 millions d'étudiants dans 65+ villes universitaires.",
-    images: ["/og-image.png"],
+    images: ["/logos/brand/logo.png"],
   },
   robots: {
     index: true,
