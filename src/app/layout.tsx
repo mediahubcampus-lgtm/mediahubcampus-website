@@ -22,6 +22,44 @@ export const metadata: Metadata = {
     "régie publicitaire",
     "marketing étudiant",
   ],
+  authors: [{ name: "MediaHub Campus" }],
+  creator: "MediaHub Campus",
+  metadataBase: new URL("https://mediahubcampus.com"),
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    url: "https://mediahubcampus.com",
+    siteName: "MediaHub Campus",
+    title: "MediaHub Campus - Régie Publicitaire Universitaire",
+    description:
+      "Touchez 2,1 millions d'étudiants dans 65+ villes universitaires. Affichage, digital, événementiel sur les campus de France.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "MediaHub Campus - La Régie des Universités",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MediaHub Campus - Régie Publicitaire Universitaire",
+    description:
+      "Touchez 2,1 millions d'étudiants dans 65+ villes universitaires.",
+    images: ["/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   icons: {
     icon: [
       { url: "/favicon.png" },
