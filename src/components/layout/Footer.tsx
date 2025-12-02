@@ -56,17 +56,41 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="mt-12 pt-8 border-t border-[var(--card-border)] flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-[var(--text-muted)] text-sm">
-            &copy; {new Date().getFullYear()} MediaHub Campus. Tous droits
-            réservés.
-          </p>
-          <Link
-            href="/mentions-legales"
-            className="text-[var(--text-muted)] hover:text-white text-sm transition-colors"
-          >
-            Mentions légales
-          </Link>
+        <div className="mt-12 pt-8 border-t border-[var(--card-border)]">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p className="text-[var(--text-muted)] text-sm">
+              &copy; {new Date().getFullYear()} MediaHub Campus. Tous droits
+              réservés.
+            </p>
+            <div className="flex items-center gap-4 text-sm">
+              <Link
+                href="/mentions-legales"
+                className="text-[var(--text-muted)] hover:text-white transition-colors"
+              >
+                Mentions légales
+              </Link>
+              <span className="text-[var(--card-border)]">|</span>
+              <Link
+                href="/politique-confidentialite"
+                className="text-[var(--text-muted)] hover:text-white transition-colors"
+              >
+                Politique de confidentialité
+              </Link>
+            </div>
+          </div>
+          <div className="mt-4 text-center">
+            <p className="text-[var(--text-muted)] text-xs">
+              Conçu et développé par{" "}
+              <a
+                href="https://customdigital.fr/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[var(--accent-cyan)] hover:underline"
+              >
+                Camille MALEK - Custom Digital
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>
