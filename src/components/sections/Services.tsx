@@ -91,7 +91,7 @@ export default function Services() {
                       src={service.image}
                       alt={service.title}
                       fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      className="object-cover object-top transition-transform duration-500 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[var(--card-bg)] to-transparent" />
                     {/* Icon overlay */}

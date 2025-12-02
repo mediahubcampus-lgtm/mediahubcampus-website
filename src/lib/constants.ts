@@ -41,7 +41,7 @@ export const SERVICES = [
     description:
       "Réseau Lycée pour toucher lycéens et professeurs. Enseignants partenaires, lycées à la carte, profils précis.",
     icon: "GraduationCap",
-    image: "/images/gallery/Photos MediaHub Campus - 3.jpg",
+    image: "/images/gallery/Photos MediaHub Campus - 6.jpeg",
   },
   {
     id: "digital",
@@ -57,7 +57,7 @@ export const SERVICES = [
     description:
       "Plus de 1 400 stations à la carte. Habillages de totems et diapasons. 38% des abonnés ont 19-26 ans.",
     icon: "Bike",
-    image: "/images/gallery/Photos MediaHub Campus - 15.jpeg",
+    image: "/images/gallery/Photos Velib.jpg",
   },
   {
     id: "mediatables",
@@ -65,7 +65,7 @@ export const SERVICES = [
     description:
       "12 000 tables, 800 établissements, 50 min d'exposition. 91% des Français fréquentent les terrasses.",
     icon: "Coffee",
-    image: "/images/gallery/Photos MediaHub Campus - 20.jpeg",
+    image: "/images/gallery/Photos MediaTables.png",
   },
   {
     id: "event",

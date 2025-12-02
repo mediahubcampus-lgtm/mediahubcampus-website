@@ -49,7 +49,7 @@ export default function Hero() {
           style={{ y: smoothBgY, scale: bgScale }}
         >
           <Image
-            src="/images/gallery/Photos MediaHub Campus - 18.jpeg"
+            src="/images/gallery/Photos MediaHub Campus - 17.jpeg"
             alt="Campus universitaire"
             fill
             className="object-cover"

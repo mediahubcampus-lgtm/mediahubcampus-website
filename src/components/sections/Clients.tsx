@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { motion, useAnimationControls } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { blurRevealVariants } from "@/lib/useScrollAnimations";
 import { useMascots } from "@/context/MascotContext";
@@ -9,6 +8,8 @@ import { useMascots } from "@/context/MascotContext";
 // Mapping of client names to their logo files
 const CLIENT_LOGOS = [
   { name: "Crédit Mutuel", logo: "/logos/clients/Logo Credit-Mutuel.png" },
+  // { name: "LCL", logo: "/logos/clients/Logo LCL.png" }, // TODO: ajouter logo LCL
+  { name: "Le Figaro", logo: "/logos/clients/Logo_Le_Figaro.svg.png" },
   { name: "INSEE", logo: "/logos/clients/Logo Insee.png" },
   { name: "EPITA", logo: "/logos/clients/Logo EPITA.png" },
   { name: "ESPI", logo: "/logos/clients/Logo ESPI.jpg" },
@@ -27,100 +28,71 @@ const CLIENT_LOGOS = [
   { name: "Abbaye Fontevraud", logo: "/logos/clients/Logo Abbaye Fontevraud.png" },
   { name: "MSA", logo: "/logos/clients/Logo Mutualite Sociale Agricole.png" },
   { name: "Luminiscence", logo: "/logos/clients/Logo Luminiscence.jpeg" },
-  { name: "Le Figaro Étudiant", logo: "/logos/clients/Logo Le Figaro étudiant 2.png" },
   { name: "HAS", logo: "/logos/clients/Logo HAS.png" },
   { name: "ICN", logo: "/logos/clients/Logo ICN.avif" },
   { name: "Excelia", logo: "/logos/clients/Logo Excelia.png" },
   { name: "Rennes Métropole", logo: "/logos/clients/Logo Rennes Métropole.png" },
   { name: "Aivancity", logo: "/logos/clients/Logo aivancity.png" },
-  { name: "Bayard", logo: "/logos/clients/Logo Bayard.jpeg" },
-  // Major brands
-  { name: "McDonald's", logo: "/logos/clients/Logo McDoonalds.png" },
-  { name: "Burger King", logo: "/logos/clients/Logo BK.png" },
-  { name: "Starbucks", logo: "/logos/clients/Logo Starbucks.png" },
-  { name: "Deliveroo", logo: "/logos/clients/Logo Deliveroo.png" },
-  { name: "Uber", logo: "/logos/clients/Logo UBER.png" },
-  { name: "Air Canada", logo: "/logos/clients/Logo Air Canada.png" },
-  { name: "Prime Video", logo: "/logos/clients/Logo Prime Video.png" },
   { name: "Doritos", logo: "/logos/clients/Logo Doritos.png" },
   { name: "PWC", logo: "/logos/clients/Logo PWC.png" },
-  { name: "Vélib'", logo: "/logos/clients/Logo-Velib.png" },
   { name: "Billets Discount", logo: "/logos/clients/Logo BilletsDiscount.webp" },
   { name: "MdJ", logo: "/logos/clients/Logo MdJ.png" },
 ];
 
+// Split logos into two rows
+const ROW1_LOGOS = CLIENT_LOGOS.slice(0, Math.ceil(CLIENT_LOGOS.length / 2));
+const ROW2_LOGOS = CLIENT_LOGOS.slice(Math.ceil(CLIENT_LOGOS.length / 2));
+
+function MarqueeRow({
+  logos,
+  direction = "left",
+  duration = 25
+}: {
+  logos: typeof CLIENT_LOGOS;
+  direction?: "left" | "right";
+  duration?: number;
+}) {
+  // Duplicate logos for seamless loop
+  const duplicatedLogos = [...logos, ...logos, ...logos, ...logos];
+
+  return (
+    <div className="relative overflow-hidden">
+      <motion.div
+        className="flex gap-6"
+        animate={{
+          x: direction === "left" ? [0, -logos.length * 152] : [-logos.length * 152, 0],
+        }}
+        transition={{
+          x: {
+            repeat: Infinity,
+            repeatType: "loop",
+            duration,
+            ease: "linear",
+          },
+        }}
+      >
+        {duplicatedLogos.map((client, index) => (
+          <div
+            key={`${client.name}-${index}`}
+            className="flex-shrink-0 bg-white rounded-xl p-4 flex items-center justify-center h-16 w-32 transition-all duration-200 hover:scale-110 hover:shadow-xl"
+          >
+            <Image
+              src={client.logo}
+              alt={client.name}
+              width={100}
+              height={48}
+              className="max-h-10 w-auto object-contain"
+              draggable={false}
+            />
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
 export default function Clients() {
   const { MASCOTS } = useMascots();
-  const [isHovered, setIsHovered] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const controls = useAnimationControls();
-  const xRef = useRef(0);
-  const dragStartX = useRef(0);
-  const dragStartScrollX = useRef(0);
-
-  // Duplicate logos for seamless infinite scroll
-  const duplicatedLogos = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
-
-  const totalWidth = CLIENT_LOGOS.length * (128 + 24); // w-32 + gap-6
-
-  // Start auto-scroll animation
-  const startAutoScroll = (fromX: number, hovered: boolean) => {
-    const remainingDistance = -totalWidth - fromX;
-    const speed = hovered ? 5 : 50; // pixels per second (much slower on hover)
-    const duration = Math.abs(remainingDistance) / speed;
-
-    controls.start({
-      x: -totalWidth,
-      transition: {
-        duration,
-        ease: "linear",
-        repeat: Infinity,
-        repeatType: "loop",
-      },
-    });
-  };
-
-  useEffect(() => {
-    if (!isDragging) {
-      startAutoScroll(xRef.current, isHovered);
-    }
-  }, [isHovered]);
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    controls.stop();
-    dragStartX.current = e.clientX;
-    dragStartScrollX.current = xRef.current;
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
-    const delta = e.clientX - dragStartX.current;
-    let newX = dragStartScrollX.current + delta;
-
-    // Wrap around
-    if (newX > 0) newX = -totalWidth + (newX % totalWidth);
-    if (newX < -totalWidth * 2) newX = -totalWidth + (newX % totalWidth);
-
-    xRef.current = newX;
-    controls.set({ x: newX });
-  };
-
-  const handleMouseUp = () => {
-    if (isDragging) {
-      setIsDragging(false);
-      startAutoScroll(xRef.current, false);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    if (isDragging) {
-      setIsDragging(false);
-      startAutoScroll(xRef.current, false);
-    }
-  };
 
   return (
     <div className="relative">
@@ -165,45 +137,17 @@ export default function Clients() {
           </motion.div>
         </div>
 
-        {/* Auto-scrolling marquee with drag support */}
-        <div
-          ref={containerRef}
-          className={`relative select-none ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={handleMouseLeave}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-        >
+        {/* Two-row marquee */}
+        <div className="relative space-y-4">
           {/* Gradient fade on edges */}
           <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[var(--bg-dark)] to-transparent z-10 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[var(--bg-dark)] to-transparent z-10 pointer-events-none" />
 
-          <motion.div
-            className="flex gap-6"
-            animate={controls}
-            onUpdate={(latest) => {
-              if (typeof latest.x === "number") {
-                xRef.current = latest.x;
-              }
-            }}
-          >
-            {duplicatedLogos.map((client, index) => (
-              <motion.div
-                key={`${client.name}-${index}`}
-                className="flex-shrink-0 bg-white rounded-xl p-4 flex items-center justify-center h-16 w-32 transition-all duration-200 hover:scale-110 hover:shadow-xl"
-              >
-                <Image
-                  src={client.logo}
-                  alt={client.name}
-                  width={100}
-                  height={48}
-                  className="max-h-10 w-auto object-contain"
-                  draggable={false}
-                />
-              </motion.div>
-            ))}
-          </motion.div>
+          {/* Row 1 - scrolls left */}
+          <MarqueeRow logos={ROW1_LOGOS} direction="left" duration={20} />
+
+          {/* Row 2 - scrolls right */}
+          <MarqueeRow logos={ROW2_LOGOS} direction="right" duration={25} />
         </div>
       </section>
     </div>
