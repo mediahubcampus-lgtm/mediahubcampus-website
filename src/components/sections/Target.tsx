@@ -1,0 +1,137 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { Users, Clock, ShoppingBag, Dumbbell } from "lucide-react";
+import {
+  TARGET_DEMOGRAPHICS,
+  STUDENT_HABITS,
+  STUDENT_INTERESTS,
+} from "@/lib/constants";
+
+const demographicIcons = [Users, Clock, ShoppingBag, Dumbbell];
+
+export default function Target() {
+  return (
+    <section id="cible" className="py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+            Notre{" "}
+            <span className="bg-gradient-to-r from-[var(--accent-cyan)] to-[var(--accent-purple)] bg-clip-text text-transparent">
+              Cible
+            </span>
+          </h2>
+          <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
+            Qui sont les étudiants ? Leurs habitudes et centres d&apos;intérêts
+          </p>
+        </motion.div>
+
+        {/* Demographics */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+          {TARGET_DEMOGRAPHICS.map((item, index) => {
+            const Icon = demographicIcons[index];
+            return (
+              <motion.div
+                key={item.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 text-center"
+              >
+                <Icon
+                  size={24}
+                  className="mx-auto mb-3 text-[var(--accent-cyan)]"
+                />
+                <div className="text-3xl font-bold text-white mb-1">
+                  {item.value}
+                </div>
+                <div className="text-[var(--text-muted)] text-sm">
+                  {item.label}
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Habits & Interests */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Habits */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6"
+          >
+            <h3 className="text-xl font-semibold mb-6">Leurs habitudes</h3>
+            <div className="space-y-4">
+              {STUDENT_HABITS.map((item) => (
+                <div key={item.habit}>
+                  <div className="flex justify-between mb-1">
+                    <span className="text-[var(--text-muted)] text-sm">
+                      {item.habit}
+                    </span>
+                    <span className="text-[var(--accent-cyan)] font-semibold">
+                      {item.percentage}%
+                    </span>
+                  </div>
+                  <div className="h-2 bg-[var(--bg-dark)] rounded-full overflow-hidden">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${item.percentage}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: 0.2 }}
+                      className="h-full bg-gradient-to-r from-[var(--accent-cyan)] to-[var(--accent-purple)] rounded-full"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="text-[var(--text-muted)] text-xs mt-4">
+              Source : étude Iligo x DYL / 2023
+            </p>
+          </motion.div>
+
+          {/* Interests */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6"
+          >
+            <h3 className="text-xl font-semibold mb-6">
+              Centres d&apos;intérêts
+            </h3>
+            <div className="grid grid-cols-2 gap-4">
+              {STUDENT_INTERESTS.map((item, index) => (
+                <motion.div
+                  key={item.interest}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  className="bg-[var(--bg-dark)] rounded-xl p-4 text-center"
+                >
+                  <div className="text-2xl font-bold text-[var(--accent-purple)] mb-1">
+                    {item.percentage}%
+                  </div>
+                  <div className="text-[var(--text-muted)] text-sm">
+                    {item.interest}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}

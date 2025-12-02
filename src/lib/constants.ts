@@ -18,42 +18,42 @@ export const SERVICES = [
     id: "affichage",
     title: "Affichage Universitaire",
     description:
-      "Le plus vaste réseau d'affichage au cœur des universités, campus et lieux de vie étudiants.",
+      "Le plus vaste réseau d'affichage au cœur des universités, campus, lycées et lieux de vie étudiants. Plus de 2,4M de reach, 100% étudiant.",
     icon: "Megaphone",
   },
   {
     id: "scolaire",
     title: "Affichage Scolaire",
     description:
-      "Réseau Lycée pour toucher lycéens et professeurs avec des enseignants partenaires.",
+      "Réseau Lycée pour toucher lycéens et professeurs. Enseignants partenaires, lycées à la carte, profils précis.",
     icon: "GraduationCap",
   },
   {
     id: "digital",
     title: "Digital",
     description:
-      "Achat d'espace web, création et gestion de comptes sur TikTok, Instagram, Facebook et LinkedIn.",
+      "Achat d'espace web, création et gestion de comptes. TikTok (11M), Snapchat (10M), Instagram (9,5M) chez les 18-25 ans.",
     icon: "Smartphone",
   },
   {
     id: "velib",
     title: "Stations Vélib'",
     description:
-      "Plus de 1400 stations à la carte. Habillages de totems et diapasons.",
+      "Plus de 1 400 stations à la carte. Habillages de totems et diapasons. 38% des abonnés ont 19-26 ans.",
     icon: "Bike",
   },
   {
     id: "mediatables",
     title: "MédiaTables",
     description:
-      "12 000 tables dans 800 établissements. 50 minutes de temps d'exposition moyen.",
+      "12 000 tables, 800 établissements, 50 min d'exposition. 91% des Français fréquentent les terrasses.",
     icon: "Coffee",
   },
   {
     id: "event",
     title: "Événementiel",
     description:
-      "Opérations terrain, street marketing, sampling et activations sur campus.",
+      "Opérations terrain, street marketing, sampling, jeux-concours et activations digitales sur campus.",
     icon: "PartyPopper",
   },
 ];
@@ -72,6 +72,121 @@ export const CITIES = [
   { name: "Marseille", students: 50000 },
   { name: "Nancy", students: 40000 },
   { name: "Nice", students: 40000 },
+  { name: "Rouen", students: 35000 },
+  { name: "Clermont-Ferrand", students: 35000 },
+  { name: "Aix-en-Provence", students: 30000 },
+  { name: "Caen", students: 25000 },
+  { name: "Dijon", students: 25000 },
+  { name: "Reims", students: 25000 },
+  { name: "Tours", students: 25000 },
+  { name: "Orléans", students: 20000 },
+  { name: "Le Havre", students: 12000 },
+  { name: "Le Mans", students: 10000 },
+];
+
+export const TARGET_LOCATIONS = [
+  "Campus universitaires publics",
+  "Écoles du supérieur sélectives",
+  "Écoles du supérieur privées",
+  "Restaurants universitaires",
+  "Résidences universitaires",
+  "Lieux de vie étudiants",
+  "Lycées",
+];
+
+export const TARGET_DEMOGRAPHICS = [
+  { value: "95%", label: "ont entre 18 et 24 ans" },
+  { value: "7h", label: "par jour sur campus en moyenne" },
+  { value: "84%", label: "fréquentent les commerces de proximité" },
+  { value: "59%", label: "ont un abonnement salle de sport" },
+];
+
+export const STUDENT_HABITS = [
+  { habit: "Révisent leurs examens sur leur campus", percentage: 69 },
+  { habit: "Travaillent en groupe à l'université", percentage: 62 },
+  { habit: "Déjeunent sur leur campus", percentage: 56 },
+  { habit: "Profitent de la cafétéria de leur école", percentage: 45 },
+  { habit: "Font du sport régulièrement", percentage: 21 },
+  { habit: "Sont dans une association étudiante", percentage: 14 },
+];
+
+export const STUDENT_INTERESTS = [
+  { interest: "Musique", percentage: 72 },
+  { interest: "Cinéma", percentage: 59 },
+  { interest: "TV & Séries", percentage: 58 },
+  { interest: "Sport", percentage: 52 },
+  { interest: "Jeux vidéo", percentage: 48 },
+  { interest: "Voyages", percentage: 48 },
+];
+
+export const PACK_360 = [
+  {
+    id: "ooh",
+    title: "Affichage OOH",
+    description: "20 principales villes universitaires, 1,9M étudiants ciblés",
+    icon: "Megaphone",
+  },
+  {
+    id: "digital",
+    title: "Digital",
+    description: "500k+ vues, 500k+ reach, 10k+ engagements sur les réseaux",
+    icon: "Smartphone",
+  },
+  {
+    id: "velib",
+    title: "Vélib'",
+    description: "1 400+ stations à la carte selon votre cible",
+    icon: "Bike",
+  },
+  {
+    id: "event",
+    title: "Event DOOH",
+    description: "Jeux ludiques, collecte data, drive to store",
+    icon: "Gamepad2",
+  },
+  {
+    id: "mediatables",
+    title: "MédiaTables",
+    description: "Rues piétonnes, places, lieux touristiques, littoraux",
+    icon: "Coffee",
+  },
+];
+
+export const CASE_STUDIES = [
+  {
+    id: "toeic",
+    client: "ETS Global",
+    campaign: "Printemps de Cadeaux",
+    description: "Campagne TOEIC-TOEFL de notoriété et engagement",
+    stats: [
+      { label: "Hôtes terrain", value: "8" },
+      { label: "Sacs distribués", value: "8 000" },
+      { label: "Lots gagnés", value: "48" },
+    ],
+    details: [
+      "Van Volkswagen habillé aux couleurs TOEIC",
+      "Quiz interactif + roue des cadeaux",
+      "3 tablettes tactiles sur pied",
+      "Beach flags pour visibilité maximale",
+    ],
+  },
+  {
+    id: "doritos",
+    client: "Doritos",
+    campaign: "For the Bold",
+    description: "Échantillonnage et activation digitale massive",
+    stats: [
+      { label: "Paquets distribués", value: "200 000" },
+      { label: "Sites Île-de-France", value: "31" },
+      { label: "Semaines", value: "3" },
+    ],
+    details: [
+      "14 beachflags déployés",
+      "Activation Facebook et Twitter",
+      "1 mois de postering en amont",
+      "Couverture réseaux sociaux organique",
+    ],
+  },
 ];
 
 export const CLIENTS = [
@@ -95,11 +210,20 @@ export const CLIENTS = [
   "Mémorial de la Shoah",
   "Les Compagnons du Devoir",
   "ISEGCOM",
+  "Kangourou Kids",
+  "Golden Coast",
+  "Arena du Pays d'Aix",
+  "Fontevraud",
+  "MSA",
+  "Luminiscence",
+  "Unibail-Rodamco-Westfield",
 ];
 
 export const NAV_LINKS = [
   { href: "#services", label: "Services" },
+  { href: "#cible", label: "Notre Cible" },
   { href: "#reseau", label: "Notre Réseau" },
+  { href: "#pack360", label: "Pack 360°" },
   { href: "#clients", label: "Références" },
   { href: "#contact", label: "Contact" },
 ];
