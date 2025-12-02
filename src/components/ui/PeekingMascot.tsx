@@ -85,6 +85,7 @@ export default function PeekingMascot() {
   const { mascotsEnabled, toggleMascots } = useMascots();
   const [isPeeking, setIsPeeking] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
   const [currentPosition, setCurrentPosition] = useState<PeekPosition>("bottom-right");
 
   // Check localStorage on mount to see if user has interacted before
@@ -93,6 +94,7 @@ export default function PeekingMascot() {
     if (interacted === "true") {
       setHasInteracted(true);
     }
+    setIsHydrated(true);
   }, []);
 
   const pickRandomPosition = useCallback(() => {
@@ -102,8 +104,8 @@ export default function PeekingMascot() {
 
   // Periodic peeking animation (only when mascots are hidden AND user hasn't interacted yet)
   useEffect(() => {
-    // If user has interacted, no random peeking
-    if (hasInteracted || mascotsEnabled) {
+    // Wait for hydration and check if user has interacted
+    if (!isHydrated || hasInteracted || mascotsEnabled) {
       setIsPeeking(false);
       return;
     }
@@ -128,7 +130,7 @@ export default function PeekingMascot() {
       clearTimeout(initialTimeout);
       clearInterval(interval);
     };
-  }, [mascotsEnabled, hasInteracted, pickRandomPosition]);
+  }, [isHydrated, mascotsEnabled, hasInteracted, pickRandomPosition]);
 
   const handleClick = () => {
     toggleMascots();
@@ -140,6 +142,9 @@ export default function PeekingMascot() {
   // Use fixed position if user has interacted, otherwise use random position
   const positionStyles = hasInteracted ? FIXED_POSITION_STYLES : getPositionStyles(currentPosition);
   const isLeftSide = !hasInteracted && currentPosition.includes("left");
+
+  // Don't render until hydrated to avoid mismatch
+  if (!isHydrated) return null;
 
   // Should show the mascot button?
   const shouldShow = hasInteracted || isPeeking || mascotsEnabled;

@@ -7,6 +7,7 @@ type MascotContextType = {
   mascotsEnabled: boolean;
   toggleMascots: () => void;
   MASCOTS: typeof MASCOTS_CONFIG;
+  isHydrated: boolean;
 };
 
 const MascotContext = createContext<MascotContextType | undefined>(undefined);
@@ -14,6 +15,7 @@ const MascotContext = createContext<MascotContextType | undefined>(undefined);
 export function MascotProvider({ children }: { children: ReactNode }) {
   // Start with mascots hidden, revealed by clicking the peeking cat
   const [mascotsEnabled, setMascotsEnabled] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
 
   // Check localStorage on mount
   useEffect(() => {
@@ -21,6 +23,7 @@ export function MascotProvider({ children }: { children: ReactNode }) {
     if (stored === "true") {
       setMascotsEnabled(true);
     }
+    setIsHydrated(true);
   }, []);
 
   const toggleMascots = () => {
@@ -32,15 +35,16 @@ export function MascotProvider({ children }: { children: ReactNode }) {
   };
 
   // Generate MASCOTS object based on enabled state
+  // Only show mascots after hydration to prevent flash
   const MASCOTS = Object.fromEntries(
     Object.entries(MASCOTS_CONFIG).map(([key, value]) => [
       key,
-      mascotsEnabled && value,
+      isHydrated && mascotsEnabled && value,
     ])
   ) as typeof MASCOTS_CONFIG;
 
   return (
-    <MascotContext.Provider value={{ mascotsEnabled, toggleMascots, MASCOTS }}>
+    <MascotContext.Provider value={{ mascotsEnabled, toggleMascots, MASCOTS, isHydrated }}>
       {children}
     </MascotContext.Provider>
   );
