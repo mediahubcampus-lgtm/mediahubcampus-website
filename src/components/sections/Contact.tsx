@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Send, CheckCircle, AlertCircle } from "lucide-react";
+import { Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { blurRevealVariants } from "@/lib/useScrollAnimations";
 import { useMascots } from "@/context/MascotContext";
 
@@ -150,36 +150,46 @@ export default function Contact() {
             />
           </div>
 
-          <button
+          <motion.button
             type="submit"
-            disabled={status === "loading"}
-            className="w-full inline-flex items-center justify-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-hover)] disabled:opacity-50 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+            disabled={status === "loading" || status === "success"}
+            whileHover={{ scale: status === "idle" ? 1.02 : 1 }}
+            whileTap={{ scale: status === "idle" ? 0.98 : 1 }}
+            className={`w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
+              status === "success"
+                ? "bg-green-500 hover:bg-green-500"
+                : status === "error"
+                ? "bg-red-500 hover:bg-red-600"
+                : "bg-[var(--primary)] hover:bg-[var(--primary-hover)]"
+            } disabled:cursor-not-allowed text-white`}
           >
             {status === "loading" ? (
               <>
-                <span className="animate-spin">⏳</span>
-                Envoi en cours...
+                <Loader2 size={18} className="animate-spin" />
+                <span>Envoi en cours...</span>
+              </>
+            ) : status === "success" ? (
+              <>
+                <CheckCircle size={18} />
+                <span>Message envoyé !</span>
+              </>
+            ) : status === "error" ? (
+              <>
+                <AlertCircle size={18} />
+                <span>Réessayer</span>
               </>
             ) : (
               <>
                 <Send size={18} />
-                Envoyer
+                <span>Envoyer</span>
               </>
             )}
-          </button>
-
-          {status === "success" && (
-            <div className="mt-4 flex items-center gap-2 text-green-400 text-sm">
-              <CheckCircle size={18} />
-              <span>Message envoyé avec succès !</span>
-            </div>
-          )}
+          </motion.button>
 
           {status === "error" && (
-            <div className="mt-4 flex items-center gap-2 text-red-400 text-sm">
-              <AlertCircle size={18} />
-              <span>Une erreur est survenue. Veuillez réessayer.</span>
-            </div>
+            <p className="mt-3 text-center text-red-400 text-sm">
+              Une erreur est survenue. Veuillez réessayer.
+            </p>
           )}
         </motion.form>
       </div>
