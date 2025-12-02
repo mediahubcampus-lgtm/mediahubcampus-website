@@ -12,10 +12,19 @@ type PeekPosition = "right" | "left" | "bottom-right" | "bottom-left" | "top-rig
 
 const PEEK_POSITIONS: PeekPosition[] = ["right", "left", "bottom-right", "bottom-left", "top-right", "top-left"];
 
-// Position configs for each peek location
-const getPositionStyles = (position: PeekPosition, isPeeking: boolean, mascotsEnabled: boolean) => {
+// Fixed position for when user has interacted (always bottom-right)
+const FIXED_POSITION_STYLES = {
+  className: "right-0 bottom-24",
+  initial: { x: 100, opacity: 0 },
+  animate: { x: 40, opacity: 1 },
+  exit: { x: 100, opacity: 0 },
+  hover: { x: 20, scale: 1.05 },
+};
+
+// Position configs for random peek locations
+const getPositionStyles = (position: PeekPosition) => {
   const baseHidden = 100;
-  const peekAmount = mascotsEnabled ? 40 : 50;
+  const peekAmount = 50;
 
   switch (position) {
     case "right":
@@ -75,17 +84,26 @@ const getPositionStyles = (position: PeekPosition, isPeeking: boolean, mascotsEn
 export default function PeekingMascot() {
   const { mascotsEnabled, toggleMascots } = useMascots();
   const [isPeeking, setIsPeeking] = useState(false);
-  const [hasBeenClicked, setHasBeenClicked] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const [currentPosition, setCurrentPosition] = useState<PeekPosition>("bottom-right");
+
+  // Check localStorage on mount to see if user has interacted before
+  useEffect(() => {
+    const interacted = localStorage.getItem("mascotInteracted");
+    if (interacted === "true") {
+      setHasInteracted(true);
+    }
+  }, []);
 
   const pickRandomPosition = useCallback(() => {
     const newPosition = PEEK_POSITIONS[Math.floor(Math.random() * PEEK_POSITIONS.length)];
     setCurrentPosition(newPosition);
   }, []);
 
-  // Periodic peeking animation (only when mascots are hidden)
+  // Periodic peeking animation (only when mascots are hidden AND user hasn't interacted yet)
   useEffect(() => {
-    if (mascotsEnabled) {
+    // If user has interacted, no random peeking
+    if (hasInteracted || mascotsEnabled) {
       setIsPeeking(false);
       return;
     }
@@ -99,7 +117,7 @@ export default function PeekingMascot() {
 
     // Subsequent peeks
     const interval = setInterval(() => {
-      if (!mascotsEnabled) {
+      if (!mascotsEnabled && !hasInteracted) {
         pickRandomPosition();
         setIsPeeking(true);
         setTimeout(() => setIsPeeking(false), PEEK_DURATION);
@@ -110,37 +128,42 @@ export default function PeekingMascot() {
       clearTimeout(initialTimeout);
       clearInterval(interval);
     };
-  }, [mascotsEnabled, pickRandomPosition]);
+  }, [mascotsEnabled, hasInteracted, pickRandomPosition]);
 
   const handleClick = () => {
     toggleMascots();
-    setHasBeenClicked(true);
+    setHasInteracted(true);
+    localStorage.setItem("mascotInteracted", "true");
     setIsPeeking(false);
   };
 
-  const positionStyles = getPositionStyles(currentPosition, isPeeking, mascotsEnabled);
-  const isLeftSide = currentPosition.includes("left");
+  // Use fixed position if user has interacted, otherwise use random position
+  const positionStyles = hasInteracted ? FIXED_POSITION_STYLES : getPositionStyles(currentPosition);
+  const isLeftSide = !hasInteracted && currentPosition.includes("left");
+
+  // Should show the mascot button?
+  const shouldShow = hasInteracted || isPeeking || mascotsEnabled;
 
   return (
     <>
-      {/* Peeking mascot from random positions */}
+      {/* Peeking mascot */}
       <AnimatePresence mode="wait">
-        {(isPeeking || mascotsEnabled) && (
+        {shouldShow && (
           <motion.button
-            key={currentPosition}
+            key={hasInteracted ? "fixed" : currentPosition}
             onClick={handleClick}
             className={`fixed z-50 cursor-pointer hidden lg:block ${positionStyles.className}`}
             initial={positionStyles.initial}
             animate={{
               ...positionStyles.animate,
-              rotate: mascotsEnabled ? 0 : [0, -5, 5, -5, 0],
+              rotate: (hasInteracted || mascotsEnabled) ? 0 : [0, -5, 5, -5, 0],
             }}
             exit={positionStyles.exit}
             transition={{
               type: "spring",
               stiffness: 300,
               damping: 25,
-              rotate: { duration: 0.5, repeat: mascotsEnabled ? 0 : 2 },
+              rotate: { duration: 0.5, repeat: (hasInteracted || mascotsEnabled) ? 0 : 2 },
             }}
             whileHover={positionStyles.hover}
             title={mascotsEnabled ? "Cacher les mascottes" : "Voir les mascottes !"}
@@ -153,8 +176,8 @@ export default function PeekingMascot() {
                 height={100}
                 className={`w-20 h-auto drop-shadow-xl ${isLeftSide ? "-scale-x-100" : ""}`}
               />
-              {/* Speech bubble when not yet clicked */}
-              {!hasBeenClicked && !mascotsEnabled && (
+              {/* Speech bubble when not yet interacted */}
+              {!hasInteracted && !mascotsEnabled && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -175,8 +198,8 @@ export default function PeekingMascot() {
         )}
       </AnimatePresence>
 
-      {/* Toggle indicator when mascots are visible */}
-      {mascotsEnabled && (
+      {/* Toggle button */}
+      {hasInteracted && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -186,7 +209,7 @@ export default function PeekingMascot() {
             onClick={toggleMascots}
             className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-full px-4 py-2 text-sm text-[var(--text-muted)] hover:text-white hover:border-[var(--primary)] transition-all"
           >
-            Cacher les mascottes
+            {mascotsEnabled ? "Cacher les mascottes" : "Voir les mascottes"}
           </button>
         </motion.div>
       )}
