@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { blurRevealVariants } from "@/lib/useScrollAnimations";
 
 // Mapping of client names to their logo files
 const CLIENT_LOGOS = [
@@ -46,15 +47,43 @@ const CLIENT_LOGOS = [
   { name: "MdJ", logo: "/logos/clients/Logo MdJ.png" },
 ];
 
+// Animation variants for client logos
+const logoContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.03,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+// Easing curve
+const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
+
+const logoItemVariants = {
+  hidden: { opacity: 0, scale: 0.8, filter: "blur(4px)" },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.4,
+      ease: easeOutQuart,
+    },
+  },
+};
+
 export default function Clients() {
   return (
     <section id="clients" className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          variants={blurRevealVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
@@ -69,20 +98,17 @@ export default function Clients() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          variants={logoContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"
         >
-          {CLIENT_LOGOS.map((client, index) => (
+          {CLIENT_LOGOS.map((client) => (
             <motion.div
               key={client.name}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.03 }}
-              className="bg-white rounded-xl p-4 flex items-center justify-center h-20 hover:shadow-lg transition-shadow"
+              variants={logoItemVariants}
+              className="bg-white rounded-xl p-4 flex items-center justify-center h-20 hover:shadow-lg hover:shadow-[var(--primary)]/10 hover:-translate-y-1 transition-all duration-300"
             >
               <Image
                 src={client.logo}
@@ -96,10 +122,10 @@ export default function Clients() {
         </motion.div>
 
         <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
           className="text-center text-[var(--text-muted)] text-sm mt-8"
         >
           Et bien d&apos;autres...

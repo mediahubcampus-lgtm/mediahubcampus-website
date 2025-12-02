@@ -21,7 +21,10 @@ export const metadata: Metadata = {
     "marketing étudiant",
   ],
   icons: {
-    icon: "/logos/brand/favicon.png",
+    icon: [
+      { url: "/favicon.png" },
+      { url: "/logos/brand/favicon.png" },
+    ],
     apple: "/logos/brand/favicon.png",
   },
 };

@@ -4,11 +4,20 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, Download } from "lucide-react";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { NAV_LINKS, SITE_CONFIG } from "@/lib/constants";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Scroll progress for indicator
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,16 +35,22 @@ export default function Header() {
           : "bg-transparent"
       }`}
     >
+      {/* Scroll Progress Indicator */}
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--accent-cyan)] to-[var(--accent-purple)] origin-left"
+        style={{ scaleX, opacity: isScrolled ? 1 : 0 }}
+      />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-28 md:h-36">
-          {/* Logo */}
+        <div className="flex items-center justify-between h-16 md:h-20">
+          {/* Logo - larger than header, uses overflow */}
           <Link href="/" className="flex items-center gap-2">
             <Image
-              src="/logos/brand/logo.svg"
+              src="/logos/brand/logo-cropped.svg"
               alt="MediaHub Campus"
-              width={400}
-              height={100}
-              className="h-24 md:h-32 w-auto"
+              width={320}
+              height={80}
+              className="h-12 md:h-14 w-auto"
               priority
             />
           </Link>

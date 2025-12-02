@@ -7,6 +7,14 @@ import {
   STUDENT_HABITS,
   STUDENT_INTERESTS,
 } from "@/lib/constants";
+import {
+  blurRevealVariants,
+  staggerContainerVariants,
+  staggerItemVariants,
+} from "@/lib/useScrollAnimations";
+
+// Easing curve
+const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
 
 const demographicIcons = [Users, Clock, ShoppingBag, Dumbbell];
 
@@ -15,10 +23,10 @@ export default function Target() {
     <section id="cible" className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          variants={blurRevealVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
@@ -33,17 +41,20 @@ export default function Target() {
         </motion.div>
 
         {/* Demographics */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+        <motion.div
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12"
+          variants={staggerContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+        >
           {TARGET_DEMOGRAPHICS.map((item, index) => {
             const Icon = demographicIcons[index];
             return (
               <motion.div
                 key={item.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 text-center"
+                variants={staggerItemVariants}
+                className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 text-center hover:border-[var(--primary)]/50 transition-colors duration-300"
               >
                 <Icon
                   size={24}
@@ -58,16 +69,16 @@ export default function Target() {
               </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
         {/* Habits & Interests */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Habits */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            initial={{ opacity: 0, x: -30, filter: "blur(8px)" }}
+            whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.7, ease: easeOutQuart }}
             className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6"
           >
             <h3 className="text-xl font-semibold mb-6">Leurs habitudes</h3>
@@ -101,23 +112,26 @@ export default function Target() {
 
           {/* Interests */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            initial={{ opacity: 0, x: 30, filter: "blur(8px)" }}
+            whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.7, ease: easeOutQuart, delay: 0.1 }}
             className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6"
           >
             <h3 className="text-xl font-semibold mb-6">
               Centres d&apos;intérêts
             </h3>
-            <div className="grid grid-cols-2 gap-4">
-              {STUDENT_INTERESTS.map((item, index) => (
+            <motion.div
+              className="grid grid-cols-2 gap-4"
+              variants={staggerContainerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              {STUDENT_INTERESTS.map((item) => (
                 <motion.div
                   key={item.interest}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  variants={staggerItemVariants}
                   className="bg-[var(--bg-dark)] rounded-xl p-4 text-center"
                 >
                   <div className="text-2xl font-bold text-[var(--accent-purple)] mb-1">
@@ -128,7 +142,7 @@ export default function Target() {
                   </div>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>

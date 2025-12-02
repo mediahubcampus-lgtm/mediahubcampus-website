@@ -12,7 +12,7 @@ export default function Footer() {
           <div>
             <div className="mb-4">
               <Image
-                src="/logos/brand/logo.svg"
+                src="/logos/brand/logo-cropped.svg"
                 alt="MediaHub Campus"
                 width={360}
                 height={90}

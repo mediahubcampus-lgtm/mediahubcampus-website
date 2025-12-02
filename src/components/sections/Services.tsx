@@ -10,6 +10,11 @@ import {
   PartyPopper,
 } from "lucide-react";
 import { SERVICES } from "@/lib/constants";
+import {
+  blurRevealVariants,
+  staggerContainerVariants,
+  staggerItemVariants,
+} from "@/lib/useScrollAnimations";
 
 const iconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   Megaphone,
@@ -25,10 +30,10 @@ export default function Services() {
     <section id="services" className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          variants={blurRevealVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
@@ -42,23 +47,26 @@ export default function Services() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {SERVICES.map((service, index) => {
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          variants={staggerContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+        >
+          {SERVICES.map((service) => {
             const Icon = iconMap[service.icon];
             return (
               <motion.div
                 key={service.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="group bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 hover:border-[var(--primary)] transition-all hover:-translate-y-1"
+                variants={staggerItemVariants}
+                className="group bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 hover:border-[var(--primary)] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-[var(--primary)]/10"
               >
-                <div className="w-12 h-12 bg-[var(--primary)]/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-[var(--primary)] transition-colors">
+                <div className="w-12 h-12 bg-[var(--primary)]/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-[var(--primary)] transition-colors duration-300">
                   {Icon && (
                     <Icon
                       size={24}
-                      className="text-[var(--primary)] group-hover:text-white transition-colors"
+                      className="text-[var(--primary)] group-hover:text-white transition-colors duration-300"
                     />
                   )}
                 </div>
@@ -69,7 +77,7 @@ export default function Services() {
               </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

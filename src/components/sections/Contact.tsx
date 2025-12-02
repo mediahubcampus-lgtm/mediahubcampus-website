@@ -3,6 +3,10 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, CheckCircle, AlertCircle } from "lucide-react";
+import { blurRevealVariants } from "@/lib/useScrollAnimations";
+
+// Easing curve
+const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
 
 export default function Contact() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -39,10 +43,10 @@ export default function Contact() {
     <section id="contact" className="py-20">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          variants={blurRevealVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
           className="text-center mb-12"
         >
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
@@ -57,10 +61,10 @@ export default function Contact() {
         </motion.div>
 
         <motion.form
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.8, ease: easeOutQuart, delay: 0.2 }}
           onSubmit={handleSubmit}
           className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 sm:p-8"
         >

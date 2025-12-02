@@ -4,6 +4,10 @@ import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { blurRevealVariants } from "@/lib/useScrollAnimations";
+
+// Easing curve
+const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
 
 // All gallery photos from our campaign images
 const GALLERY_PHOTOS = [
@@ -81,10 +85,10 @@ export default function Gallery() {
     <section id="gallery" className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          variants={blurRevealVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
           className="text-center mb-12"
         >
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
@@ -118,10 +122,14 @@ export default function Gallery() {
               {GALLERY_PHOTOS.map((photo, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
+                  initial={{ opacity: 0, scale: 0.9, filter: "blur(4px)" }}
+                  whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: Math.min(index * 0.02, 0.2) }}
+                  transition={{
+                    duration: 0.5,
+                    delay: Math.min(index * 0.02, 0.3),
+                    ease: easeOutQuart
+                  }}
                   className="aspect-[4/3] relative rounded-xl overflow-hidden cursor-pointer group"
                   onClick={() => openLightbox(index)}
                 >

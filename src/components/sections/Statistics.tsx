@@ -4,6 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { STATS } from "@/lib/constants";
 
+// Easing curve
+const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
+
 function AnimatedCounter({
   value,
   suffix = "",
@@ -46,21 +49,46 @@ function AnimatedCounter({
   );
 }
 
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease: easeOutQuart,
+    },
+  },
+};
+
 export default function Statistics() {
   return (
-    <section id="reseau" className="py-20">
+    <section className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: easeOutQuart }}
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Notre{" "}
+            Nos{" "}
             <span className="bg-gradient-to-r from-[var(--accent-cyan)] to-[var(--accent-purple)] bg-clip-text text-transparent">
-              Réseau
+              Chiffres Clés
             </span>
           </h2>
           <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
@@ -68,15 +96,18 @@ export default function Statistics() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {STATS.map((stat, index) => (
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+        >
+          {STATS.map((stat) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-8 text-center"
+              variants={itemVariants}
+              className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-8 text-center hover:border-[var(--primary)]/50 transition-colors duration-300"
             >
               <div className="text-5xl sm:text-6xl font-bold text-[var(--accent-cyan)] mb-2">
                 <AnimatedCounter
@@ -88,7 +119,7 @@ export default function Statistics() {
               <div className="text-[var(--text-muted)]">{stat.label}</div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
