@@ -8,8 +8,8 @@ import { useMascots } from "@/context/MascotContext";
 // Mapping of client names to their logo files
 const CLIENT_LOGOS = [
   { name: "Crédit Mutuel", logo: "/logos/clients/Logo Credit-Mutuel.png" },
-  // { name: "LCL", logo: "/logos/clients/Logo LCL.png" }, // TODO: ajouter logo LCL
   { name: "Le Figaro", logo: "/logos/clients/Logo_Le_Figaro.svg.png" },
+  { name: "Le Figaro Étudiant", logo: "/logos/clients/Logo Le Figaro étudiant 2.png" },
   { name: "INSEE", logo: "/logos/clients/Logo Insee.png" },
   { name: "EPITA", logo: "/logos/clients/Logo EPITA.png" },
   { name: "ESPI", logo: "/logos/clients/Logo ESPI.jpg" },
@@ -37,6 +37,23 @@ const CLIENT_LOGOS = [
   { name: "PWC", logo: "/logos/clients/Logo PWC.png" },
   { name: "Billets Discount", logo: "/logos/clients/Logo BilletsDiscount.webp" },
   { name: "MdJ", logo: "/logos/clients/Logo MdJ.png" },
+  { name: "Air Canada", logo: "/logos/clients/Logo Air Canada.png" },
+  { name: "Burger King", logo: "/logos/clients/Logo BK.png" },
+  { name: "Bayard", logo: "/logos/clients/Logo Bayard.jpeg" },
+  { name: "Deliveroo", logo: "/logos/clients/Logo Deliveroo.png" },
+  { name: "McDonald's", logo: "/logos/clients/Logo McDoonalds.png" },
+  { name: "Prime Video", logo: "/logos/clients/Logo Prime Video.png" },
+  { name: "Starbucks", logo: "/logos/clients/Logo Starbucks.png" },
+  { name: "Uber", logo: "/logos/clients/Logo UBER.png" },
+  { name: "Vélib'", logo: "/logos/clients/Logo-Velib.png" },
+  { name: "LCL", logo: "/images/Logo LCL.png" },
+  { name: "Château de Versailles", logo: "/images/Logo_Château_de_Versailles_2017.png" },
+  { name: "Education First", logo: "/images/Logo EF.png" },
+  { name: "ENM", logo: "/images/Logo ENM.png" },
+  { name: "Hela", logo: "/images/Logo Hela.png" },
+  { name: "ISIT Paris", logo: "/images/Logo ISIT Paris.png" },
+  { name: "Paris Manga", logo: "/images/Logo ParisManga.png" },
+  { name: "Unibail-Rodamco-Westfield", logo: "/images/Lor URW.png" },
 ];
 
 // Split logos into three rows
