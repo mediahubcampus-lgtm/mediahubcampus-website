@@ -39,9 +39,11 @@ const CLIENT_LOGOS = [
   { name: "MdJ", logo: "/logos/clients/Logo MdJ.png" },
 ];
 
-// Split logos into two rows
-const ROW1_LOGOS = CLIENT_LOGOS.slice(0, Math.ceil(CLIENT_LOGOS.length / 2));
-const ROW2_LOGOS = CLIENT_LOGOS.slice(Math.ceil(CLIENT_LOGOS.length / 2));
+// Split logos into three rows
+const third = Math.ceil(CLIENT_LOGOS.length / 3);
+const ROW1_LOGOS = CLIENT_LOGOS.slice(0, third);
+const ROW2_LOGOS = CLIENT_LOGOS.slice(third, third * 2);
+const ROW3_LOGOS = CLIENT_LOGOS.slice(third * 2);
 
 function MarqueeRow({
   logos,
@@ -144,10 +146,13 @@ export default function Clients() {
           <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[var(--bg-dark)] to-transparent z-10 pointer-events-none" />
 
           {/* Row 1 - scrolls left */}
-          <MarqueeRow logos={ROW1_LOGOS} direction="left" duration={20} />
+          <MarqueeRow logos={ROW1_LOGOS} direction="left" duration={35} />
 
           {/* Row 2 - scrolls right */}
-          <MarqueeRow logos={ROW2_LOGOS} direction="right" duration={25} />
+          <MarqueeRow logos={ROW2_LOGOS} direction="right" duration={40} />
+
+          {/* Row 3 - scrolls left */}
+          <MarqueeRow logos={ROW3_LOGOS} direction="left" duration={45} />
         </div>
       </section>
     </div>

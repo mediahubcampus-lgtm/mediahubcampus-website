@@ -52,7 +52,7 @@ export default function Hero() {
             src="/images/gallery/Photos MediaHub Campus - 17.jpeg"
             alt="Campus universitaire"
             fill
-            className="object-cover"
+            className="object-cover object-right md:object-center"
             priority
           />
           {/* Dark overlay gradient */}
