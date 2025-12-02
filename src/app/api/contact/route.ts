@@ -1,12 +1,9 @@
 import { NextResponse } from "next/server";
-import sgMail from "@sendgrid/mail";
+import { Resend } from "resend";
 
-// Test mode - set to false when SendGrid DNS is ready
-const TEST_MODE = process.env.SENDGRID_TEST_MODE === "true" || !process.env.SENDGRID_API_KEY;
-
-if (!TEST_MODE && process.env.SENDGRID_API_KEY) {
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-}
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 
 export async function POST(request: Request) {
   try {
@@ -21,21 +18,31 @@ export async function POST(request: Request) {
       );
     }
 
-    const emailData = {
-      to: process.env.CONTACT_EMAIL || "contact@mediahubcampus.com",
-      from: process.env.SENDGRID_FROM_EMAIL || "noreply@mediahubcampus.com",
+    if (!resend) {
+      console.log("No RESEND_API_KEY configured, logging email instead:");
+      console.log({ name, email, company, message });
+      return NextResponse.json({
+        success: true,
+        testMode: true,
+        message: "Email logged in console (no API key configured)"
+      });
+    }
+
+    const { error } = await resend.emails.send({
+      from: process.env.RESEND_FROM_EMAIL || "noreply@url5309.mediahubcampus.com",
+      to: (process.env.CONTACT_EMAILS || "contact@mediahubcampus.com").split(",").map(e => e.trim()),
       replyTo: email,
       subject: `Nouveau contact: ${name}`,
       html: `
         <h2>Nouveau message de contact</h2>
         <p><strong>Nom:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Entreprise:</strong> ${company || "Non renseigné"}</p>
+        <p><strong>Entreprise:</strong> ${company || "Non renseign\u00e9"}</p>
         <p><strong>Message:</strong></p>
         <p>${message.replace(/\n/g, "<br>")}</p>
         <hr>
         <p style="color: #666; font-size: 12px;">
-          Envoyé depuis le formulaire de contact MediaHub Campus
+          Envoy\u00e9 depuis le formulaire de contact MediaHub Campus
         </p>
       `,
       text: `
@@ -43,34 +50,20 @@ Nouveau message de contact
 
 Nom: ${name}
 Email: ${email}
-Entreprise: ${company || "Non renseigné"}
+Entreprise: ${company || "Non renseign\u00e9"}
 
 Message:
 ${message}
       `.trim(),
-    };
+    });
 
-    // Test mode - just log the email
-    if (TEST_MODE) {
-      console.log("📧 [TEST MODE] Email would be sent:");
-      console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-      console.log(`To: ${emailData.to}`);
-      console.log(`From: ${emailData.from}`);
-      console.log(`Reply-To: ${emailData.replyTo}`);
-      console.log(`Subject: ${emailData.subject}`);
-      console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-      console.log(emailData.text);
-      console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-
-      return NextResponse.json({
-        success: true,
-        testMode: true,
-        message: "Email logged in console (test mode)"
-      });
+    if (error) {
+      console.error("Resend error:", error);
+      return NextResponse.json(
+        { error: "Failed to send email" },
+        { status: 500 }
+      );
     }
-
-    // Production mode - send via SendGrid
-    await sgMail.send(emailData);
 
     return NextResponse.json({ success: true });
   } catch (error) {
