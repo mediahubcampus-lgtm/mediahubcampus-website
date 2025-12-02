@@ -1,11 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Users, Clock, ShoppingBag, Dumbbell } from "lucide-react";
 import {
   TARGET_DEMOGRAPHICS,
   STUDENT_HABITS,
   STUDENT_INTERESTS,
+  MASCOTS,
 } from "@/lib/constants";
 import {
   blurRevealVariants,
@@ -27,7 +29,7 @@ export default function Target() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="text-center mb-16"
+          className="text-center mb-16 relative"
         >
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
             Notre{" "}
@@ -38,6 +40,24 @@ export default function Target() {
           <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
             Qui sont les étudiants ? Leurs habitudes et centres d&apos;intérêts
           </p>
+          {/* Mascot student */}
+          {MASCOTS.target && (
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="absolute left-0 -top-6 hidden lg:block"
+            >
+              <Image
+                src="/images/cat-mascot/chat-tasse-en-main.png"
+                alt="Chat mascotte avec tasse"
+                width={170}
+                height={170}
+                className="w-36 h-auto drop-shadow-lg"
+              />
+            </motion.div>
+          )}
         </motion.div>
 
         {/* Demographics */}

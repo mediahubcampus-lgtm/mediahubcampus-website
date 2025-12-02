@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import {
   Megaphone,
   Smartphone,
@@ -10,7 +11,7 @@ import {
   Download,
   Zap,
 } from "lucide-react";
-import { PACK_360, SITE_CONFIG } from "@/lib/constants";
+import { PACK_360, SITE_CONFIG, MASCOTS } from "@/lib/constants";
 
 const iconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   Megaphone,
@@ -57,7 +58,7 @@ export default function Pack360() {
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: easeOutQuart }}
-          className="text-center mb-12"
+          className="text-center mb-12 relative"
         >
           <motion.div
             className="inline-flex items-center gap-2 bg-[var(--primary)]/20 border border-[var(--primary)]/30 rounded-full px-4 py-2 mb-6"
@@ -80,6 +81,24 @@ export default function Pack360() {
           <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
             Pour ceux qui veulent tout, d&apos;un coup.
           </p>
+          {/* Mascot */}
+          {MASCOTS.pack360 && (
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="absolute left-0 -top-4 hidden lg:block"
+            >
+              <Image
+                src="/images/cat-mascot/chat-yeux-plisses-main-jointes-souriant.png"
+                alt="Chat mascotte souriant"
+                width={150}
+                height={150}
+                className="w-32 h-auto drop-shadow-lg"
+              />
+            </motion.div>
+          )}
         </motion.div>
 
         {/* Pack Components */}

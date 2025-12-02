@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Send, CheckCircle, AlertCircle } from "lucide-react";
 import { blurRevealVariants } from "@/lib/useScrollAnimations";
+import { MASCOTS } from "@/lib/constants";
 
 // Easing curve
 const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
@@ -41,7 +43,26 @@ export default function Contact() {
 
   return (
     <section id="contact" className="py-20">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        {/* Mascot */}
+        {MASCOTS.contact && (
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: easeOutQuart }}
+            className="absolute -left-56 top-1/3 hidden xl:block"
+          >
+            <Image
+              src="/images/cat-mascot/chat-devant-ordi-bulle-icon-mail.png"
+              alt="Chat mascotte avec ordinateur"
+              width={220}
+              height={220}
+              className="w-48 h-auto drop-shadow-xl"
+            />
+          </motion.div>
+        )}
+
         <motion.div
           variants={blurRevealVariants}
           initial="hidden"
@@ -60,7 +81,7 @@ export default function Contact() {
           </p>
         </motion.div>
 
-        <motion.form
+            <motion.form
           initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-50px" }}

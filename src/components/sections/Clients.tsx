@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, useAnimationControls } from "framer-motion";
 import Image from "next/image";
 import { blurRevealVariants } from "@/lib/useScrollAnimations";
+import { MASCOTS } from "@/lib/constants";
 
 // Mapping of client names to their logo files
 const CLIENT_LOGOS = [
@@ -131,7 +132,7 @@ export default function Clients() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            className="text-center mb-12"
+            className="text-center mb-12 relative"
           >
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
               Ils nous font{" "}
@@ -142,6 +143,24 @@ export default function Clients() {
             <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
               Des marques et institutions qui nous accompagnent
             </p>
+            {/* Mascot thumbs up */}
+            {MASCOTS.clients && (
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="absolute right-0 -top-6 hidden lg:block"
+              >
+                <Image
+                  src="/images/cat-mascot/chat-fait-un-pouve-en-l-air.png"
+                  alt="Chat mascotte pouce en l'air"
+                  width={160}
+                  height={160}
+                  className="w-36 h-auto drop-shadow-lg"
+                />
+              </motion.div>
+            )}
           </motion.div>
         </div>
 

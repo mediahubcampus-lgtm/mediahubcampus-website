@@ -7,6 +7,20 @@ export const SITE_CONFIG = {
   email: "contact@mediahubcampus.com",
 };
 
+// Toggle mascots on/off per section
+const MASCOTS_ENABLED = true; // Master toggle - set to false to disable all mascots
+
+export const MASCOTS = {
+  services: MASCOTS_ENABLED && true,
+  servicesBottom: MASCOTS_ENABLED && true, // chips cat overlapping cards
+  target: MASCOTS_ENABLED && true,
+  statistics: MASCOTS_ENABLED && true,
+  cities: MASCOTS_ENABLED && true,
+  pack360: MASCOTS_ENABLED && true,
+  clients: MASCOTS_ENABLED && true,
+  contact: MASCOTS_ENABLED && true,
+};
+
 export const STATS = [
   { value: 65, suffix: "+", label: "Villes universitaires" },
   { value: 2500, suffix: "+", label: "Établissements" },

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import {
   Landmark,
   GraduationCap,
@@ -12,6 +13,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import FranceMap from "@/components/ui/FranceMap";
+import { MASCOTS } from "@/lib/constants";
 
 // Location types with their specific icons
 const IMPLANTATIONS: { label: string; icon: LucideIcon }[] = [
@@ -64,7 +66,7 @@ export default function Cities() {
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: easeOutQuart }}
-          className="text-center mb-16"
+          className="text-center mb-16 relative"
         >
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
             Notre{" "}
@@ -75,6 +77,24 @@ export default function Cities() {
           <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
             Plus de 65 villes universitaires couvertes à travers la France
           </p>
+          {/* Mascot - behind text */}
+          {MASCOTS.cities && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 0.6, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="absolute right-[calc(50%-410px)] -top-0 hidden lg:block -z-10"
+            >
+              <Image
+                src="/images/cat-mascot/chat-chapeau-graduate-sur-vélo.png"
+                alt="Chat mascotte sur vélo"
+                width={260}
+                height={260}
+                className="w-56 h-auto drop-shadow-lg"
+              />
+            </motion.div>
+          )}
         </motion.div>
 
         {/* Interactive Map */}
