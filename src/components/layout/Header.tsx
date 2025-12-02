@@ -93,8 +93,12 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-[var(--bg-dark)]/95 backdrop-blur-md border-t border-[var(--card-border)]">
-          <nav className="flex flex-col p-4 gap-4">
+        <div
+          className="md:hidden border-t border-[var(--card-border)] relative bg-cover bg-center"
+          style={{ backgroundImage: "url('/images/Photos de première page.jpeg')" }}
+        >
+          <div className="absolute inset-0 bg-[var(--bg-dark)]/85 backdrop-blur-sm" />
+          <nav className="flex flex-col p-4 gap-4 relative z-10">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}

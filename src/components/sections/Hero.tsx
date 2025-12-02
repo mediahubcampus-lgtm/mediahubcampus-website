@@ -48,11 +48,21 @@ export default function Hero() {
           className="absolute inset-0 w-full h-[120%]"
           style={{ y: smoothBgY, scale: bgScale }}
         >
+          {/* Mobile background image */}
+          <Image
+            src="/images/Photos de première page.jpeg"
+            alt="Campus universitaire"
+            fill
+            className="object-contain object-left md:hidden"
+            style={{ objectPosition: "20% center" }}
+            priority
+          />
+          {/* Desktop background image */}
           <Image
             src="/images/gallery/Photos MediaHub Campus - 17.jpeg"
             alt="Campus universitaire"
             fill
-            className="object-cover object-right md:object-center"
+            className="object-cover object-center hidden md:block"
             priority
           />
           {/* Dark overlay gradient */}
