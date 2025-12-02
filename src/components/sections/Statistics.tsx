@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
-import { STATS, MASCOTS } from "@/lib/constants";
+import { STATS } from "@/lib/constants";
+import { useMascots } from "@/context/MascotContext";
 
 // Easing curve
 const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
@@ -76,6 +77,8 @@ const itemVariants = {
 };
 
 export default function Statistics() {
+  const { MASCOTS } = useMascots();
+
   return (
     <div className="relative">
       {/* Full-width background */}

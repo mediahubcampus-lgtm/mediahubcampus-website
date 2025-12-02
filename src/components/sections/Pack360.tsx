@@ -11,7 +11,8 @@ import {
   Download,
   Zap,
 } from "lucide-react";
-import { PACK_360, SITE_CONFIG, MASCOTS } from "@/lib/constants";
+import { PACK_360, SITE_CONFIG } from "@/lib/constants";
+import { useMascots } from "@/context/MascotContext";
 
 const iconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   Megaphone,
@@ -50,6 +51,8 @@ const itemVariants = {
 };
 
 export default function Pack360() {
+  const { MASCOTS } = useMascots();
+
   return (
     <section id="pack360" className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

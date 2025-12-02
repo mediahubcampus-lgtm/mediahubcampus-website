@@ -13,7 +13,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import FranceMap from "@/components/ui/FranceMap";
-import { MASCOTS } from "@/lib/constants";
+import { useMascots } from "@/context/MascotContext";
 
 // Location types with their specific icons
 const IMPLANTATIONS: { label: string; icon: LucideIcon }[] = [
@@ -55,6 +55,8 @@ const itemVariants = {
 };
 
 export default function Cities() {
+  const { MASCOTS } = useMascots();
+
   return (
     <div className="relative">
       {/* Full-width background */}

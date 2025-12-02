@@ -5,12 +5,13 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Send, CheckCircle, AlertCircle } from "lucide-react";
 import { blurRevealVariants } from "@/lib/useScrollAnimations";
-import { MASCOTS } from "@/lib/constants";
+import { useMascots } from "@/context/MascotContext";
 
 // Easing curve
 const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
 
 export default function Contact() {
+  const { MASCOTS } = useMascots();
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [formData, setFormData] = useState({
     name: "",

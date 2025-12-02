@@ -7,8 +7,8 @@ import {
   TARGET_DEMOGRAPHICS,
   STUDENT_HABITS,
   STUDENT_INTERESTS,
-  MASCOTS,
 } from "@/lib/constants";
+import { useMascots } from "@/context/MascotContext";
 import {
   blurRevealVariants,
   staggerContainerVariants,
@@ -21,6 +21,8 @@ const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
 const demographicIcons = [Users, Clock, ShoppingBag, Dumbbell];
 
 export default function Target() {
+  const { MASCOTS } = useMascots();
+
   return (
     <section id="cible" className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

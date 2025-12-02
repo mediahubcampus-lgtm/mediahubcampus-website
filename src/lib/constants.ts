@@ -8,17 +8,16 @@ export const SITE_CONFIG = {
 };
 
 // Toggle mascots on/off per section
-const MASCOTS_ENABLED = true; // Master toggle - set to false to disable all mascots
-
-export const MASCOTS = {
-  services: MASCOTS_ENABLED && true,
-  servicesBottom: MASCOTS_ENABLED && true, // chips cat overlapping cards
-  target: MASCOTS_ENABLED && true,
-  statistics: MASCOTS_ENABLED && true,
-  cities: MASCOTS_ENABLED && true,
-  pack360: MASCOTS_ENABLED && true,
-  clients: MASCOTS_ENABLED && true,
-  contact: MASCOTS_ENABLED && true,
+// This will be controlled dynamically by MascotContext
+export const MASCOTS_CONFIG = {
+  services: true,
+  servicesBottom: true, // chips cat overlapping cards
+  target: true,
+  statistics: true,
+  cities: true,
+  pack360: true,
+  clients: true,
+  contact: true,
 };
 
 export const STATS = [

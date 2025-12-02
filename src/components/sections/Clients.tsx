@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, useAnimationControls } from "framer-motion";
 import Image from "next/image";
 import { blurRevealVariants } from "@/lib/useScrollAnimations";
-import { MASCOTS } from "@/lib/constants";
+import { useMascots } from "@/context/MascotContext";
 
 // Mapping of client names to their logo files
 const CLIENT_LOGOS = [
@@ -50,6 +50,7 @@ const CLIENT_LOGOS = [
 ];
 
 export default function Clients() {
+  const { MASCOTS } = useMascots();
   const [isHovered, setIsHovered] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);

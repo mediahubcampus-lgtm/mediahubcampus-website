@@ -10,7 +10,8 @@ import {
   Coffee,
   PartyPopper,
 } from "lucide-react";
-import { SERVICES, MASCOTS } from "@/lib/constants";
+import { SERVICES } from "@/lib/constants";
+import { useMascots } from "@/context/MascotContext";
 import {
   blurRevealVariants,
   staggerContainerVariants,
@@ -27,6 +28,8 @@ const iconMap: Record<string, React.ComponentType<{ size?: number; className?: s
 };
 
 export default function Services() {
+  const { MASCOTS } = useMascots();
+
   return (
     <section id="services" className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
