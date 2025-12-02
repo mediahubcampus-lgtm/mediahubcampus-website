@@ -54,8 +54,11 @@ const itemVariants = {
 
 export default function Cities() {
   return (
-    <section id="reseau" className="py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="relative">
+      {/* Full-width background */}
+      <div className="absolute inset-0 -mx-[calc(50vw-50%)] bg-[var(--primary)]/10 border-y border-[var(--primary)]/20" />
+      <section id="reseau" className="py-20 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -129,7 +132,8 @@ export default function Cities() {
             })}
           </motion.div>
         </motion.div>
-      </div>
-    </section>
+        </div>
+      </section>
+    </div>
   );
 }
