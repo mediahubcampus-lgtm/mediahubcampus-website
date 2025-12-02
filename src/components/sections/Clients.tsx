@@ -44,7 +44,7 @@ const CLIENT_LOGOS = [
   { name: "Prime Video", logo: "/logos/clients/Logo Prime Video.png" },
   { name: "Doritos", logo: "/logos/clients/Logo Doritos.png" },
   { name: "PWC", logo: "/logos/clients/Logo PWC.png" },
-  { name: "Vélib'", logo: "/logos/clients/Logo Vélib'.png" },
+  { name: "Vélib'", logo: "/logos/clients/Logo-Velib.png" },
   { name: "Billets Discount", logo: "/logos/clients/Logo BilletsDiscount.webp" },
   { name: "MdJ", logo: "/logos/clients/Logo MdJ.png" },
 ];
