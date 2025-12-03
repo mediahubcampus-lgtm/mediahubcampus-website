@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { SITE_CONFIG } from "@/lib/constants";
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -30,7 +31,7 @@ export async function POST(request: Request) {
 
     const { error } = await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL || "noreply@url5309.mediahubcampus.com",
-      to: (process.env.CONTACT_EMAILS || "contact@mediahubcampus.com").split(",").map(e => e.trim()),
+      to: (process.env.CONTACT_EMAILS || SITE_CONFIG.email).split(",").map(e => e.trim()),
       replyTo: email,
       subject: `Nouveau contact: ${name}`,
       html: `

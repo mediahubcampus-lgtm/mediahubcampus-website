@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SITE_CONFIG } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Mentions Légales - MediaHub Campus",
@@ -20,7 +21,7 @@ export default function MentionsLegales() {
               <strong className="text-white">MediaHub Campus</strong>.
             </p>
             <p className="text-[var(--text-muted)] mt-2">
-              Email : <a href="mailto:contact@mediahubcampus.com" className="text-[var(--accent-cyan)] hover:underline">contact@mediahubcampus.com</a>
+              Email : <a href={`mailto:${SITE_CONFIG.email}`} className="text-[var(--accent-cyan)] hover:underline">{SITE_CONFIG.email}</a>
             </p>
           </section>
 

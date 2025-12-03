@@ -4,7 +4,7 @@ export const SITE_CONFIG = {
   description:
     "Touchez 2,1 millions d'étudiants dans 65+ villes universitaires",
   pdfUrl: "/plaquette-mediahub-2025.pdf",
-  email: "contact@mediahubcampus.com",
+  email: "team@mediahubcampus.com",
 };
 
 // Toggle mascots on/off per section

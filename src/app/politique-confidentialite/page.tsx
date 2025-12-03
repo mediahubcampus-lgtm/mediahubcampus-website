@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SITE_CONFIG } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Politique de Confidentialité - MediaHub Campus",
@@ -30,7 +31,7 @@ export default function PolitiqueConfidentialite() {
             </p>
             <ul className="text-[var(--text-muted)] list-none space-y-1 mt-4">
               <li><strong className="text-white">MediaHub Campus</strong></li>
-              <li>Email : contact@mediahubcampus.com</li>
+              <li>Email : {SITE_CONFIG.email}</li>
             </ul>
           </section>
 
@@ -117,8 +118,8 @@ export default function PolitiqueConfidentialite() {
             </ul>
             <p className="text-[var(--text-muted)] mt-4">
               Pour exercer ces droits, contactez-nous à :{" "}
-              <a href="mailto:contact@mediahubcampus.com" className="text-[var(--accent-cyan)] hover:underline">
-                contact@mediahubcampus.com
+              <a href={`mailto:${SITE_CONFIG.email}`} className="text-[var(--accent-cyan)] hover:underline">
+                {SITE_CONFIG.email}
               </a>
             </p>
           </section>
