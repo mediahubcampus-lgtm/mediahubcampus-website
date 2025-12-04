@@ -53,8 +53,8 @@ export default function Hero() {
             src="/images/Photos de première page.jpeg"
             alt="Campus universitaire"
             fill
-            className="object-contain object-left md:hidden"
-            style={{ objectPosition: "20% center" }}
+            className="object-cover md:hidden"
+            style={{ objectPosition: "left top" }}
             priority
           />
           {/* Desktop background image */}
