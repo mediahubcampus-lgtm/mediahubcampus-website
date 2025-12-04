@@ -69,6 +69,64 @@ export const metadata: Metadata = {
   },
 };
 
+// JSON-LD Structured Data for SEO
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://mediahubcampus.com/#organization",
+      name: "MediaHub Campus",
+      url: "https://mediahubcampus.com",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://mediahubcampus.com/logos/brand/logo.png",
+      },
+      description:
+        "Régie publicitaire universitaire leader en France. Affichage, digital et événementiel sur les campus.",
+      email: "team@mediahubcampus.com",
+      sameAs: [],
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://mediahubcampus.com/#website",
+      url: "https://mediahubcampus.com",
+      name: "MediaHub Campus",
+      description:
+        "Touchez 2,1 millions d'étudiants dans 65+ villes universitaires",
+      publisher: {
+        "@id": "https://mediahubcampus.com/#organization",
+      },
+      inLanguage: "fr-FR",
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://mediahubcampus.com/#localbusiness",
+      name: "MediaHub Campus",
+      description:
+        "Régie publicitaire spécialisée dans la communication sur les campus universitaires, écoles et lycées en France.",
+      url: "https://mediahubcampus.com",
+      email: "team@mediahubcampus.com",
+      priceRange: "€€",
+      image: "https://mediahubcampus.com/og-image.png",
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: "FR",
+      },
+      areaServed: {
+        "@type": "Country",
+        name: "France",
+      },
+      serviceType: [
+        "Publicité universitaire",
+        "Affichage campus",
+        "Marketing digital étudiant",
+        "Événementiel campus",
+      ],
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -76,6 +134,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className={`${inter.variable} antialiased`}>
         <MascotProvider>
           <Header />
