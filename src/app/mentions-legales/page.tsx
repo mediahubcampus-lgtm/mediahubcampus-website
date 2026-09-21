@@ -26,7 +26,6 @@ export default function MentionsLegales() {
               <li><strong className="text-white">Capital social :</strong> 1 000 €</li>
               <li><strong className="text-white">SIREN :</strong> 935 360 859 R.C.S. Paris</li>
               <li><strong className="text-white">Siège social :</strong> 4 rue Guénot, 75011 Paris</li>
-              <li><strong className="text-white">Directeur de la publication :</strong> Daniel Ellezam, Président</li>
             </ul>
             <p className="text-[var(--text-muted)] mt-4">
               Email : <a href={`mailto:${SITE_CONFIG.email}`} className="text-[var(--accent-cyan)] hover:underline">{SITE_CONFIG.email}</a>
