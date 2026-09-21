@@ -3,7 +3,7 @@ export const SITE_CONFIG = {
   tagline: "La Régie des Universités, Campus, Écoles et Lycées",
   description:
     "Touchez plus de 2,19 millions d'étudiants dans 60 villes universitaires",
-  pdfUrl: "/plaquette-mediahub-2025.pdf",
+  pdfUrl: "/plaquette-mediahub-2026-2027.pdf",
   email: "team@mediahubcampus.com",
 };
 
