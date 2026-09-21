@@ -148,7 +148,7 @@ export default function Hero() {
             </a>
             <Link
               href="/simulateur-devis"
-              className="inline-flex items-center gap-2 bg-[var(--card-bg)] hover:bg-[var(--card-border)] border border-[var(--card-border)] text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all"
+              className="inline-flex items-center gap-2 bg-[var(--accent-cyan)] hover:brightness-110 text-[var(--bg-dark)] px-8 py-4 rounded-xl font-semibold text-lg shadow-lg shadow-[var(--accent-cyan)]/30 transition-all hover:scale-105"
             >
               <Calculator size={22} />
               <span>Simulateur de Devis</span>
