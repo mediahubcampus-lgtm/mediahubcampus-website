@@ -321,15 +321,24 @@ export default function QuoteSimulator() {
                     </button>
                   ))}
                 </div>
-                <input
-                  type="number"
-                  min={1}
-                  value={dureeSemaines}
-                  onChange={(e) =>
-                    setDureeSemaines(Math.max(1, Number(e.target.value) || 1))
-                  }
-                  className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[var(--primary)] transition-colors"
-                />
+                <div className="relative">
+                  <input
+                    type="number"
+                    min={1}
+                    value={dureeSemaines}
+                    onChange={(e) =>
+                      setDureeSemaines(Math.max(1, Number(e.target.value) || 1))
+                    }
+                    className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg pl-4 pr-24 py-2.5 text-white focus:outline-none focus:border-[var(--primary)] transition-colors"
+                  />
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)] text-sm pointer-events-none">
+                    semaine{dureeSemaines > 1 ? "s" : ""}
+                  </span>
+                </div>
+                <p className="text-xs text-[var(--text-muted)] mt-2">
+                  Le détail du réseau d&apos;affichage (établissements et
+                  emplacements précis) vous sera transmis avec le devis.
+                </p>
               </div>
 
               {selectedZones.length === 0 ? (
