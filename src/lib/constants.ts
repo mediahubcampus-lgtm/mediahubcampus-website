@@ -2,7 +2,7 @@ export const SITE_CONFIG = {
   name: "MediaHub Campus",
   tagline: "La Régie des Universités, Campus, Écoles et Lycées",
   description:
-    "Touchez 2,1 millions d'étudiants dans 65+ villes universitaires",
+    "Touchez plus de 2,19 millions d'étudiants dans 60 villes universitaires",
   pdfUrl: "/plaquette-mediahub-2025.pdf",
   email: "team@mediahubcampus.com",
 };
@@ -21,9 +21,9 @@ export const MASCOTS_CONFIG = {
 };
 
 export const STATS = [
-  { value: 65, suffix: "+", label: "Villes universitaires" },
-  { value: 2500, suffix: "+", label: "Établissements" },
-  { value: 2.1, suffix: "M+", label: "Étudiants atteints", decimals: 1 },
+  { value: 60, suffix: "", label: "Villes universitaires" },
+  { value: 3500, suffix: "+", label: "Établissements" },
+  { value: 2.19, suffix: "M+", label: "Étudiants atteints", decimals: 2 },
 ];
 
 export const SERVICES = [
@@ -31,7 +31,7 @@ export const SERVICES = [
     id: "affichage",
     title: "Affichage Universitaire",
     description:
-      "Le plus vaste réseau d'affichage au cœur des universités, campus, lycées et lieux de vie étudiants. Plus de 2,4M de reach, 100% étudiant.",
+      "Le plus vaste réseau d'affichage au cœur des universités, campus, lycées et lieux de vie étudiants. Plus de 2,19M d'étudiants touchés, 100% étudiant.",
     icon: "Megaphone",
     image: "/images/gallery/Photos MediaHub Campus - 1.JPG",
   },
@@ -79,28 +79,28 @@ export const SERVICES = [
 
 export const CITIES = [
   { name: "Île-de-France", students: 750000, lat: 48.8566, lng: 2.3522 },
-  { name: "Lyon", students: 150000, lat: 45.764, lng: 4.8357 },
-  { name: "Lille", students: 110000, lat: 50.6292, lng: 3.0573 },
-  { name: "Toulouse", students: 100000, lat: 43.6047, lng: 1.4442 },
-  { name: "Bordeaux", students: 90000, lat: 44.8378, lng: -0.5792 },
-  { name: "Montpellier", students: 70000, lat: 43.6108, lng: 3.8767 },
-  { name: "Rennes", students: 60000, lat: 48.1173, lng: -1.6778 },
-  { name: "Strasbourg", students: 60000, lat: 48.5734, lng: 7.7521 },
-  { name: "Grenoble", students: 55000, lat: 45.1885, lng: 5.7245 },
-  { name: "Nantes", students: 55000, lat: 47.2184, lng: -1.5536 },
-  { name: "Marseille", students: 50000, lat: 43.2965, lng: 5.3698 },
-  { name: "Nancy", students: 40000, lat: 48.6921, lng: 6.1844 },
-  { name: "Nice", students: 40000, lat: 43.7102, lng: 7.262 },
+  { name: "Lyon", students: 110000, lat: 45.764, lng: 4.8357 },
+  { name: "Lille", students: 90000, lat: 50.6292, lng: 3.0573 },
+  { name: "Toulouse", students: 85000, lat: 43.6047, lng: 1.4442 },
+  { name: "Bordeaux", students: 150000, lat: 44.8378, lng: -0.5792 },
+  { name: "Montpellier", students: 60000, lat: 43.6108, lng: 3.8767 },
+  { name: "Rennes", students: 55000, lat: 48.1173, lng: -1.6778 },
+  { name: "Strasbourg", students: 50000, lat: 48.5734, lng: 7.7521 },
+  { name: "Grenoble", students: 45000, lat: 45.1885, lng: 5.7245 },
+  { name: "Nantes", students: 60000, lat: 47.2184, lng: -1.5536 },
+  { name: "Marseille", students: 45000, lat: 43.2965, lng: 5.3698 },
+  { name: "Nancy", students: 45000, lat: 48.6921, lng: 6.1844 },
+  { name: "Nice", students: 30000, lat: 43.7102, lng: 7.262 },
   { name: "Rouen", students: 35000, lat: 49.4432, lng: 1.0993 },
-  { name: "Clermont-Ferrand", students: 35000, lat: 45.7772, lng: 3.087 },
+  { name: "Clermont-Ferrand", students: 75000, lat: 45.7772, lng: 3.087 },
   { name: "Aix-en-Provence", students: 30000, lat: 43.5297, lng: 5.4474 },
   { name: "Caen", students: 25000, lat: 49.1829, lng: -0.3707 },
   { name: "Dijon", students: 25000, lat: 47.322, lng: 5.0415 },
   { name: "Reims", students: 25000, lat: 49.2583, lng: 4.0317 },
   { name: "Tours", students: 25000, lat: 47.3941, lng: 0.6848 },
   { name: "Orléans", students: 20000, lat: 47.9029, lng: 1.909 },
-  { name: "Le Havre", students: 12000, lat: 49.4944, lng: 0.1079 },
-  { name: "Le Mans", students: 10000, lat: 48.0061, lng: 0.1996 },
+  { name: "Le Havre", students: 9000, lat: 49.4944, lng: 0.1079 },
+  { name: "Le Mans", students: 9000, lat: 48.0061, lng: 0.1996 },
 ];
 
 export const TARGET_LOCATIONS = [
@@ -142,7 +142,7 @@ export const PACK_360 = [
   {
     id: "ooh",
     title: "Affichage OOH",
-    description: "20 principales villes universitaires, 1,9M étudiants ciblés",
+    description: "20 principales villes universitaires, 1,84M étudiants ciblés",
     icon: "Megaphone",
   },
   {
