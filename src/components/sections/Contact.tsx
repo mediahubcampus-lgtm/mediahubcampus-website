@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { blurRevealVariants } from "@/lib/useScrollAnimations";
 import { useMascots } from "@/context/MascotContext";
 import { CAMPAIGN_TYPES, BUDGET_RANGES } from "@/lib/constants";
+
+const QUOTE_PREFILL_KEY = "mhc_quote_prefill";
 
 // Easing curve
 const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
@@ -26,6 +28,19 @@ export default function Contact() {
   const { MASCOTS } = useMascots();
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [formData, setFormData] = useState(initialFormData);
+
+  // Pré-remplissage depuis le simulateur de devis (voir /simulateur-devis)
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(QUOTE_PREFILL_KEY);
+      if (!raw) return;
+      const prefill = JSON.parse(raw);
+      setFormData((prev) => ({ ...prev, ...prefill }));
+      localStorage.removeItem(QUOTE_PREFILL_KEY);
+    } catch {
+      // Données de préremplissage absentes ou invalides : on ignore
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

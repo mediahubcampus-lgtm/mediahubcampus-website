@@ -257,11 +257,15 @@ export const BUDGET_RANGES = [
   "15 000 € et plus",
 ];
 
+// Les ancres (#...) sont préfixées par "/" pour rester utilisables
+// depuis n'importe quelle page du site (elles renvoient vers la page
+// d'accueil puis scrollent jusqu'à la section).
 export const NAV_LINKS = [
-  { href: "#services", label: "Services" },
-  { href: "#cible", label: "Notre Cible" },
-  { href: "#reseau", label: "Notre Réseau" },
-  { href: "#pack360", label: "Pack 360°" },
-  { href: "#clients", label: "Références" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#services", label: "Services" },
+  { href: "/#cible", label: "Notre Cible" },
+  { href: "/#reseau", label: "Notre Réseau" },
+  { href: "/#pack360", label: "Pack 360°" },
+  { href: "/#clients", label: "Références" },
+  { href: "/simulateur-devis", label: "Simulateur de Devis" },
+  { href: "/#contact", label: "Contact" },
 ];
