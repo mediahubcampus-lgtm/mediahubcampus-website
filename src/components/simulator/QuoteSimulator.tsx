@@ -3,18 +3,26 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Search, Send, X, Check } from "lucide-react";
-import { CAMPUS_ZONES, CampusZone } from "@/lib/campus-zones";
+import { Search, Send, X, Check, Globe } from "lucide-react";
+import { MHC_ZONES, MhcZone } from "@/lib/mhc-zones";
 import {
   computeQuote,
   formatEUR,
   formatNumber,
+  DISCIPLINE_OPTIONS,
+  NetworkType,
 } from "@/lib/quote-calculator";
 import { BUDGET_RANGES } from "@/lib/constants";
 
 const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
 
 const DUREE_OPTIONS = [4, 8, 12, 16, 24, 52];
+
+const NETWORK_OPTIONS: { value: NetworkType; label: string }[] = [
+  { value: "universites", label: "Universités" },
+  { value: "lycees", label: "Lycées" },
+  { value: "both", label: "Les deux" },
+];
 
 function budgetRangeForAmount(amount: number): string {
   if (amount < 2000) return BUDGET_RANGES[1];
@@ -28,11 +36,18 @@ export default function QuoteSimulator() {
   const [search, setSearch] = useState("");
   const [selectedZones, setSelectedZones] = useState<string[]>([]);
   const [dureeSemaines, setDureeSemaines] = useState(4);
+  const [network, setNetwork] = useState<NetworkType>("universites");
+  const [discipline, setDiscipline] = useState("Tous");
   const [copied, setCopied] = useState(false);
 
+  const allZoneNames = useMemo(() => MHC_ZONES.map((z) => z.zone), []);
+  const isFranceEntiere =
+    selectedZones.length === allZoneNames.length &&
+    allZoneNames.every((z) => selectedZones.includes(z));
+
   const regions = useMemo(() => {
-    const map = new Map<string, CampusZone[]>();
-    for (const z of CAMPUS_ZONES) {
+    const map = new Map<string, MhcZone[]>();
+    for (const z of MHC_ZONES) {
       if (!map.has(z.region)) map.set(z.region, []);
       map.get(z.region)!.push(z);
     }
@@ -52,13 +67,13 @@ export default function QuoteSimulator() {
   }, [search]);
 
   const selectedZoneObjects = useMemo(
-    () => CAMPUS_ZONES.filter((z) => selectedZones.includes(z.zone)),
+    () => MHC_ZONES.filter((z) => selectedZones.includes(z.zone)),
     [selectedZones]
   );
 
   const result = useMemo(
-    () => computeQuote(selectedZoneObjects, dureeSemaines),
-    [selectedZoneObjects, dureeSemaines]
+    () => computeQuote(selectedZoneObjects, dureeSemaines, network, discipline),
+    [selectedZoneObjects, dureeSemaines, network, discipline]
   );
 
   const toggleZone = (zone: string) => {
@@ -68,30 +83,42 @@ export default function QuoteSimulator() {
   };
 
   const clearZones = () => setSelectedZones([]);
+  const toggleFranceEntiere = () => {
+    setSelectedZones(isFranceEntiere ? [] : allZoneNames);
+  };
+
+  const networkLabel =
+    network === "universites"
+      ? "Universités"
+      : network === "lycees"
+      ? "Lycées"
+      : "Universités + Lycées";
 
   const handleRequestQuote = () => {
     const zoneNames = selectedZoneObjects.map((z) => z.zone).join(", ");
     const message = [
       `Devis simulé en ligne :`,
+      `Réseau : ${networkLabel}`,
+      discipline !== "Tous" ? `Discipline / filière ciblée : ${discipline}` : null,
       `Zones (${selectedZoneObjects.length}) : ${zoneNames}`,
       `Durée : ${dureeSemaines} semaines`,
-      `Sous-total HT : ${formatEUR(result.sousTotalHT)}`,
+      `Budget HT net : ${formatEUR(result.budgetHTNet)}`,
       result.tauxRemise > 0
-        ? `Remise dégressive : -${Math.round(result.tauxRemise * 100)}% (${formatEUR(
+        ? `(dont remise dégressive -${Math.round(result.tauxRemise * 100)}% soit ${formatEUR(
             result.montantRemise
           )})`
         : null,
-      `Budget HT net : ${formatEUR(result.budgetHTNet)}`,
       `Budget TTC : ${formatEUR(result.budgetTTC)}`,
     ]
       .filter(Boolean)
       .join("\n");
 
     const prefill = {
-      campaignType: "Affichage Universitaire",
+      campaignType:
+        network === "lycees" ? "Affichage Scolaire" : "Affichage Universitaire",
       zone: zoneNames,
       period: `${dureeSemaines} semaines`,
-      budget: budgetRangeForAmount(result.budgetTTC),
+      budget: budgetRangeForAmount(result.budgetHTNet),
       message,
     };
 
@@ -107,11 +134,11 @@ export default function QuoteSimulator() {
   const handleCopySummary = async () => {
     const zoneNames = selectedZoneObjects.map((z) => z.zone).join(", ");
     const text = [
+      `Réseau : ${networkLabel}`,
       `Zones (${selectedZoneObjects.length}) : ${zoneNames || "aucune"}`,
       `Durée : ${dureeSemaines} semaines`,
-      `Sous-total HT : ${formatEUR(result.sousTotalHT)}`,
-      `Remise : ${Math.round(result.tauxRemise * 100)}%`,
       `Budget HT net : ${formatEUR(result.budgetHTNet)}`,
+      `Remise : ${Math.round(result.tauxRemise * 100)}%`,
       `TVA (20%) : ${formatEUR(result.tva)}`,
       `Budget TTC : ${formatEUR(result.budgetTTC)}`,
     ].join("\n");
@@ -140,8 +167,8 @@ export default function QuoteSimulator() {
             </span>
           </h1>
           <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
-            Sélectionnez vos zones et la durée de campagne pour obtenir une
-            estimation budgétaire immédiate.
+            Sélectionnez votre réseau, vos zones et la durée de campagne pour
+            obtenir une estimation budgétaire immédiate.
           </p>
         </motion.div>
 
@@ -150,7 +177,7 @@ export default function QuoteSimulator() {
           <div className="lg:col-span-2 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 sm:p-8">
             <div className="flex items-center justify-between gap-4 mb-4 flex-wrap">
               <h2 className="text-xl font-semibold">
-                Zones Campus{" "}
+                Zones{" "}
                 <span className="text-[var(--text-muted)] font-normal text-base">
                   ({selectedZones.length} sélectionnée
                   {selectedZones.length > 1 ? "s" : ""})
@@ -167,6 +194,30 @@ export default function QuoteSimulator() {
               )}
             </div>
 
+            {/* France entière */}
+            <button
+              onClick={toggleFranceEntiere}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg border mb-4 text-left transition-colors ${
+                isFranceEntiere
+                  ? "bg-[var(--primary)]/20 border-[var(--primary)] text-white"
+                  : "bg-[var(--bg-dark)] border-[var(--card-border)] text-[var(--text-muted)] hover:border-[var(--primary)]/50 hover:text-white"
+              }`}
+            >
+              <span
+                className={`w-5 h-5 rounded flex items-center justify-center shrink-0 border ${
+                  isFranceEntiere
+                    ? "bg-[var(--primary)] border-[var(--primary)]"
+                    : "border-[var(--card-border)]"
+                }`}
+              >
+                {isFranceEntiere && <Check size={14} className="text-white" />}
+              </span>
+              <Globe size={18} className="shrink-0" />
+              <span className="font-medium">
+                France entière — sélectionner les 60 zones
+              </span>
+            </button>
+
             <div className="relative mb-4">
               <Search
                 size={18}
@@ -181,7 +232,7 @@ export default function QuoteSimulator() {
               />
             </div>
 
-            <div className="max-h-[480px] overflow-y-auto pr-2 space-y-5">
+            <div className="max-h-[420px] overflow-y-auto pr-2 space-y-5">
               {regions.map(({ region, zones }) => (
                 <div key={region}>
                   <div className="text-xs uppercase tracking-wide text-[var(--text-muted)] mb-2">
@@ -229,6 +280,46 @@ export default function QuoteSimulator() {
             <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 sm:p-8 lg:sticky lg:top-24">
               <h2 className="text-xl font-semibold mb-4">Votre estimation</h2>
 
+              {/* Réseau */}
+              <div className="mb-5">
+                <label className="block text-sm font-medium mb-2">Réseau</label>
+                <div className="grid grid-cols-3 gap-2">
+                  {NETWORK_OPTIONS.map((opt) => (
+                    <button
+                      key={opt.value}
+                      onClick={() => setNetwork(opt.value)}
+                      className={`px-3 py-2 rounded-lg text-sm font-medium border transition-colors ${
+                        network === opt.value
+                          ? "bg-[var(--primary)] border-[var(--primary)] text-white"
+                          : "bg-[var(--bg-dark)] border-[var(--card-border)] text-[var(--text-muted)] hover:border-[var(--primary)]/50 hover:text-white"
+                      }`}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Discipline / filière */}
+              <div className="mb-5">
+                <label htmlFor="discipline" className="block text-sm font-medium mb-2">
+                  Discipline / filière ciblée
+                </label>
+                <select
+                  id="discipline"
+                  value={discipline}
+                  onChange={(e) => setDiscipline(e.target.value)}
+                  className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[var(--primary)] transition-colors"
+                >
+                  {DISCIPLINE_OPTIONS.map((d) => (
+                    <option key={d.value} value={d.value}>
+                      {d.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Durée */}
               <div className="mb-6">
                 <label className="block text-sm font-medium mb-2">
                   Durée de campagne
@@ -273,17 +364,19 @@ export default function QuoteSimulator() {
                       {formatNumber(result.audienceCumulee)}
                     </span>
                   </div>
+                  {network !== "lycees" && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-[var(--text-muted)]">
+                        Occasions de voir
+                      </span>
+                      <span className="font-medium">
+                        {formatNumber(result.odvCumules)}
+                      </span>
+                    </div>
+                  )}
                   <div className="flex justify-between text-sm">
                     <span className="text-[var(--text-muted)]">
-                      Occasions de voir
-                    </span>
-                    <span className="font-medium">
-                      {formatNumber(result.odvCumules)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-[var(--text-muted)]">
-                      Affiches posées
+                      Affiches A2
                     </span>
                     <span className="font-medium">
                       {formatNumber(result.nbAffichesCumule)}
@@ -310,26 +403,19 @@ export default function QuoteSimulator() {
                       </span>
                     </div>
                   )}
-                  <div className="flex justify-between text-sm">
-                    <span className="text-[var(--text-muted)]">
-                      Budget HT net
-                    </span>
-                    <span className="font-medium">
-                      {formatEUR(result.budgetHTNet)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-[var(--text-muted)]">TVA (20%)</span>
-                    <span className="font-medium">{formatEUR(result.tva)}</span>
-                  </div>
 
                   <div className="h-px bg-[var(--card-border)] my-3" />
 
+                  {/* Budget HT mis en avant */}
                   <div className="flex justify-between items-baseline">
-                    <span className="font-semibold">Budget TTC</span>
-                    <span className="text-2xl font-bold text-[var(--accent-cyan)]">
-                      {formatEUR(result.budgetTTC)}
+                    <span className="font-semibold">Budget HT</span>
+                    <span className="text-3xl font-bold text-[var(--accent-cyan)]">
+                      {formatEUR(result.budgetHTNet)}
                     </span>
+                  </div>
+                  <div className="flex justify-between text-xs text-[var(--text-muted)]">
+                    <span>dont TVA (20%) : {formatEUR(result.tva)}</span>
+                    <span>TTC : {formatEUR(result.budgetTTC)}</span>
                   </div>
                 </div>
               )}
@@ -355,9 +441,9 @@ export default function QuoteSimulator() {
               </div>
 
               <p className="text-xs text-[var(--text-muted)] mt-4">
-                Estimation indicative, hors coefficients discipline/catégorie
-                et conditions commerciales spécifiques. Un devis définitif
-                vous sera transmis par notre équipe.
+                Estimation indicative, hors coefficient catégorie de lieu et
+                conditions commerciales spécifiques. Un devis définitif vous
+                sera transmis par notre équipe.
               </p>
             </div>
           </div>
