@@ -174,34 +174,92 @@ export const CASE_STUDIES = [
   },
 ];
 
-export const CLIENTS = [
-  "LCL",
-  "Crédit Mutuel",
-  "Château de Versailles",
-  "INSEE",
-  "EPITA",
-  "ISIT",
-  "ESPI",
-  "Education First",
-  "Series Mania",
-  "Urssaf",
-  "Carsat",
-  "INRS",
-  "Hopteo",
-  "Hela",
-  "Paris Manga",
-  "DREETS",
-  "Montpellier Métropole",
-  "Mémorial de la Shoah",
-  "Les Compagnons du Devoir",
-  "ISEGCOM",
-  "Kangourou Kids",
-  "Golden Coast",
-  "Arena du Pays d'Aix",
-  "Fontevraud",
-  "MSA",
-  "Luminiscence",
-  "Unibail-Rodamco-Westfield",
+// Catégories utilisées pour regrouper les logos sur la page /references
+export const CLIENT_CATEGORIES = [
+  "Institutions & Collectivités",
+  "Écoles & Formation",
+  "Grandes Marques & Entreprises",
+  "Culture & Médias",
+] as const;
+
+export type ClientCategory = (typeof CLIENT_CATEGORIES)[number];
+
+export interface ClientLogo {
+  name: string;
+  /** Chemin du fichier logo, ou null en attendant de recevoir le visuel */
+  logo: string | null;
+  category: ClientCategory;
+  /** Mis en avant dans la sélection de la page d'accueil */
+  featured?: boolean;
+}
+
+export const CLIENT_LOGOS: ClientLogo[] = [
+  // --- Déjà en ligne ---
+  { name: "Crédit Mutuel", logo: "/logos/clients/Logo Credit-Mutuel.png", category: "Grandes Marques & Entreprises", featured: true },
+  { name: "Le Figaro", logo: "/logos/clients/Logo_Le_Figaro.svg.png", category: "Culture & Médias", featured: true },
+  { name: "Le Figaro Étudiant", logo: "/logos/clients/Logo Le Figaro étudiant 2.png", category: "Culture & Médias" },
+  { name: "INSEE", logo: "/logos/clients/Logo Insee.png", category: "Institutions & Collectivités", featured: true },
+  { name: "EPITA", logo: "/logos/clients/Logo EPITA.png", category: "Écoles & Formation" },
+  { name: "ESPI", logo: "/logos/clients/Logo ESPI.jpg", category: "Écoles & Formation" },
+  { name: "Urssaf", logo: "/logos/clients/Logo URSSAF.png", category: "Institutions & Collectivités", featured: true },
+  { name: "Carsat Aquitaine", logo: "/logos/clients/Logo Carsat Aquitaine.jpg", category: "Institutions & Collectivités" },
+  { name: "INRS", logo: "/logos/clients/Logo INRS.svg.png", category: "Institutions & Collectivités" },
+  { name: "Hopteo", logo: "/logos/clients/Logo HOPTEO.jpeg", category: "Grandes Marques & Entreprises" },
+  { name: "DREETS", logo: "/logos/clients/Logo DREETS Nvlle Aquitaine.png", category: "Institutions & Collectivités" },
+  { name: "Montpellier Métropole", logo: "/logos/clients/Logo - Montpellier - Métropole.png", category: "Institutions & Collectivités", featured: true },
+  { name: "Mémorial de la Shoah", logo: "/logos/clients/Logo Mémorial Shoah.jpeg", category: "Culture & Médias" },
+  { name: "Les Compagnons du Devoir", logo: "/logos/clients/Logo CompagonsduDevoir.jpg", category: "Écoles & Formation" },
+  { name: "ISEGCOM", logo: "/logos/clients/Logo ISEGCOM.png", category: "Écoles & Formation" },
+  { name: "Kangourou Kids", logo: "/logos/clients/Logo Kangourou Kids.png", category: "Grandes Marques & Entreprises" },
+  { name: "Golden Coast", logo: "/logos/clients/Logo Golden Coast.png", category: "Grandes Marques & Entreprises" },
+  { name: "Arena du Pays d'Aix", logo: "/logos/clients/Logo Arena du Pays d_Aix.png", category: "Culture & Médias" },
+  { name: "Abbaye Fontevraud", logo: "/logos/clients/Logo Abbaye Fontevraud.png", category: "Culture & Médias" },
+  { name: "MSA", logo: "/logos/clients/Logo Mutualite Sociale Agricole.png", category: "Institutions & Collectivités" },
+  { name: "Luminiscence", logo: "/logos/clients/Logo Luminiscence.jpeg", category: "Grandes Marques & Entreprises" },
+  { name: "HAS", logo: "/logos/clients/Logo HAS.png", category: "Institutions & Collectivités", featured: true },
+  { name: "ICN", logo: "/logos/clients/Logo ICN.avif", category: "Écoles & Formation" },
+  { name: "Excelia", logo: "/logos/clients/Logo Excelia.png", category: "Écoles & Formation", featured: true },
+  { name: "Rennes Métropole", logo: "/logos/clients/Logo Rennes Métropole.png", category: "Institutions & Collectivités", featured: true },
+  { name: "Aivancity", logo: "/logos/clients/Logo aivancity.png", category: "Écoles & Formation", featured: true },
+  { name: "Doritos", logo: "/logos/clients/Logo Doritos.png", category: "Grandes Marques & Entreprises", featured: true },
+  { name: "PWC", logo: "/logos/clients/Logo PWC.png", category: "Grandes Marques & Entreprises", featured: true },
+  { name: "Billets Discount", logo: "/logos/clients/Logo BilletsDiscount.webp", category: "Grandes Marques & Entreprises" },
+  { name: "MdJ", logo: "/logos/clients/Logo MdJ.png", category: "Grandes Marques & Entreprises" },
+  { name: "LCL", logo: "/images/Logo LCL.png", category: "Grandes Marques & Entreprises", featured: true },
+  { name: "Château de Versailles", logo: "/images/Logo_Château_de_Versailles_2017.png", category: "Culture & Médias", featured: true },
+  { name: "Education First", logo: "/images/Logo EF.png", category: "Écoles & Formation", featured: true },
+  { name: "ENM", logo: "/images/Logo ENM.png", category: "Institutions & Collectivités" },
+  { name: "Hela", logo: "/images/Logo Hela.png", category: "Grandes Marques & Entreprises" },
+  { name: "ISIT Paris", logo: "/images/Logo ISIT Paris.png", category: "Écoles & Formation" },
+  { name: "Paris Manga", logo: "/images/Logo ParisManga.png", category: "Culture & Médias" },
+  { name: "Unibail-Rodamco-Westfield", logo: "/images/Lor URW.png", category: "Grandes Marques & Entreprises", featured: true },
+
+  // --- Nouveaux clients (logos à recevoir) ---
+  { name: "Bouygues", logo: null, category: "Grandes Marques & Entreprises" },
+  { name: "Colas", logo: null, category: "Grandes Marques & Entreprises" },
+  { name: "Waffle Factory", logo: null, category: "Grandes Marques & Entreprises" },
+  { name: "CCOOP", logo: null, category: "Grandes Marques & Entreprises" },
+  { name: "Commune de Villeurbanne", logo: null, category: "Institutions & Collectivités" },
+  { name: "ACENSI", logo: null, category: "Écoles & Formation" },
+  { name: "Antaria Pharma", logo: null, category: "Grandes Marques & Entreprises" },
+  { name: "OPM", logo: null, category: "Grandes Marques & Entreprises" },
+  { name: "Kurokawa", logo: null, category: "Grandes Marques & Entreprises" },
+  { name: "Quai Branly", logo: null, category: "Culture & Médias" },
+  { name: "Festival TV de Monte-Carlo", logo: null, category: "Culture & Médias" },
+  { name: "Département Loire-Atlantique", logo: null, category: "Institutions & Collectivités" },
+  { name: "Département Essonne", logo: null, category: "Institutions & Collectivités" },
+  { name: "SOGEFI", logo: null, category: "Grandes Marques & Entreprises" },
+  { name: "Formasup Méditerranée", logo: null, category: "Écoles & Formation" },
+  { name: "CFA Gustave Eiffel Toulouse", logo: null, category: "Écoles & Formation" },
+  { name: "Versailles Grand Parc", logo: null, category: "Institutions & Collectivités" },
+  { name: "EDC", logo: null, category: "Écoles & Formation" },
+  { name: "Région Île-de-France", logo: null, category: "Institutions & Collectivités" },
+  { name: "Collège Universel", logo: null, category: "Écoles & Formation" },
+  { name: "FFF", logo: null, category: "Institutions & Collectivités" },
+  { name: "Bourse du Commerce", logo: null, category: "Culture & Médias" },
+  { name: "Hachette", logo: null, category: "Grandes Marques & Entreprises" },
+  { name: "Ecologic", logo: null, category: "Grandes Marques & Entreprises" },
+  { name: "Opcommerce", logo: null, category: "Grandes Marques & Entreprises" },
 ];
 
 export const CAMPAIGN_TYPES = [
@@ -230,7 +288,7 @@ export const NAV_LINKS = [
   { href: "/#services", label: "Services" },
   { href: "/#cible", label: "Notre Cible" },
   { href: "/#reseau", label: "Notre Réseau" },
-  { href: "/#clients", label: "Références" },
+  { href: "/references", label: "Références" },
   { href: "/simulateur-devis", label: "Simulateur de Devis" },
   { href: "/#contact", label: "Contact" },
 ];
