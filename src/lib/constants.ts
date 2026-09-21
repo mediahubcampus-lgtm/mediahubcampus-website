@@ -15,7 +15,6 @@ export const MASCOTS_CONFIG = {
   target: true,
   statistics: true,
   cities: true,
-  pack360: true,
   clients: true,
   contact: true,
 };
@@ -138,39 +137,6 @@ export const STUDENT_INTERESTS = [
   { interest: "Voyages", percentage: 48 },
 ];
 
-export const PACK_360 = [
-  {
-    id: "ooh",
-    title: "Affichage OOH",
-    description: "20 principales villes universitaires, 1,84M étudiants ciblés",
-    icon: "Megaphone",
-  },
-  {
-    id: "digital",
-    title: "Digital",
-    description: "500k+ vues, 500k+ reach, 10k+ engagements sur les réseaux",
-    icon: "Smartphone",
-  },
-  {
-    id: "velib",
-    title: "Vélib'",
-    description: "1 400+ stations à la carte selon votre cible",
-    icon: "Bike",
-  },
-  {
-    id: "event",
-    title: "Event DOOH",
-    description: "Jeux ludiques, collecte data, drive to store",
-    icon: "Gamepad2",
-  },
-  {
-    id: "mediatables",
-    title: "MédiaTables",
-    description: "Rues piétonnes, places, lieux touristiques, littoraux",
-    icon: "Coffee",
-  },
-];
-
 export const CASE_STUDIES = [
   {
     id: "toeic",
@@ -257,11 +223,14 @@ export const BUDGET_RANGES = [
   "15 000 € et plus",
 ];
 
+// Les ancres (#...) sont préfixées par "/" pour rester utilisables
+// depuis n'importe quelle page du site (elles renvoient vers la page
+// d'accueil puis scrollent jusqu'à la section).
 export const NAV_LINKS = [
-  { href: "#services", label: "Services" },
-  { href: "#cible", label: "Notre Cible" },
-  { href: "#reseau", label: "Notre Réseau" },
-  { href: "#pack360", label: "Pack 360°" },
-  { href: "#clients", label: "Références" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#services", label: "Services" },
+  { href: "/#cible", label: "Notre Cible" },
+  { href: "/#reseau", label: "Notre Réseau" },
+  { href: "/#clients", label: "Références" },
+  { href: "/simulateur-devis", label: "Simulateur de Devis" },
+  { href: "/#contact", label: "Contact" },
 ];
