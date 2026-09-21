@@ -15,7 +15,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "MediaHub Campus - Régie Publicitaire Universitaire",
   description:
-    "Touchez 2,1 millions d'étudiants dans 65+ villes universitaires. Affichage, digital, événementiel sur les campus de France.",
+    "Touchez plus de 2,19 millions d'étudiants dans 60 villes universitaires. Affichage, digital, événementiel sur les campus de France.",
   keywords: [
     "publicité universitaire",
     "affichage campus",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     siteName: "MediaHub Campus",
     title: "MediaHub Campus - Régie Publicitaire Universitaire",
     description:
-      "Touchez 2,1 millions d'étudiants dans 65+ villes universitaires. Affichage, digital, événementiel sur les campus de France.",
+      "Touchez plus de 2,19 millions d'étudiants dans 60 villes universitaires. Affichage, digital, événementiel sur les campus de France.",
     images: [
       {
         url: "/og-image.png",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "MediaHub Campus - Régie Publicitaire Universitaire",
     description:
-      "Touchez 2,1 millions d'étudiants dans 65+ villes universitaires.",
+      "Touchez plus de 2,19 millions d'étudiants dans 60 villes universitaires.",
     images: ["/og-image.png"],
   },
   robots: {
@@ -94,7 +94,7 @@ const jsonLd = {
       url: "https://mediahubcampus.com",
       name: "MediaHub Campus",
       description:
-        "Touchez 2,1 millions d'étudiants dans 65+ villes universitaires",
+        "Touchez plus de 2,19 millions d'étudiants dans 60 villes universitaires",
       publisher: {
         "@id": "https://mediahubcampus.com/#organization",
       },
