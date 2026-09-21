@@ -1,9 +1,10 @@
 "use client";
 
-import { Download, ArrowDown } from "lucide-react";
+import { Download, ArrowDown, Calculator } from "lucide-react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { SITE_CONFIG } from "@/lib/constants";
 
 // Easing curve
@@ -145,12 +146,13 @@ export default function Hero() {
               <Download size={22} />
               <span>Télécharger la Plaquette</span>
             </a>
-            <a
-              href="#contact"
+            <Link
+              href="/simulateur-devis"
               className="inline-flex items-center gap-2 bg-[var(--card-bg)] hover:bg-[var(--card-border)] border border-[var(--card-border)] text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all"
             >
-              <span>Nous Contacter</span>
-            </a>
+              <Calculator size={22} />
+              <span>Simulateur de Devis</span>
+            </Link>
           </motion.div>
         </motion.div>
 
