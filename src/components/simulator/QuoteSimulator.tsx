@@ -9,7 +9,6 @@ import {
   computeQuote,
   formatEUR,
   formatNumber,
-  DISCIPLINE_OPTIONS,
   NetworkType,
 } from "@/lib/quote-calculator";
 import { BUDGET_RANGES } from "@/lib/constants";
@@ -37,7 +36,6 @@ export default function QuoteSimulator() {
   const [selectedZones, setSelectedZones] = useState<string[]>([]);
   const [dureeSemaines, setDureeSemaines] = useState(4);
   const [network, setNetwork] = useState<NetworkType>("universites");
-  const [discipline, setDiscipline] = useState("Tous");
   const [copied, setCopied] = useState(false);
 
   const allZoneNames = useMemo(() => MHC_ZONES.map((z) => z.zone), []);
@@ -72,8 +70,8 @@ export default function QuoteSimulator() {
   );
 
   const result = useMemo(
-    () => computeQuote(selectedZoneObjects, dureeSemaines, network, discipline),
-    [selectedZoneObjects, dureeSemaines, network, discipline]
+    () => computeQuote(selectedZoneObjects, dureeSemaines, network),
+    [selectedZoneObjects, dureeSemaines, network]
   );
 
   const toggleZone = (zone: string) => {
@@ -99,7 +97,6 @@ export default function QuoteSimulator() {
     const message = [
       `Devis simulé en ligne :`,
       `Réseau : ${networkLabel}`,
-      discipline !== "Tous" ? `Discipline / filière ciblée : ${discipline}` : null,
       `Zones (${selectedZoneObjects.length}) : ${zoneNames}`,
       `Durée : ${dureeSemaines} semaines`,
       `Budget HT net : ${formatEUR(result.budgetHTNet)}`,
@@ -298,25 +295,10 @@ export default function QuoteSimulator() {
                     </button>
                   ))}
                 </div>
-              </div>
-
-              {/* Discipline / filière */}
-              <div className="mb-5">
-                <label htmlFor="discipline" className="block text-sm font-medium mb-2">
-                  Discipline / filière ciblée
-                </label>
-                <select
-                  id="discipline"
-                  value={discipline}
-                  onChange={(e) => setDiscipline(e.target.value)}
-                  className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[var(--primary)] transition-colors"
-                >
-                  {DISCIPLINE_OPTIONS.map((d) => (
-                    <option key={d.value} value={d.value}>
-                      {d.label}
-                    </option>
-                  ))}
-                </select>
+                <p className="text-xs text-[var(--text-muted)] mt-2">
+                  Un ciblage par discipline ou filière est aussi possible —
+                  précisez-le dans votre demande de devis.
+                </p>
               </div>
 
               {/* Durée */}
