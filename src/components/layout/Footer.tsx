@@ -50,7 +50,7 @@ export default function Footer() {
               className="inline-flex items-center gap-2 bg-[var(--card-bg)] hover:bg-[var(--primary)] border border-[var(--card-border)] text-white px-4 py-2.5 rounded-lg text-sm transition-colors"
             >
               <Download size={16} />
-              <span>Télécharger la Plaquette 2025</span>
+              <span>Télécharger la Plaquette 2026-2027</span>
             </a>
           </div>
         </div>

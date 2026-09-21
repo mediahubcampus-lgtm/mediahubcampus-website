@@ -6,19 +6,26 @@ import Image from "next/image";
 import { Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { blurRevealVariants } from "@/lib/useScrollAnimations";
 import { useMascots } from "@/context/MascotContext";
+import { CAMPAIGN_TYPES, BUDGET_RANGES } from "@/lib/constants";
 
 // Easing curve
 const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
 
+const initialFormData = {
+  name: "",
+  email: "",
+  company: "",
+  campaignType: "",
+  zone: "",
+  period: "",
+  budget: BUDGET_RANGES[0],
+  message: "",
+};
+
 export default function Contact() {
   const { MASCOTS } = useMascots();
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState(initialFormData);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +40,7 @@ export default function Contact() {
 
       if (response.ok) {
         setStatus("success");
-        setFormData({ name: "", email: "", company: "", message: "" });
+        setFormData(initialFormData);
       } else {
         setStatus("error");
       }
@@ -139,18 +146,88 @@ export default function Contact() {
             </div>
           </div>
 
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label htmlFor="company" className="block text-sm font-medium mb-2">
+                Entreprise
+              </label>
+              <input
+                type="text"
+                id="company"
+                value={formData.company}
+                onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-4 py-3 text-white placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] transition-colors"
+                placeholder="Votre entreprise"
+              />
+            </div>
+            <div>
+              <label htmlFor="campaignType" className="block text-sm font-medium mb-2">
+                Type de campagne *
+              </label>
+              <select
+                id="campaignType"
+                required
+                value={formData.campaignType}
+                onChange={(e) => setFormData({ ...formData, campaignType: e.target.value })}
+                className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[var(--primary)] transition-colors"
+              >
+                <option value="" disabled>
+                  Choisissez un type
+                </option>
+                {CAMPAIGN_TYPES.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label htmlFor="zone" className="block text-sm font-medium mb-2">
+                Zone(s) visée(s)
+              </label>
+              <input
+                type="text"
+                id="zone"
+                value={formData.zone}
+                onChange={(e) => setFormData({ ...formData, zone: e.target.value })}
+                className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-4 py-3 text-white placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] transition-colors"
+                placeholder="ex : Lyon, Bordeaux, Île-de-France..."
+              />
+            </div>
+            <div>
+              <label htmlFor="period" className="block text-sm font-medium mb-2">
+                Période souhaitée
+              </label>
+              <input
+                type="text"
+                id="period"
+                value={formData.period}
+                onChange={(e) => setFormData({ ...formData, period: e.target.value })}
+                className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-4 py-3 text-white placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] transition-colors"
+                placeholder="ex : 4 semaines, octobre 2026"
+              />
+            </div>
+          </div>
+
           <div className="mb-4">
-            <label htmlFor="company" className="block text-sm font-medium mb-2">
-              Entreprise
+            <label htmlFor="budget" className="block text-sm font-medium mb-2">
+              Budget indicatif
             </label>
-            <input
-              type="text"
-              id="company"
-              value={formData.company}
-              onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-              className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-4 py-3 text-white placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] transition-colors"
-              placeholder="Votre entreprise"
-            />
+            <select
+              id="budget"
+              value={formData.budget}
+              onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+              className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[var(--primary)] transition-colors"
+            >
+              {BUDGET_RANGES.map((range) => (
+                <option key={range} value={range}>
+                  {range}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="mb-6">

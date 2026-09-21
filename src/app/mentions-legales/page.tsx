@@ -17,10 +17,17 @@ export default function MentionsLegales() {
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-white">1. Éditeur du site</h2>
             <p className="text-[var(--text-muted)]">
-              Le site <strong className="text-white">mediahubcampus.com</strong> est édité par{" "}
+              Le site <strong className="text-white">mediahubcampus.com</strong> est édité par la société{" "}
+              <strong className="text-white">SASU MHC</strong>, exploitant la marque commerciale{" "}
               <strong className="text-white">MediaHub Campus</strong>.
             </p>
-            <p className="text-[var(--text-muted)] mt-2">
+            <ul className="text-[var(--text-muted)] list-none space-y-1 mt-4">
+              <li><strong className="text-white">Forme juridique :</strong> Société par actions simplifiée à associé unique (SASU)</li>
+              <li><strong className="text-white">Capital social :</strong> 1 000 €</li>
+              <li><strong className="text-white">SIREN :</strong> 935 360 859 R.C.S. Paris</li>
+              <li><strong className="text-white">Siège social :</strong> 4 rue Guénot, 75011 Paris</li>
+            </ul>
+            <p className="text-[var(--text-muted)] mt-4">
               Email : <a href={`mailto:${SITE_CONFIG.email}`} className="text-[var(--accent-cyan)] hover:underline">{SITE_CONFIG.email}</a>
             </p>
           </section>
