@@ -125,9 +125,9 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             Touchez plus de{" "}
-            <span className="text-white font-semibold">2,1 millions d&apos;étudiants</span>{" "}
+            <span className="text-white font-semibold">2,19 millions d&apos;étudiants</span>{" "}
             dans{" "}
-            <span className="text-white font-semibold">65+ villes universitaires</span>
+            <span className="text-white font-semibold">60 villes universitaires</span>
           </motion.p>
 
           {/* CTAs */}

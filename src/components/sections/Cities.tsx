@@ -77,7 +77,7 @@ export default function Cities() {
             </span>
           </h2>
           <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
-            Plus de 65 villes universitaires couvertes à travers la France
+            Plus de 60 villes universitaires couvertes à travers la France
           </p>
           {/* Mascot - Desktop (behind text) */}
           {MASCOTS.cities && (
