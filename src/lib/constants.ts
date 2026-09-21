@@ -238,6 +238,25 @@ export const CLIENTS = [
   "Unibail-Rodamco-Westfield",
 ];
 
+export const CAMPAIGN_TYPES = [
+  "Affichage Universitaire",
+  "Affichage Scolaire",
+  "Digital",
+  "Stations Vélib'",
+  "MédiaTables",
+  "Événementiel",
+  "Pack 360°",
+  "Je ne sais pas encore",
+];
+
+export const BUDGET_RANGES = [
+  "Budget non défini",
+  "Moins de 2 000 €",
+  "2 000 – 5 000 €",
+  "5 000 – 15 000 €",
+  "15 000 € et plus",
+];
+
 export const NAV_LINKS = [
   { href: "#services", label: "Services" },
   { href: "#cible", label: "Notre Cible" },
