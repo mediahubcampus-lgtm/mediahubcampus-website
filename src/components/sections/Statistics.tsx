@@ -169,7 +169,7 @@ export default function Statistics() {
                   value={stat.value}
                   suffix={stat.suffix}
                   decimals={stat.decimals}
-                  decimalSeparator={locale === "fr" ? "," : "."}
+                  decimalSeparator={locale === "fr" || locale === "es" ? "," : "."}
                 />
               </div>
               <div className="text-[var(--text-muted)]">
