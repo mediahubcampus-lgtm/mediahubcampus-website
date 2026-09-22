@@ -5,12 +5,29 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Fragment } from "react";
 import { SITE_CONFIG } from "@/lib/constants";
+import { useLanguage } from "@/context/LanguageContext";
 
 // Easing curve
 const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
 
+// Rend "texte **en gras** et le reste" avec le segment entre ** en <strong>.
+function renderBold(text: string) {
+  const parts = text.split("**");
+  return parts.map((part, i) =>
+    i % 2 === 1 ? (
+      <span key={i} className="text-white font-semibold">
+        {part}
+      </span>
+    ) : (
+      <Fragment key={i}>{part}</Fragment>
+    )
+  );
+}
+
 export default function Hero() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -99,10 +116,10 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <span className="text-white">La Régie des</span>
+            <span className="text-white">{t("hero.title1")}</span>
             <br />
             <span className="bg-gradient-to-r from-[var(--accent-cyan)] to-[var(--accent-purple)] bg-clip-text text-transparent">
-              Universités & Campus
+              {t("hero.title2")}
             </span>
           </motion.h1>
 
@@ -113,10 +130,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            Touchez plus de{" "}
-            <span className="text-white font-semibold">2,19 millions d&apos;étudiants</span>{" "}
-            dans{" "}
-            <span className="text-white font-semibold">60 villes universitaires</span>
+            {renderBold(t("hero.subtitle"))}
           </motion.p>
 
           {/* CTAs */}
@@ -132,14 +146,14 @@ export default function Hero() {
               className="inline-flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:scale-105"
             >
               <Download size={22} />
-              <span>Télécharger la Plaquette</span>
+              <span>{t("hero.ctaBrochure")}</span>
             </a>
             <Link
               href="/simulateur-devis"
               className="inline-flex items-center gap-2 bg-[var(--accent-cyan)] hover:brightness-110 text-[var(--bg-dark)] px-8 py-4 rounded-xl font-semibold text-lg shadow-lg shadow-[var(--accent-cyan)]/30 transition-all hover:scale-105"
             >
               <Calculator size={22} />
-              <span>Simulateur de Devis</span>
+              <span>{t("hero.ctaSimulator")}</span>
             </Link>
           </motion.div>
         </motion.div>

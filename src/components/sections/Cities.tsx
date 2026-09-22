@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import CityPieChart from "@/components/ui/CityPieChart";
 import { useMascots } from "@/context/MascotContext";
+import { useLanguage } from "@/context/LanguageContext";
+import type { TranslationKey } from "@/lib/i18n/translations";
 import { CITIES } from "@/lib/constants";
 
 function AnimatedCounter({
@@ -97,6 +99,7 @@ const itemVariants = {
 
 export default function Cities() {
   const { MASCOTS } = useMascots();
+  const { t } = useLanguage();
 
   const totalStudents = useMemo(
     () => CITIES.reduce((sum, c) => sum + c.students, 0),
@@ -117,13 +120,13 @@ export default function Cities() {
           className="text-center mb-16 relative"
         >
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Notre{" "}
+            {t("cities.heading.pre")}{" "}
             <span className="bg-gradient-to-r from-[var(--accent-cyan)] to-[var(--accent-purple)] bg-clip-text text-transparent">
-              Réseau
+              {t("cities.heading.highlight")}
             </span>
           </h2>
           <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
-            Plus de 60 villes universitaires couvertes à travers la France
+            {t("cities.subtitle")}
           </p>
           {/* Mascot - Desktop (behind text) */}
           {MASCOTS.cities && (
@@ -158,23 +161,23 @@ export default function Cities() {
               value: CITIES.length,
               suffix: "",
               decimals: 0,
-              label: "villes universitaires",
+              labelKey: "cities.stat.cities" as TranslationKey,
             },
             {
               value: Math.round((totalStudents / 1000000) * 100) / 100,
               suffix: "M",
               decimals: 2,
-              label: "étudiants touchés",
+              labelKey: "cities.stat.students" as TranslationKey,
             },
             {
               value: IMPLANTATIONS.length,
               suffix: "",
               decimals: 0,
-              label: "types d'implantations",
+              labelKey: "cities.stat.types" as TranslationKey,
             },
           ].map((stat) => (
             <div
-              key={stat.label}
+              key={stat.labelKey}
               className="text-center bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl py-5 px-2"
             >
               <div className="text-2xl sm:text-4xl font-bold text-[var(--accent-cyan)] mb-1">
@@ -185,7 +188,7 @@ export default function Cities() {
                 />
               </div>
               <div className="text-xs sm:text-sm text-[var(--text-muted)] leading-tight">
-                {stat.label}
+                {t(stat.labelKey)}
               </div>
             </div>
           ))}
@@ -230,7 +233,7 @@ export default function Cities() {
           transition={{ duration: 0.6 }}
         >
           <h3 className="text-xl font-semibold text-center mb-8">
-            Nos implantations
+            {t("cities.implantations.title")}
           </h3>
           <motion.div
             className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 md:overflow-visible md:flex-wrap md:justify-center"
@@ -239,7 +242,7 @@ export default function Cities() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            {IMPLANTATIONS.map((item) => {
+            {IMPLANTATIONS.map((item, index) => {
               const Icon = item.icon;
               return (
                 <motion.div
@@ -258,7 +261,7 @@ export default function Cities() {
                     </div>
                     {/* Label - fixed height for 2 lines */}
                     <span className="text-sm text-white/90 leading-tight font-medium mt-4 h-10 flex items-center justify-center">
-                      {item.label}
+                      {t(`implantations.${index}` as TranslationKey)}
                     </span>
                   </div>
                 </motion.div>

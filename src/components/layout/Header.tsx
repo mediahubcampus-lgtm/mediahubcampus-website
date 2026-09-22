@@ -6,8 +6,21 @@ import Image from "next/image";
 import { Menu, X, Download } from "lucide-react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { NAV_LINKS, SITE_CONFIG } from "@/lib/constants";
+import { useLanguage } from "@/context/LanguageContext";
+import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
+import type { TranslationKey } from "@/lib/i18n/translations";
+
+const NAV_KEY_BY_HREF: Record<string, TranslationKey> = {
+  "/#services": "nav.services",
+  "/#cible": "nav.cible",
+  "/#reseau": "nav.reseau",
+  "/references": "nav.references",
+  "/simulateur-devis": "nav.simulateur",
+  "/#contact": "nav.contact",
+};
 
 export default function Header() {
+  const { t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -63,20 +76,21 @@ export default function Header() {
                 href={link.href}
                 className="text-[var(--text-muted)] hover:text-white transition-colors"
               >
-                {link.label}
+                {t(NAV_KEY_BY_HREF[link.href] ?? "nav.services")}
               </Link>
             ))}
           </nav>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
+          {/* CTA Button + Language Switcher */}
+          <div className="hidden md:flex items-center gap-3">
+            <LanguageSwitcher />
             <a
               href={SITE_CONFIG.pdfUrl}
               download
               className="inline-flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white px-5 py-2.5 rounded-lg font-medium transition-colors"
             >
               <Download size={18} />
-              <span>Plaquette PDF</span>
+              <span>{t("nav.plaquette")}</span>
             </a>
           </div>
 
@@ -84,7 +98,7 @@ export default function Header() {
           <button
             className="md:hidden p-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
+            aria-label={t("nav.toggleMenu")}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -106,16 +120,17 @@ export default function Header() {
                 className="text-[var(--text-muted)] hover:text-white transition-colors py-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                {link.label}
+                {t(NAV_KEY_BY_HREF[link.href] ?? "nav.services")}
               </Link>
             ))}
+            <LanguageSwitcher className="self-start" />
             <a
               href={SITE_CONFIG.pdfUrl}
               download
               className="inline-flex items-center justify-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white px-5 py-3 rounded-lg font-medium transition-colors mt-2"
             >
               <Download size={18} />
-              <span>Télécharger la Plaquette</span>
+              <span>{t("nav.plaquetteMobile")}</span>
             </a>
           </nav>
         </div>
