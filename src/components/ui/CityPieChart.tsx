@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CITIES, type CityData } from "@/lib/constants";
-import { formatStudents } from "@/components/ui/FranceMap";
+import { formatStudents } from "@/lib/format";
 
 interface RegionGroup {
   region: string;

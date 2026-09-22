@@ -11,11 +11,8 @@ import {
   Home,
   Users,
   BookOpen,
-  Map as MapIcon,
-  PieChart,
   type LucideIcon,
 } from "lucide-react";
-import FranceMap from "@/components/ui/FranceMap";
 import CityPieChart from "@/components/ui/CityPieChart";
 import { useMascots } from "@/context/MascotContext";
 import { CITIES } from "@/lib/constants";
@@ -100,7 +97,6 @@ const itemVariants = {
 
 export default function Cities() {
   const { MASCOTS } = useMascots();
-  const [view, setView] = useState<"map" | "list">("map");
 
   const totalStudents = useMemo(
     () => CITIES.reduce((sum, c) => sum + c.students, 0),
@@ -195,38 +191,10 @@ export default function Cities() {
           ))}
         </motion.div>
 
-        {/* Map / List toggle */}
-        <div className="flex justify-center mb-8">
-          <div className="inline-flex bg-[var(--card-bg)] border border-[var(--card-border)] rounded-full p-1">
-            <button
-              onClick={() => setView("map")}
-              className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                view === "map"
-                  ? "bg-[var(--primary)] text-white"
-                  : "text-[var(--text-muted)] hover:text-white"
-              }`}
-            >
-              <MapIcon size={16} />
-              Carte
-            </button>
-            <button
-              onClick={() => setView("list")}
-              className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                view === "list"
-                  ? "bg-[var(--primary)] text-white"
-                  : "text-[var(--text-muted)] hover:text-white"
-              }`}
-            >
-              <PieChart size={16} />
-              Répartition
-            </button>
-          </div>
-        </div>
-
-        {/* Interactive Map / List with mascot behind on mobile */}
+        {/* Répartition par région (camembert) with mascot behind on mobile */}
         <div className="relative mb-12">
-          {/* Mascot - Mobile (bigger, behind map) */}
-          {MASCOTS.cities && view === "map" && (
+          {/* Mascot - Mobile (bigger, behind chart) */}
+          {MASCOTS.cities && (
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 0.5, scale: 1 }}
@@ -244,13 +212,13 @@ export default function Cities() {
             </motion.div>
           )}
           <motion.div
-            key={view}
             initial={{ opacity: 0, scale: 0.97, filter: "blur(6px)" }}
-            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+            whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+            viewport={{ once: true }}
             transition={{ duration: 0.5, ease: easeOutQuart }}
             className="relative z-10"
           >
-            {view === "map" ? <FranceMap /> : <CityPieChart />}
+            <CityPieChart />
           </motion.div>
         </div>
 
