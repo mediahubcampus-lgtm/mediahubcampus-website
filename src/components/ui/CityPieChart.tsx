@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CITIES, type CityData } from "@/lib/constants";
 import { formatStudents } from "@/lib/format";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface RegionGroup {
   region: string;
@@ -67,6 +68,9 @@ const OUTER_R = 140;
 const INNER_R = 82;
 
 export default function CityPieChart() {
+  const { t } = useLanguage();
+  const cityWord = (count: number) =>
+    count > 1 ? t("cityPieChart.cityCount.other", { count }) : t("cityPieChart.cityCount.one", { count });
   const regions: RegionGroup[] = useMemo(() => {
     const map = new Map<string, CityData[]>();
     for (const city of CITIES) {
@@ -152,10 +156,10 @@ export default function CityPieChart() {
               {formatStudents(totalStudents)}
             </div>
             <div className="text-xs sm:text-sm text-[var(--text-muted)] mt-1">
-              étudiants touchés
+              {t("cityPieChart.studentsReached")}
             </div>
             <div className="text-[10px] sm:text-xs text-[var(--text-muted)]/70 mt-2">
-              {CITIES.length} villes · {regions.length} régions
+              {t("cityPieChart.citiesRegions", { cities: CITIES.length, regions: regions.length })}
             </div>
           </div>
         </div>
@@ -188,7 +192,7 @@ export default function CityPieChart() {
                     {r.region}
                   </span>
                   <span className="block text-xs text-[var(--text-muted)]">
-                    {r.cities.length} ville{r.cities.length > 1 ? "s" : ""}
+                    {cityWord(r.cities.length)}
                   </span>
                 </span>
                 <span className="text-right shrink-0">
@@ -223,8 +227,7 @@ export default function CityPieChart() {
               />
               <h4 className="text-white font-semibold">{activeGroup.region}</h4>
               <span className="text-[var(--text-muted)] text-sm">
-                — {activeGroup.cities.length} ville
-                {activeGroup.cities.length > 1 ? "s" : ""}
+                — {cityWord(activeGroup.cities.length)}
               </span>
             </div>
             <div className="grid sm:grid-cols-2 gap-2">

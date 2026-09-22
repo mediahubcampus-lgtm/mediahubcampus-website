@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { MascotProvider } from "@/context/MascotContext";
+import { LanguageProvider } from "@/context/LanguageContext";
 import PeekingMascot from "@/components/ui/PeekingMascot";
 
 const inter = Inter({
@@ -142,12 +143,14 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.variable} antialiased`}>
-        <MascotProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-          <PeekingMascot />
-        </MascotProvider>
+        <LanguageProvider>
+          <MascotProvider>
+            <Header />
+            <main>{children}</main>
+            <Footer />
+            <PeekingMascot />
+          </MascotProvider>
+        </LanguageProvider>
         <Analytics />
       </body>
     </html>

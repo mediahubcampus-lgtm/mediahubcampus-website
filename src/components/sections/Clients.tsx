@@ -6,12 +6,14 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { blurRevealVariants } from "@/lib/useScrollAnimations";
 import { useMascots } from "@/context/MascotContext";
+import { useLanguage } from "@/context/LanguageContext";
 import { CLIENT_LOGOS } from "@/lib/constants";
 
 const FEATURED_LOGOS = CLIENT_LOGOS.filter((c) => c.featured && c.logo);
 
 export default function Clients() {
   const { MASCOTS } = useMascots();
+  const { t } = useLanguage();
 
   return (
     <div className="relative">
@@ -27,13 +29,13 @@ export default function Clients() {
             className="text-center mb-14 relative"
           >
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              Ils nous font{" "}
+              {t("clients.heading.pre")}{" "}
               <span className="bg-gradient-to-r from-[var(--accent-cyan)] to-[var(--accent-purple)] bg-clip-text text-transparent">
-                Confiance
+                {t("clients.heading.highlight")}
               </span>
             </h2>
             <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
-              Des marques et institutions qui nous accompagnent
+              {t("clients.subtitle")}
             </p>
             {/* Mascot thumbs up - Desktop */}
             {MASCOTS.clients && (
@@ -116,7 +118,7 @@ export default function Clients() {
               href="/references"
               className="inline-flex items-center gap-2 text-[var(--accent-cyan)] hover:text-white font-semibold transition-colors"
             >
-              <span>Voir toutes nos références ({CLIENT_LOGOS.length}+)</span>
+              <span>{t("clients.seeAll", { count: CLIENT_LOGOS.length })}</span>
               <ArrowRight size={18} />
             </Link>
           </motion.div>

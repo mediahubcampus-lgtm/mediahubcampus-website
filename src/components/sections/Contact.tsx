@@ -6,6 +6,8 @@ import Image from "next/image";
 import { Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { blurRevealVariants } from "@/lib/useScrollAnimations";
 import { useMascots } from "@/context/MascotContext";
+import { useLanguage } from "@/context/LanguageContext";
+import type { TranslationKey } from "@/lib/i18n/translations";
 import { CAMPAIGN_TYPES, BUDGET_RANGES } from "@/lib/constants";
 
 const QUOTE_PREFILL_KEY = "mhc_quote_prefill";
@@ -26,6 +28,7 @@ const initialFormData = {
 
 export default function Contact() {
   const { MASCOTS } = useMascots();
+  const { t } = useLanguage();
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [formData, setFormData] = useState(initialFormData);
 
@@ -112,13 +115,13 @@ export default function Contact() {
           className="text-center mb-12"
         >
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Contactez-
+            {t("contact.heading.pre")}
             <span className="bg-gradient-to-r from-[var(--accent-cyan)] to-[var(--accent-purple)] bg-clip-text text-transparent">
-              nous
+              {t("contact.heading.highlight")}
             </span>
           </h2>
           <p className="text-[var(--text-muted)] text-lg">
-            Discutons de votre prochaine campagne
+            {t("contact.subtitle")}
           </p>
         </motion.div>
 
@@ -133,7 +136,7 @@ export default function Contact() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             <div>
               <label htmlFor="name" className="block text-sm font-medium mb-2">
-                Nom *
+                {t("contact.form.name")}
               </label>
               <input
                 type="text"
@@ -142,12 +145,12 @@ export default function Contact() {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-4 py-3 text-white placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] transition-colors"
-                placeholder="Votre nom"
+                placeholder={t("contact.form.namePlaceholder")}
               />
             </div>
             <div>
               <label htmlFor="email" className="block text-sm font-medium mb-2">
-                Email *
+                {t("contact.form.email")}
               </label>
               <input
                 type="email"
@@ -156,7 +159,7 @@ export default function Contact() {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-4 py-3 text-white placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] transition-colors"
-                placeholder="votre@email.com"
+                placeholder={t("contact.form.emailPlaceholder")}
               />
             </div>
           </div>
@@ -164,7 +167,7 @@ export default function Contact() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             <div>
               <label htmlFor="company" className="block text-sm font-medium mb-2">
-                Entreprise
+                {t("contact.form.company")}
               </label>
               <input
                 type="text"
@@ -172,12 +175,12 @@ export default function Contact() {
                 value={formData.company}
                 onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                 className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-4 py-3 text-white placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] transition-colors"
-                placeholder="Votre entreprise"
+                placeholder={t("contact.form.companyPlaceholder")}
               />
             </div>
             <div>
               <label htmlFor="campaignType" className="block text-sm font-medium mb-2">
-                Type de campagne *
+                {t("contact.form.campaignType")}
               </label>
               <select
                 id="campaignType"
@@ -187,11 +190,11 @@ export default function Contact() {
                 className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[var(--primary)] transition-colors"
               >
                 <option value="" disabled>
-                  Choisissez un type
+                  {t("contact.form.campaignTypePlaceholder")}
                 </option>
                 {CAMPAIGN_TYPES.map((type) => (
                   <option key={type} value={type}>
-                    {type}
+                    {t(`campaignType.${type}` as TranslationKey)}
                   </option>
                 ))}
               </select>
@@ -201,7 +204,7 @@ export default function Contact() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             <div>
               <label htmlFor="zone" className="block text-sm font-medium mb-2">
-                Zone(s) visée(s)
+                {t("contact.form.zone")}
               </label>
               <input
                 type="text"
@@ -209,12 +212,12 @@ export default function Contact() {
                 value={formData.zone}
                 onChange={(e) => setFormData({ ...formData, zone: e.target.value })}
                 className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-4 py-3 text-white placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] transition-colors"
-                placeholder="ex : Lyon, Bordeaux, Île-de-France..."
+                placeholder={t("contact.form.zonePlaceholder")}
               />
             </div>
             <div>
               <label htmlFor="period" className="block text-sm font-medium mb-2">
-                Période souhaitée
+                {t("contact.form.period")}
               </label>
               <input
                 type="text"
@@ -222,14 +225,14 @@ export default function Contact() {
                 value={formData.period}
                 onChange={(e) => setFormData({ ...formData, period: e.target.value })}
                 className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-4 py-3 text-white placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] transition-colors"
-                placeholder="ex : 4 semaines, octobre 2026"
+                placeholder={t("contact.form.periodPlaceholder")}
               />
             </div>
           </div>
 
           <div className="mb-4">
             <label htmlFor="budget" className="block text-sm font-medium mb-2">
-              Budget indicatif
+              {t("contact.form.budget")}
             </label>
             <select
               id="budget"
@@ -239,7 +242,7 @@ export default function Contact() {
             >
               {BUDGET_RANGES.map((range) => (
                 <option key={range} value={range}>
-                  {range}
+                  {t(`budgetRange.${range}` as TranslationKey)}
                 </option>
               ))}
             </select>
@@ -247,7 +250,7 @@ export default function Contact() {
 
           <div className="mb-6">
             <label htmlFor="message" className="block text-sm font-medium mb-2">
-              Message *
+              {t("contact.form.message")}
             </label>
             <textarea
               id="message"
@@ -256,7 +259,7 @@ export default function Contact() {
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-4 py-3 text-white placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] transition-colors resize-none"
-              placeholder="Décrivez votre projet..."
+              placeholder={t("contact.form.messagePlaceholder")}
             />
           </div>
 
@@ -276,29 +279,29 @@ export default function Contact() {
             {status === "loading" ? (
               <>
                 <Loader2 size={18} className="animate-spin" />
-                <span>Envoi en cours...</span>
+                <span>{t("contact.form.sending")}</span>
               </>
             ) : status === "success" ? (
               <>
                 <CheckCircle size={18} />
-                <span>Message envoyé !</span>
+                <span>{t("contact.form.sent")}</span>
               </>
             ) : status === "error" ? (
               <>
                 <AlertCircle size={18} />
-                <span>Réessayer</span>
+                <span>{t("contact.form.retry")}</span>
               </>
             ) : (
               <>
                 <Send size={18} />
-                <span>Envoyer</span>
+                <span>{t("contact.form.send")}</span>
               </>
             )}
           </motion.button>
 
           {status === "error" && (
             <p className="mt-3 text-center text-red-400 text-sm">
-              Une erreur est survenue. Veuillez réessayer.
+              {t("contact.form.error")}
             </p>
           )}
         </motion.form>

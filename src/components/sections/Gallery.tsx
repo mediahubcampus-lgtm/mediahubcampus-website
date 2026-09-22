@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { blurRevealVariants } from "@/lib/useScrollAnimations";
+import { useLanguage } from "@/context/LanguageContext";
 
 // Easing curve
 const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
@@ -49,6 +50,7 @@ const GALLERY_PHOTOS = [
 ];
 
 export default function Gallery() {
+  const { t } = useLanguage();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -87,13 +89,13 @@ export default function Gallery() {
           className="text-center mb-12"
         >
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Nos{" "}
+            {t("gallery.heading.pre")}{" "}
             <span className="bg-gradient-to-r from-[var(--accent-cyan)] to-[var(--accent-purple)] bg-clip-text text-transparent">
-              Réalisations
+              {t("gallery.heading.highlight")}
             </span>
           </h2>
           <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
-            Aperçu de nos campagnes et opérations terrain
+            {t("gallery.subtitle")}
           </p>
         </motion.div>
 
@@ -136,7 +138,7 @@ export default function Gallery() {
           <button
             onClick={(e) => { e.stopPropagation(); goToPrevious(); }}
             className="absolute left-0 sm:-left-4 top-1/2 -translate-y-1/2 z-10 bg-white text-[var(--bg-dark)] hover:bg-[var(--primary)] hover:text-white p-3 sm:p-4 rounded-full shadow-xl transition-all hover:scale-110 flex items-center justify-center"
-            aria-label="Photo précédente"
+            aria-label={t("gallery.previous")}
           >
             <ChevronLeft size={26} />
           </button>
@@ -145,7 +147,7 @@ export default function Gallery() {
           <button
             onClick={(e) => { e.stopPropagation(); goToNext(); }}
             className="absolute right-0 sm:-right-4 top-1/2 -translate-y-1/2 z-10 bg-white text-[var(--bg-dark)] hover:bg-[var(--primary)] hover:text-white p-3 sm:p-4 rounded-full shadow-xl transition-all hover:scale-110 flex items-center justify-center"
-            aria-label="Photo suivante"
+            aria-label={t("gallery.next")}
           >
             <ChevronRight size={26} />
           </button>
@@ -162,7 +164,7 @@ export default function Gallery() {
                   ? "ring-2 ring-[var(--accent-cyan)] opacity-100 scale-105"
                   : "opacity-50 hover:opacity-80"
               }`}
-              aria-label={`Voir la photo ${index + 1}`}
+              aria-label={t("gallery.viewPhoto", { n: index + 1 })}
             >
               <Image
                 src={photo.src}
@@ -177,7 +179,7 @@ export default function Gallery() {
 
         {/* Photo counter */}
         <p className="text-center text-[var(--text-muted)] text-sm mt-4">
-          {total} photos • Cliquez sur les flèches ou les vignettes pour naviguer
+          {t("gallery.footer", { count: total })}
         </p>
       </div>
 

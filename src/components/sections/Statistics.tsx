@@ -5,6 +5,8 @@ import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import { STATS } from "@/lib/constants";
 import { useMascots } from "@/context/MascotContext";
+import { useLanguage } from "@/context/LanguageContext";
+import type { TranslationKey } from "@/lib/i18n/translations";
 
 // Easing curve
 const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
@@ -78,6 +80,7 @@ const itemVariants = {
 
 export default function Statistics() {
   const { MASCOTS } = useMascots();
+  const { t } = useLanguage();
 
   return (
     <div className="relative">
@@ -93,13 +96,13 @@ export default function Statistics() {
           className="text-center mb-16 relative"
         >
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Nos{" "}
+            {t("statistics.heading.pre")}{" "}
             <span className="bg-gradient-to-r from-[var(--accent-cyan)] to-[var(--accent-purple)] bg-clip-text text-transparent">
-              Chiffres Clés
+              {t("statistics.heading.highlight")}
             </span>
           </h2>
           <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
-            Le plus vaste réseau d&apos;affichage au cœur des campus français
+            {t("statistics.subtitle")}
           </p>
           {/* Mascot - Desktop */}
           {MASCOTS.statistics && (
@@ -148,7 +151,7 @@ export default function Statistics() {
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
         >
-          {STATS.map((stat) => (
+          {STATS.map((stat, i) => (
             <motion.div
               key={stat.label}
               variants={itemVariants}
@@ -161,7 +164,9 @@ export default function Statistics() {
                   decimals={stat.decimals}
                 />
               </div>
-              <div className="text-[var(--text-muted)]">{stat.label}</div>
+              <div className="text-[var(--text-muted)]">
+                {t(`stats.${i}.label` as TranslationKey)}
+              </div>
             </motion.div>
           ))}
         </motion.div>

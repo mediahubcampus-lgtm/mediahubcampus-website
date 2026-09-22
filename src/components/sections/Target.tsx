@@ -9,6 +9,8 @@ import {
   STUDENT_INTERESTS,
 } from "@/lib/constants";
 import { useMascots } from "@/context/MascotContext";
+import { useLanguage } from "@/context/LanguageContext";
+import type { TranslationKey } from "@/lib/i18n/translations";
 import {
   blurRevealVariants,
   staggerContainerVariants,
@@ -22,6 +24,7 @@ const demographicIcons = [Users, Clock, ShoppingBag, Dumbbell];
 
 export default function Target() {
   const { MASCOTS } = useMascots();
+  const { t } = useLanguage();
 
   return (
     <section id="cible" className="py-20">
@@ -34,13 +37,13 @@ export default function Target() {
           className="text-center mb-16 relative"
         >
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Notre{" "}
+            {t("target.heading.pre")}{" "}
             <span className="bg-gradient-to-r from-[var(--accent-cyan)] to-[var(--accent-purple)] bg-clip-text text-transparent">
-              Cible
+              {t("target.heading.highlight")}
             </span>
           </h2>
           <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
-            Qui sont les étudiants ? Leurs habitudes et centres d&apos;intérêts
+            {t("target.subtitle")}
           </p>
           {/* Mascot student - Desktop */}
           {MASCOTS.target && (
@@ -105,7 +108,7 @@ export default function Target() {
                   {item.value}
                 </div>
                 <div className="text-[var(--text-muted)] text-sm">
-                  {item.label}
+                  {t(`target.demographics.${index}.label` as TranslationKey)}
                 </div>
               </motion.div>
             );
@@ -123,13 +126,13 @@ export default function Target() {
             transition={{ duration: 0.7, ease: easeOutQuart }}
             className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6"
           >
-            <h3 className="text-xl font-semibold mb-6">Leurs habitudes</h3>
+            <h3 className="text-xl font-semibold mb-6">{t("target.habits.title")}</h3>
             <div className="space-y-4">
-              {STUDENT_HABITS.map((item) => (
+              {STUDENT_HABITS.map((item, index) => (
                 <div key={item.habit}>
                   <div className="flex justify-between mb-1">
                     <span className="text-[var(--text-muted)] text-sm">
-                      {item.habit}
+                      {t(`target.habits.${index}` as TranslationKey)}
                     </span>
                     <span className="text-[var(--accent-cyan)] font-semibold">
                       {item.percentage}%
@@ -148,7 +151,7 @@ export default function Target() {
               ))}
             </div>
             <p className="text-[var(--text-muted)] text-xs mt-4">
-              Source : étude Iligo x DYL / 2023
+              {t("target.habits.source")}
             </p>
           </motion.div>
 
@@ -161,7 +164,7 @@ export default function Target() {
             className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6"
           >
             <h3 className="text-xl font-semibold mb-6">
-              Centres d&apos;intérêts
+              {t("target.interests.title")}
             </h3>
             <motion.div
               className="grid grid-cols-2 gap-4"
@@ -170,7 +173,7 @@ export default function Target() {
               whileInView="visible"
               viewport={{ once: true }}
             >
-              {STUDENT_INTERESTS.map((item) => (
+              {STUDENT_INTERESTS.map((item, index) => (
                 <motion.div
                   key={item.interest}
                   variants={staggerItemVariants}
@@ -180,7 +183,7 @@ export default function Target() {
                     {item.percentage}%
                   </div>
                   <div className="text-[var(--text-muted)] text-sm">
-                    {item.interest}
+                    {t(`target.interests.${index}` as TranslationKey)}
                   </div>
                 </motion.div>
               ))}

@@ -12,15 +12,17 @@ import {
   NetworkType,
 } from "@/lib/quote-calculator";
 import { BUDGET_RANGES } from "@/lib/constants";
+import { useLanguage } from "@/context/LanguageContext";
+import type { TranslationKey } from "@/lib/i18n/translations";
 
 const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
 
 const DUREE_OPTIONS = [4, 8, 12, 16, 24, 52];
 
-const NETWORK_OPTIONS: { value: NetworkType; label: string }[] = [
-  { value: "universites", label: "Universités" },
-  { value: "lycees", label: "Lycées" },
-  { value: "both", label: "Les deux" },
+const NETWORK_OPTIONS: { value: NetworkType; labelKey: TranslationKey }[] = [
+  { value: "universites", labelKey: "simulator.network.universites" },
+  { value: "lycees", labelKey: "simulator.network.lycees" },
+  { value: "both", labelKey: "simulator.network.both" },
 ];
 
 function budgetRangeForAmount(amount: number): string {
@@ -31,6 +33,7 @@ function budgetRangeForAmount(amount: number): string {
 }
 
 export default function QuoteSimulator() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [selectedZones, setSelectedZones] = useState<string[]>([]);
@@ -158,14 +161,13 @@ export default function QuoteSimulator() {
           className="text-center mb-12"
         >
           <h1 className="text-3xl sm:text-4xl font-bold mb-4">
-            Simulateur de{" "}
+            {t("simulator.heading.pre")}{" "}
             <span className="bg-gradient-to-r from-[var(--accent-cyan)] to-[var(--accent-purple)] bg-clip-text text-transparent">
-              Devis
+              {t("simulator.heading.highlight")}
             </span>
           </h1>
           <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
-            Sélectionnez votre réseau, vos zones et la durée de campagne pour
-            obtenir une estimation budgétaire immédiate.
+            {t("simulator.subtitle")}
           </p>
         </motion.div>
 
@@ -174,10 +176,11 @@ export default function QuoteSimulator() {
           <div className="lg:col-span-2 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 sm:p-8">
             <div className="flex items-center justify-between gap-4 mb-4 flex-wrap">
               <h2 className="text-xl font-semibold">
-                Zones{" "}
+                {t("simulator.zones.title")}{" "}
                 <span className="text-[var(--text-muted)] font-normal text-base">
-                  ({selectedZones.length} sélectionnée
-                  {selectedZones.length > 1 ? "s" : ""})
+                  {selectedZones.length > 1
+                    ? t("simulator.zones.selected.other", { count: selectedZones.length })
+                    : t("simulator.zones.selected.one", { count: selectedZones.length })}
                 </span>
               </h2>
               {selectedZones.length > 0 && (
@@ -186,7 +189,7 @@ export default function QuoteSimulator() {
                   className="text-sm text-[var(--text-muted)] hover:text-white transition-colors inline-flex items-center gap-1"
                 >
                   <X size={14} />
-                  Tout désélectionner
+                  {t("simulator.zones.deselectAll")}
                 </button>
               )}
             </div>
@@ -211,7 +214,7 @@ export default function QuoteSimulator() {
               </span>
               <Globe size={18} className="shrink-0" />
               <span className="font-medium">
-                France entière — sélectionner les 60 zones
+                {t("simulator.zones.franceEntiere")}
               </span>
             </button>
 
@@ -224,7 +227,7 @@ export default function QuoteSimulator() {
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Rechercher une ville..."
+                placeholder={t("simulator.zones.searchPlaceholder")}
                 className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg pl-10 pr-4 py-2.5 text-white placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] transition-colors"
               />
             </div>
@@ -266,7 +269,7 @@ export default function QuoteSimulator() {
               ))}
               {regions.length === 0 && (
                 <p className="text-[var(--text-muted)] text-sm text-center py-8">
-                  Aucune ville ne correspond à votre recherche.
+                  {t("simulator.zones.noResults")}
                 </p>
               )}
             </div>
@@ -275,11 +278,11 @@ export default function QuoteSimulator() {
           {/* Results panel */}
           <div className="lg:col-span-1">
             <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 sm:p-8 lg:sticky lg:top-24">
-              <h2 className="text-xl font-semibold mb-4">Votre estimation</h2>
+              <h2 className="text-xl font-semibold mb-4">{t("simulator.results.title")}</h2>
 
               {/* Réseau */}
               <div className="mb-5">
-                <label className="block text-sm font-medium mb-2">Réseau</label>
+                <label className="block text-sm font-medium mb-2">{t("simulator.results.network")}</label>
                 <div className="grid grid-cols-3 gap-2">
                   {NETWORK_OPTIONS.map((opt) => (
                     <button
@@ -291,7 +294,7 @@ export default function QuoteSimulator() {
                           : "bg-[var(--bg-dark)] border-[var(--card-border)] text-[var(--text-muted)] hover:border-[var(--primary)]/50 hover:text-white"
                       }`}
                     >
-                      {opt.label}
+                      {t(opt.labelKey)}
                     </button>
                   ))}
                 </div>
@@ -300,7 +303,7 @@ export default function QuoteSimulator() {
               {/* Durée */}
               <div className="mb-6">
                 <label className="block text-sm font-medium mb-2">
-                  Durée de campagne
+                  {t("simulator.duration.title")}
                 </label>
                 <div className="grid grid-cols-3 gap-2 mb-2">
                   {DUREE_OPTIONS.map((d) => (
@@ -313,7 +316,7 @@ export default function QuoteSimulator() {
                           : "bg-[var(--bg-dark)] border-[var(--card-border)] text-[var(--text-muted)] hover:border-[var(--primary)]/50 hover:text-white"
                       }`}
                     >
-                      {d} sem.
+                      {d} {t("simulator.duration.weeksShort")}
                     </button>
                   ))}
                 </div>
@@ -328,20 +331,22 @@ export default function QuoteSimulator() {
                     className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg pl-4 pr-24 py-2.5 text-white focus:outline-none focus:border-[var(--primary)] transition-colors"
                   />
                   <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)] text-sm pointer-events-none">
-                    semaine{dureeSemaines > 1 ? "s" : ""}
+                    {dureeSemaines > 1
+                      ? t("simulator.duration.week.other", { count: dureeSemaines })
+                      : t("simulator.duration.week.one", { count: dureeSemaines })}
                   </span>
                 </div>
               </div>
 
               {selectedZones.length === 0 ? (
                 <p className="text-[var(--text-muted)] text-sm py-6 text-center">
-                  Sélectionnez au moins une zone pour voir votre estimation.
+                  {t("simulator.results.selectZone")}
                 </p>
               ) : (
                 <div className="space-y-3 mb-6">
                   <div className="flex justify-between text-sm">
                     <span className="text-[var(--text-muted)]">
-                      Audience cumulée
+                      {t("simulator.results.audience")}
                     </span>
                     <span className="font-medium">
                       {formatNumber(result.audienceCumulee)}
@@ -350,7 +355,7 @@ export default function QuoteSimulator() {
                   {network !== "lycees" && (
                     <div className="flex justify-between text-sm">
                       <span className="text-[var(--text-muted)]">
-                        Occasions de voir
+                        {t("simulator.results.ots")}
                       </span>
                       <span className="font-medium">
                         {formatNumber(result.odvCumules)}
@@ -359,7 +364,7 @@ export default function QuoteSimulator() {
                   )}
                   <div className="flex justify-between text-sm">
                     <span className="text-[var(--text-muted)]">
-                      Affiches A2
+                      {t("simulator.results.panels")}
                     </span>
                     <span className="font-medium">
                       {formatNumber(result.nbAffichesCumule)}
@@ -370,7 +375,7 @@ export default function QuoteSimulator() {
 
                   <div className="flex justify-between text-sm">
                     <span className="text-[var(--text-muted)]">
-                      Sous-total HT
+                      {t("simulator.results.subtotal")}
                     </span>
                     <span className="font-medium">
                       {formatEUR(result.sousTotalHT)}
@@ -379,7 +384,7 @@ export default function QuoteSimulator() {
                   {result.tauxRemise > 0 && (
                     <div className="flex justify-between text-sm text-[var(--accent-cyan)]">
                       <span>
-                        Remise dégressive (-{Math.round(result.tauxRemise * 100)}%)
+                        {t("simulator.results.discount", { pct: Math.round(result.tauxRemise * 100) })}
                       </span>
                       <span className="font-medium">
                         -{formatEUR(result.montantRemise)}
@@ -391,14 +396,14 @@ export default function QuoteSimulator() {
 
                   {/* Budget HT mis en avant */}
                   <div className="flex justify-between items-baseline">
-                    <span className="font-semibold">Budget HT</span>
+                    <span className="font-semibold">{t("simulator.results.budgetHT")}</span>
                     <span className="text-3xl font-bold text-[var(--accent-cyan)]">
                       {formatEUR(result.budgetHTNet)}
                     </span>
                   </div>
                   <div className="flex justify-between text-xs text-[var(--text-muted)]">
-                    <span>dont TVA (20%) : {formatEUR(result.tva)}</span>
-                    <span>TTC : {formatEUR(result.budgetTTC)}</span>
+                    <span>{t("simulator.results.vat", { amount: formatEUR(result.tva) })}</span>
+                    <span>{t("simulator.results.ttc", { amount: formatEUR(result.budgetTTC) })}</span>
                   </div>
                 </div>
               )}
@@ -412,38 +417,30 @@ export default function QuoteSimulator() {
                   className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold bg-[var(--primary)] hover:bg-[var(--primary-hover)] disabled:opacity-40 disabled:cursor-not-allowed text-white transition-colors"
                 >
                   <Send size={18} />
-                  <span>Demander ce devis</span>
+                  <span>{t("simulator.results.requestQuote")}</span>
                 </motion.button>
                 <button
                   onClick={handleCopySummary}
                   disabled={selectedZones.length === 0}
                   className="w-full text-sm text-[var(--text-muted)] hover:text-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors py-2"
                 >
-                  {copied ? "Résumé copié !" : "Copier le résumé"}
+                  {copied ? t("simulator.results.copied") : t("simulator.results.copySummary")}
                 </button>
               </div>
 
               <p className="text-xs text-[var(--text-muted)] mt-4">
-                Estimation indicative, hors coefficient catégorie de lieu et
-                conditions commerciales spécifiques. Un devis définitif vous
-                sera transmis par notre équipe.
+                {t("simulator.results.disclaimer")}
               </p>
 
               {/* Informations complémentaires regroupées */}
               <div className="mt-4 bg-[var(--bg-dark)]/40 border border-[var(--card-border)] rounded-xl p-3.5 space-y-2">
                 <div className="flex gap-2 text-xs text-[var(--text-muted)]">
                   <Info size={14} className="shrink-0 mt-0.5 text-[var(--accent-cyan)]" />
-                  <span>
-                    Un ciblage par discipline ou filière est aussi possible —
-                    précisez-le dans votre demande de devis.
-                  </span>
+                  <span>{t("simulator.info.targeting")}</span>
                 </div>
                 <div className="flex gap-2 text-xs text-[var(--text-muted)]">
                   <Info size={14} className="shrink-0 mt-0.5 text-[var(--accent-cyan)]" />
-                  <span>
-                    Le détail du réseau d&apos;affichage (établissements et
-                    emplacements précis) vous sera transmis avec le devis.
-                  </span>
+                  <span>{t("simulator.info.network")}</span>
                 </div>
               </div>
             </div>
