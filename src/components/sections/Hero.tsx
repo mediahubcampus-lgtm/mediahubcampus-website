@@ -66,22 +66,29 @@ export default function Hero() {
           className="absolute inset-0 w-full h-[120%]"
           style={{ y: smoothBgY, scale: bgScale }}
         >
-          {/* Mobile background image */}
+          {/* Mobile background image — prioritaire : c'est l'image LCP sur mobile */}
           <Image
             src="/images/Photos de première page.jpeg"
             alt="Campus universitaire"
             fill
+            sizes="100vw"
+            quality={70}
             className="object-cover md:hidden"
             style={{ objectPosition: "left top" }}
             priority
           />
-          {/* Desktop background image */}
+          {/* Desktop background image — chargement "eager" (sans priority)
+              pour rester visible immédiatement sur desktop, sans forcer un
+              <link rel="preload"> qui la téléchargeait aussi sur mobile en
+              plus de l'image mobile, doublant le poids au chargement initial */}
           <Image
             src="/images/gallery/Photos MediaHub Campus - 17.jpeg"
             alt="Campus universitaire"
             fill
+            sizes="100vw"
+            quality={70}
             className="object-cover object-center hidden md:block"
-            priority
+            loading="eager"
           />
           {/* Dark overlay gradient */}
           <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg-dark)]/80 via-[var(--bg-dark)]/70 to-[var(--bg-dark)]" />
