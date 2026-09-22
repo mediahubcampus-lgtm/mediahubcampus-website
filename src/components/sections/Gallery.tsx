@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
@@ -9,81 +9,76 @@ import { blurRevealVariants } from "@/lib/useScrollAnimations";
 // Easing curve
 const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
 
-// All gallery photos from our campaign images
+// Photos mises en avant : campagnes campus, lycées et opérations événementielles
 const GALLERY_PHOTOS = [
   { src: "/images/gallery/Photos MediaHub Campus - 1.JPG", alt: "Campagne affichage campus 1" },
-  { src: "/images/gallery/Photos MediaHub Campus - 2.JPG", alt: "Campagne affichage campus 2" },
-  { src: "/images/gallery/Photos MediaHub Campus - 3.jpg", alt: "Campagne affichage campus 3" },
+  { src: "/images/gallery/Photos ICN V2 2026 - 117.jpeg", alt: "Campagne affichage ICN Business School" },
+  { src: "/images/gallery/Illustrations Campagne Lycees - 7.jpeg", alt: "Campagne affichage lycées" },
   { src: "/images/gallery/Photos MediaHub Campus - 4.jpg", alt: "Campagne affichage campus 4" },
-  { src: "/images/gallery/Photos MediaHub Campus - 5.jpeg", alt: "Campagne affichage campus 5" },
-  { src: "/images/gallery/Photos MediaHub Campus - 6.jpeg", alt: "Campagne affichage campus 6" },
+  { src: "/images/gallery/Photos 2 - Distribution Kurokawa - 69.jpeg", alt: "Distribution événementielle Kurokawa" },
+  { src: "/images/gallery/Photos Polyf Quai Branly - 77.jpeg", alt: "Campagne affichage Quai Branly" },
   { src: "/images/gallery/Photos MediaHub Campus - 7.jpeg", alt: "Campagne affichage campus 7" },
-  { src: "/images/gallery/Photos MediaHub Campus - 8.jpeg", alt: "Campagne affichage campus 8" },
-  { src: "/images/gallery/Photos MediaHub Campus - 9.jpeg", alt: "Campagne affichage campus 9" },
+  { src: "/images/gallery/Illustrations Campagne Lycees - 14.jpeg", alt: "Campagne affichage lycées" },
+  { src: "/images/gallery/Photos V1 Kurokawa - 94.jpg", alt: "Distribution événementielle Kurokawa" },
+  { src: "/images/gallery/Photos V2 ENM Concours 2026 - 56.jpeg", alt: "Campagne affichage ENM Concours" },
   { src: "/images/gallery/Photos MediaHub Campus - 10.jpeg", alt: "Campagne affichage campus 10" },
-  { src: "/images/gallery/Photos MediaHub Campus - 11.jpeg", alt: "Campagne affichage campus 11" },
-  { src: "/images/gallery/Photos MediaHub Campus - 12.jpeg", alt: "Campagne affichage campus 12" },
+  { src: "/images/gallery/Illustrations Campagne Lycees - 19.jpeg", alt: "Campagne affichage lycées" },
+  { src: "/images/gallery/Photos V2 EF - 2.jpeg", alt: "Campagne affichage EF" },
+  { src: "/images/gallery/Photos V1 Kurokawa - 82.jpg", alt: "Distribution événementielle Kurokawa" },
+  { src: "/images/gallery/Photos FormaSup Med - 23.jpeg", alt: "Campagne affichage FormaSup Méditerranée" },
   { src: "/images/gallery/Photos MediaHub Campus - 13.jpeg", alt: "Campagne affichage campus 13" },
-  { src: "/images/gallery/Photos MediaHub Campus - 14.jpeg", alt: "Campagne affichage campus 14" },
-  { src: "/images/gallery/Photos MediaHub Campus - 15.jpeg", alt: "Campagne affichage campus 15" },
+  { src: "/images/gallery/Illustrations Campagne Lycees - 22.jpeg", alt: "Campagne affichage lycées" },
+  { src: "/images/gallery/Photos LCL V1 - 217.jpeg", alt: "Campagne affichage LCL" },
+  { src: "/images/gallery/Photos 2 - Distribution Kurokawa - 59.jpeg", alt: "Distribution événementielle Kurokawa" },
   { src: "/images/gallery/Photos MediaHub Campus - 16.jpeg", alt: "Campagne affichage campus 16" },
-  { src: "/images/gallery/Photos MediaHub Campus - 17.jpeg", alt: "Campagne affichage campus 17" },
-  { src: "/images/gallery/Photos MediaHub Campus - 18.jpeg", alt: "Campagne affichage campus 18" },
+  { src: "/images/gallery/Photos EDC - MediaHub Campus - 97.jpeg", alt: "Campagne affichage EDC" },
+  { src: "/images/gallery/Illustrations Campagne Lycees - 6.jpeg", alt: "Campagne affichage lycées" },
   { src: "/images/gallery/Photos MediaHub Campus - 19.jpeg", alt: "Campagne affichage campus 19" },
-  { src: "/images/gallery/Photos MediaHub Campus - 20.jpeg", alt: "Campagne affichage campus 20" },
-  { src: "/images/gallery/Photos MediaHub Campus - 21.jpeg", alt: "Campagne affichage campus 21" },
+  { src: "/images/gallery/Photos OPM CdRV - 14.jpeg", alt: "Campagne affichage Orchestre de Paris" },
+  { src: "/images/gallery/Photos V1 Kurokawa - 114.jpg", alt: "Distribution événementielle Kurokawa" },
   { src: "/images/gallery/Photos MediaHub Campus - 22.jpeg", alt: "Campagne affichage campus 22" },
-  { src: "/images/gallery/Photos MediaHub Campus - 23.jpeg", alt: "Campagne affichage campus 23" },
-  { src: "/images/gallery/Photos MediaHub Campus - 24.jpeg", alt: "Campagne affichage campus 24" },
+  { src: "/images/gallery/Top Photos CCOOP - 24.jpeg", alt: "Campagne affichage CCOOP" },
+  { src: "/images/gallery/Illustrations Campagne Lycees - 23.jpeg", alt: "Campagne affichage lycées" },
   { src: "/images/gallery/Photos MediaHub Campus - 25.jpeg", alt: "Campagne affichage campus 25" },
-  { src: "/images/gallery/Photos MediaHub Campus - 26.jpeg", alt: "Campagne affichage campus 26" },
-  { src: "/images/gallery/Photos MediaHub Campus - 27.jpeg", alt: "Campagne affichage campus 27" },
+  { src: "/images/gallery/Photos Polyf - Rock en Seine 2026 - 134.jpeg", alt: "Campagne affichage Rock en Seine" },
+  { src: "/images/gallery/Photos 2 - Distribution Kurokawa - 213.jpeg", alt: "Distribution événementielle Kurokawa" },
   { src: "/images/gallery/Photos MediaHub Campus - 28.jpeg", alt: "Campagne affichage campus 28" },
-  { src: "/images/gallery/Photos MediaHub Campus - 29.jpeg", alt: "Campagne affichage campus 29" },
-  { src: "/images/gallery/Photos MediaHub Campus - 30.jpeg", alt: "Campagne affichage campus 30" },
   { src: "/images/gallery/Photos MediaHub Campus - 31.jpeg", alt: "Campagne affichage campus 31" },
-  { src: "/images/gallery/Photos MediaHub Campus - 32.jpeg", alt: "Campagne affichage campus 32" },
-  { src: "/images/gallery/Photos MediaHub Campus - 33.jpeg", alt: "Campagne affichage campus 33" },
   { src: "/images/gallery/Photos MediaHub Campus - 34.jpeg", alt: "Campagne affichage campus 34" },
-  { src: "/images/gallery/Photos MediaHub Campus - 35.jpeg", alt: "Campagne affichage campus 35" },
-  { src: "/images/gallery/Photos MediaHub Campus - 36.jpg", alt: "Campagne affichage campus 36" },
   { src: "/images/gallery/Photos MediaHub Campus - 37.jpg", alt: "Campagne affichage campus 37" },
 ];
 
 export default function Gallery() {
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
-  const openLightbox = (index: number) => setSelectedIndex(index);
-  const closeLightbox = () => setSelectedIndex(null);
+  const total = GALLERY_PHOTOS.length;
 
   const goToPrevious = () => {
-    if (selectedIndex !== null) {
-      setSelectedIndex(selectedIndex === 0 ? GALLERY_PHOTOS.length - 1 : selectedIndex - 1);
-    }
+    setDirection(-1);
+    setCurrentIndex((prev) => (prev === 0 ? total - 1 : prev - 1));
   };
 
   const goToNext = () => {
-    if (selectedIndex !== null) {
-      setSelectedIndex(selectedIndex === GALLERY_PHOTOS.length - 1 ? 0 : selectedIndex + 1);
-    }
+    setDirection(1);
+    setCurrentIndex((prev) => (prev === total - 1 ? 0 : prev + 1));
   };
 
-  const scrollLeft = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: -600, behavior: "smooth" });
-    }
+  const goToIndex = (index: number) => {
+    setDirection(index > currentIndex ? 1 : -1);
+    setCurrentIndex(index);
   };
 
-  const scrollRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: 600, behavior: "smooth" });
-    }
+  const slideVariants = {
+    enter: (dir: number) => ({ opacity: 0, x: dir > 0 ? 100 : -100, scale: 0.96 }),
+    center: { opacity: 1, x: 0, scale: 1 },
+    exit: (dir: number) => ({ opacity: 0, x: dir > 0 ? -100 : 100, scale: 0.96 }),
   };
 
   return (
     <section id="gallery" className="py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           variants={blurRevealVariants}
           initial="hidden"
@@ -102,80 +97,104 @@ export default function Gallery() {
           </p>
         </motion.div>
 
-        {/* Horizontal Scroll Gallery with 2 rows */}
+        {/* Main large carousel */}
         <div className="relative">
-          {/* Left Arrow */}
-          <button
-            onClick={scrollLeft}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-[var(--bg-dark)]/80 hover:bg-[var(--primary)] text-white p-3 rounded-full shadow-lg transition-colors hidden md:flex items-center justify-center"
-            aria-label="Scroll left"
-          >
-            <ChevronLeft size={24} />
-          </button>
-
-          {/* Scrollable Container - 2 rows */}
           <div
-            ref={scrollRef}
-            className="overflow-x-auto pb-4 scrollbar-hide -mx-4 px-4 md:mx-8"
+            className="relative aspect-[16/10] sm:aspect-[16/9] max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-2xl bg-[var(--card-bg)] cursor-pointer group"
+            onClick={() => setLightboxOpen(true)}
           >
-            <div className="grid grid-rows-2 grid-flow-col gap-3 auto-cols-[150px] sm:auto-cols-[180px] md:auto-cols-[220px]">
-              {GALLERY_PHOTOS.map((photo, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.9, filter: "blur(4px)" }}
-                  whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                  viewport={{ once: true }}
-                  transition={{
-                    duration: 0.5,
-                    delay: Math.min(index * 0.02, 0.3),
-                    ease: easeOutQuart
-                  }}
-                  className="aspect-[4/3] relative rounded-xl overflow-hidden cursor-pointer group"
-                  onClick={() => openLightbox(index)}
-                >
-                  <Image
-                    src={photo.src}
-                    alt={photo.alt}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-110"
-                    sizes="(max-width: 640px) 150px, (max-width: 768px) 180px, 220px"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
-                </motion.div>
-              ))}
+            <AnimatePresence initial={false} custom={direction} mode="popLayout">
+              <motion.div
+                key={currentIndex}
+                custom={direction}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.45, ease: easeOutQuart }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={GALLERY_PHOTOS[currentIndex].src}
+                  alt={GALLERY_PHOTOS[currentIndex].alt}
+                  fill
+                  priority
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 900px"
+                />
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Gradient overlay + counter */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute bottom-4 right-5 text-white/90 text-sm font-medium bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm">
+              {currentIndex + 1} / {total}
             </div>
           </div>
 
+          {/* Left Arrow */}
+          <button
+            onClick={(e) => { e.stopPropagation(); goToPrevious(); }}
+            className="absolute left-0 sm:-left-4 top-1/2 -translate-y-1/2 z-10 bg-white text-[var(--bg-dark)] hover:bg-[var(--primary)] hover:text-white p-3 sm:p-4 rounded-full shadow-xl transition-all hover:scale-110 flex items-center justify-center"
+            aria-label="Photo précédente"
+          >
+            <ChevronLeft size={26} />
+          </button>
+
           {/* Right Arrow */}
           <button
-            onClick={scrollRight}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-[var(--bg-dark)]/80 hover:bg-[var(--primary)] text-white p-3 rounded-full shadow-lg transition-colors hidden md:flex items-center justify-center"
-            aria-label="Scroll right"
+            onClick={(e) => { e.stopPropagation(); goToNext(); }}
+            className="absolute right-0 sm:-right-4 top-1/2 -translate-y-1/2 z-10 bg-white text-[var(--bg-dark)] hover:bg-[var(--primary)] hover:text-white p-3 sm:p-4 rounded-full shadow-xl transition-all hover:scale-110 flex items-center justify-center"
+            aria-label="Photo suivante"
           >
-            <ChevronRight size={24} />
+            <ChevronRight size={26} />
           </button>
         </div>
 
+        {/* Thumbnail strip */}
+        <div className="mt-6 flex gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide max-w-4xl mx-auto">
+          {GALLERY_PHOTOS.map((photo, index) => (
+            <button
+              key={index}
+              onClick={() => goToIndex(index)}
+              className={`relative shrink-0 w-16 h-12 sm:w-20 sm:h-14 rounded-lg overflow-hidden transition-all duration-200 ${
+                index === currentIndex
+                  ? "ring-2 ring-[var(--accent-cyan)] opacity-100 scale-105"
+                  : "opacity-50 hover:opacity-80"
+              }`}
+              aria-label={`Voir la photo ${index + 1}`}
+            >
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                fill
+                className="object-cover"
+                sizes="80px"
+              />
+            </button>
+          ))}
+        </div>
+
         {/* Photo counter */}
-        <p className="text-center text-[var(--text-muted)] text-sm mt-6">
-          {GALLERY_PHOTOS.length} photos • Faites défiler pour voir plus
+        <p className="text-center text-[var(--text-muted)] text-sm mt-4">
+          {total} photos • Cliquez sur les flèches ou les vignettes pour naviguer
         </p>
       </div>
 
       {/* Lightbox */}
       <AnimatePresence>
-        {selectedIndex !== null && (
+        {lightboxOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
-            onClick={closeLightbox}
+            onClick={() => setLightboxOpen(false)}
           >
             {/* Close button */}
             <button
               className="absolute top-4 right-4 text-white/80 hover:text-white p-2 z-10"
-              onClick={closeLightbox}
+              onClick={() => setLightboxOpen(false)}
             >
               <X size={32} />
             </button>
@@ -190,7 +209,7 @@ export default function Gallery() {
 
             {/* Image */}
             <motion.div
-              key={selectedIndex}
+              key={currentIndex}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
@@ -198,8 +217,8 @@ export default function Gallery() {
               onClick={(e) => e.stopPropagation()}
             >
               <Image
-                src={GALLERY_PHOTOS[selectedIndex].src}
-                alt={GALLERY_PHOTOS[selectedIndex].alt}
+                src={GALLERY_PHOTOS[currentIndex].src}
+                alt={GALLERY_PHOTOS[currentIndex].alt}
                 fill
                 className="object-contain"
                 sizes="90vw"
@@ -217,7 +236,7 @@ export default function Gallery() {
 
             {/* Counter */}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/80 text-sm">
-              {selectedIndex + 1} / {GALLERY_PHOTOS.length}
+              {currentIndex + 1} / {total}
             </div>
           </motion.div>
         )}

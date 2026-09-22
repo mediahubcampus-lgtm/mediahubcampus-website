@@ -90,7 +90,7 @@ export default function Services() {
             </motion.div>
           )}
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10"
+            className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto relative z-10"
             variants={staggerContainerVariants}
             initial="hidden"
             whileInView="visible"
@@ -102,10 +102,10 @@ export default function Services() {
                 <motion.div
                   key={service.id}
                   variants={staggerItemVariants}
-                  className="group bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl overflow-hidden hover:border-[var(--primary)] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-[var(--primary)]/10"
+                  className="group bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl overflow-hidden hover:border-[var(--primary)] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[var(--primary)]/10 aspect-square flex flex-col"
                 >
                   {/* Service image */}
-                  <div className="relative h-40 overflow-hidden">
+                  <div className="relative flex-1 min-h-0 overflow-hidden">
                     <Image
                       src={service.image}
                       alt={service.title}
@@ -114,17 +114,17 @@ export default function Services() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[var(--card-bg)] to-transparent" />
                     {/* Icon overlay */}
-                    <div className="absolute bottom-3 left-4 w-10 h-10 bg-[var(--primary)] rounded-xl flex items-center justify-center shadow-lg">
+                    <div className="absolute bottom-3 left-4 w-12 h-12 bg-[var(--primary)] rounded-xl flex items-center justify-center shadow-lg">
                       {Icon && (
                         <Icon
-                          size={20}
+                          size={24}
                           className="text-white"
                         />
                       )}
                     </div>
                   </div>
-                  <div className="p-5">
-                    <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
+                  <div className="p-6">
+                    <h3 className="text-2xl font-semibold mb-2">{service.title}</h3>
                     <p className="text-[var(--text-muted)] text-sm leading-relaxed">
                       {service.description}
                     </p>
