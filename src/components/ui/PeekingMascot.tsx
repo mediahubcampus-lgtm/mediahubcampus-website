@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useMascots } from "@/context/MascotContext";
+import { useLanguage } from "@/context/LanguageContext";
 
 const PEEK_INTERVAL = 8000; // Time between peeks (ms)
 const PEEK_DURATION = 3000; // How long the cat stays peeking (ms)
@@ -83,6 +84,7 @@ const getPositionStyles = (position: PeekPosition) => {
 
 export default function PeekingMascot() {
   const { mascotsEnabled, toggleMascots } = useMascots();
+  const { t } = useLanguage();
   const [isPeeking, setIsPeeking] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
@@ -171,7 +173,7 @@ export default function PeekingMascot() {
               rotate: { duration: 0.5, repeat: 2 },
             }}
             whileHover={positionStyles.hover}
-            title="Voir les mascottes !"
+            title={t("mascot.show")}
           >
             <div className="relative">
               <Image
@@ -189,7 +191,7 @@ export default function PeekingMascot() {
                   isLeftSide ? "-right-20" : "-left-20"
                 }`}
               >
-                Clique-moi !
+                {t("mascot.clickMe")}
                 <div
                   className={`absolute -bottom-1 w-3 h-3 bg-white transform rotate-45 ${
                     isLeftSide ? "left-4" : "right-4"
@@ -205,7 +207,7 @@ export default function PeekingMascot() {
       <button
         onClick={handleClick}
         className="fixed z-[9999] bottom-4 right-4 block lg:hidden"
-        title={mascotsEnabled ? "Cacher les mascottes" : "Voir les mascottes !"}
+        title={mascotsEnabled ? t("mascot.hide") : t("mascot.show")}
       >
         <div className="relative">
           <div className={`p-2 rounded-full ${mascotsEnabled ? "bg-[var(--primary)]" : "bg-[var(--card-bg)]"} border border-[var(--card-border)] shadow-lg`}>
@@ -220,7 +222,7 @@ export default function PeekingMascot() {
           {/* Speech bubble for mobile - shows until user interacts */}
           {!hasInteracted && !mascotsEnabled && (
             <div className="absolute -top-8 -left-12 bg-white text-gray-800 text-xs font-medium px-2 py-1 rounded-lg shadow-lg whitespace-nowrap">
-              Tap !
+              {t("mascot.tap")}
               <div className="absolute -bottom-1 right-2 w-2 h-2 bg-white transform rotate-45" />
             </div>
           )}
@@ -238,7 +240,7 @@ export default function PeekingMascot() {
             onClick={toggleMascots}
             className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-full px-4 py-2 text-sm text-[var(--text-muted)] hover:text-white hover:border-[var(--primary)] transition-all"
           >
-            {mascotsEnabled ? "Cacher les mascottes" : "Voir les mascottes"}
+            {mascotsEnabled ? t("mascot.hide") : t("mascot.show")}
           </button>
         </motion.div>
       )}

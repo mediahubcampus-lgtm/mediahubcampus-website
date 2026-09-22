@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { CLIENT_CATEGORIES, CLIENT_LOGOS } from "@/lib/constants";
 import { useLanguage } from "@/context/LanguageContext";
 import type { TranslationKey } from "@/lib/i18n/translations";
@@ -70,9 +71,9 @@ export default function ReferencesContent() {
 
         <p className="text-[var(--text-muted)] text-sm text-center mt-8">
           {t("references.notFoundPre")}{" "}
-          <a href="/#contact" className="text-[var(--accent-cyan)] hover:underline">
+          <Link href="/#contact" className="text-[var(--accent-cyan)] hover:underline">
             {t("references.notFoundLink")}
-          </a>
+          </Link>
           .
         </p>
       </div>
