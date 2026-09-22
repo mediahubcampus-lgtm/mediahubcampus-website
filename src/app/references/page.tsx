@@ -46,19 +46,19 @@ export default function ReferencesPage() {
                   ({clients.length})
                 </span>
               </h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                 {clients.map((client) => (
                   <div
                     key={client.name}
-                    className="bg-white rounded-xl p-4 flex items-center justify-center h-24 sm:h-28 transition-all duration-200 hover:scale-105 hover:shadow-xl"
+                    className="bg-white rounded-xl p-4 flex items-center justify-center h-28 sm:h-32 transition-all duration-200 hover:scale-105 hover:shadow-xl"
                   >
                     {client.logo ? (
                       <Image
                         src={client.logo}
                         alt={client.name}
-                        width={180}
-                        height={90}
-                        className="max-h-14 sm:max-h-16 w-auto object-contain"
+                        width={220}
+                        height={110}
+                        className="max-h-20 sm:max-h-24 w-auto max-w-full object-contain"
                       />
                     ) : (
                       <span className="text-gray-700 text-xs sm:text-sm font-medium text-center leading-tight line-clamp-3 px-2">

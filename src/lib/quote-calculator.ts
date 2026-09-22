@@ -12,9 +12,9 @@ export type NetworkType = "universites" | "lycees" | "both";
 
 // Barème dégressif basé sur le sous-total HT (avant remise)
 const DISCOUNT_BRACKETS = [
-  { max: 5_000, rate: 0 },
-  { max: 10_000, rate: 0.05 },
-  { max: 20_000, rate: 0.1 },
+  { max: 5_000, rate: 0.05 },
+  { max: 10_000, rate: 0.1 },
+  { max: 20_000, rate: 0.15 },
   { max: 30_000, rate: 0.2 },
   { max: Infinity, rate: 0.25 },
 ];

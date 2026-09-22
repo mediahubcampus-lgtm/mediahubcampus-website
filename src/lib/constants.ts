@@ -43,14 +43,6 @@ export const SERVICES = [
     image: "/images/Photos Lycées 1.jpg",
   },
   {
-    id: "velib",
-    title: "Stations Vélib'",
-    description:
-      "Plus de 1 400 stations à la carte. Habillages de totems et diapasons. 38% des abonnés ont 19-26 ans.",
-    icon: "Bike",
-    image: "/images/gallery/Photos Velib.jpg",
-  },
-  {
     id: "mediatables",
     title: "MédiaTables",
     description:
@@ -314,10 +306,8 @@ export const CLIENT_LOGOS: ClientLogo[] = [
 export const CAMPAIGN_TYPES = [
   "Affichage Universitaire",
   "Affichage Scolaire",
-  "Stations Vélib'",
   "MédiaTables",
   "Événementiel",
-  "Pack 360°",
   "Je ne sais pas encore",
 ];
 
