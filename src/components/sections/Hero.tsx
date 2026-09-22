@@ -100,7 +100,7 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <span className="text-[var(--accent-cyan)] text-sm font-medium">
-              OOH • Digital • Événementiel
+              OOH • Événementiel
             </span>
           </motion.div>
 

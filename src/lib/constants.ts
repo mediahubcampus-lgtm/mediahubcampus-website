@@ -43,14 +43,6 @@ export const SERVICES = [
     image: "/images/Photos Lycées 1.jpg",
   },
   {
-    id: "digital",
-    title: "Digital",
-    description:
-      "Achat d'espace web, création et gestion de comptes. TikTok (11M), Snapchat (10M), Instagram (9,5M) chez les 18-25 ans.",
-    icon: "Smartphone",
-    image: "/images/Photos service digital.png",
-  },
-  {
     id: "velib",
     title: "Stations Vélib'",
     description:
@@ -322,7 +314,6 @@ export const CLIENT_LOGOS: ClientLogo[] = [
 export const CAMPAIGN_TYPES = [
   "Affichage Universitaire",
   "Affichage Scolaire",
-  "Digital",
   "Stations Vélib'",
   "MédiaTables",
   "Événementiel",
