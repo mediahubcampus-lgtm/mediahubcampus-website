@@ -206,22 +206,22 @@ export default function PeekingMascot() {
       {/* Mobile: Always visible FAB button - uses block lg:hidden to show only on mobile */}
       <button
         onClick={handleClick}
-        className="fixed z-[9999] bottom-4 right-4 block lg:hidden"
+        className="fixed z-[9999] bottom-3 right-3 block lg:hidden"
         title={mascotsEnabled ? t("mascot.hide") : t("mascot.show")}
       >
         <div className="relative">
-          <div className={`p-2 rounded-full ${mascotsEnabled ? "bg-[var(--primary)]" : "bg-[var(--card-bg)]"} border border-[var(--card-border)] shadow-lg`}>
+          <div className={`p-1.5 rounded-full ${mascotsEnabled ? "bg-[var(--primary)]" : "bg-[var(--card-bg)]"} border border-[var(--card-border)] shadow-lg`}>
             <Image
               src="/images/cat-mascot/chat-clin-d-oeil-assis.png"
               alt="Chat mascotte"
               width={50}
               height={50}
-              className="w-10 h-10 object-contain"
+              className="w-7 h-7 object-contain"
             />
           </div>
           {/* Speech bubble for mobile - shows until user interacts */}
           {!hasInteracted && !mascotsEnabled && (
-            <div className="absolute -top-8 -left-12 bg-white text-gray-800 text-xs font-medium px-2 py-1 rounded-lg shadow-lg whitespace-nowrap">
+            <div className="absolute -top-7 -left-10 bg-white text-gray-800 text-xs font-medium px-2 py-1 rounded-lg shadow-lg whitespace-nowrap">
               {t("mascot.tap")}
               <div className="absolute -bottom-1 right-2 w-2 h-2 bg-white transform rotate-45" />
             </div>
