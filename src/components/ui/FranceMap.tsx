@@ -11,7 +11,7 @@ interface City {
   lng: number;
 }
 
-function formatStudents(num: number): string {
+export function formatStudents(num: number): string {
   if (num >= 1000000) {
     return `${(num / 1000000).toFixed(1)}M`;
   }
@@ -98,11 +98,26 @@ const CORSICA_OUTLINE = [
   { lat: 43.0, lng: 9.4 },
 ].map((p) => latLngToSvg(p.lat, p.lng));
 
-// Convert points to SVG path
-function pointsToPath(points: { x: number; y: number }[]): string {
-  if (points.length === 0) return "";
-  const [first, ...rest] = points;
-  return `M ${first.x} ${first.y} ${rest.map((p) => `L ${p.x} ${p.y}`).join(" ")} Z`;
+// Convert points to a smooth closed SVG path (Catmull-Rom → cubic Bézier),
+// so the coastline reads as a real map outline instead of a faceted polygon.
+function pointsToPath(points: { x: number; y: number }[], tension = 1): string {
+  const n = points.length;
+  if (n === 0) return "";
+  if (n < 3) return `M ${points[0].x} ${points[0].y} Z`;
+
+  let d = `M ${points[0].x.toFixed(1)} ${points[0].y.toFixed(1)} `;
+  for (let i = 0; i < n; i++) {
+    const p0 = points[(i - 1 + n) % n];
+    const p1 = points[i % n];
+    const p2 = points[(i + 1) % n];
+    const p3 = points[(i + 2) % n];
+    const c1x = p1.x + ((p2.x - p0.x) / 6) * tension;
+    const c1y = p1.y + ((p2.y - p0.y) / 6) * tension;
+    const c2x = p2.x - ((p3.x - p1.x) / 6) * tension;
+    const c2y = p2.y - ((p3.y - p1.y) / 6) * tension;
+    d += `C ${c1x.toFixed(1)} ${c1y.toFixed(1)}, ${c2x.toFixed(1)} ${c2y.toFixed(1)}, ${p2.x.toFixed(1)} ${p2.y.toFixed(1)} `;
+  }
+  return d + "Z";
 }
 
 export default function FranceMap() {
@@ -117,13 +132,28 @@ export default function FranceMap() {
     }));
   }, []);
 
+  // The network's hub is the biggest node (Île-de-France) — every other city
+  // gets a thin animated link to it, so the map reads as a live network
+  // rather than a scatter of isolated dots.
+  const hub = useMemo(
+    () => cityPositions.reduce((a, b) => (b.students > a.students ? b : a)),
+    [cityPositions]
+  );
+
   const francePath = useMemo(() => pointsToPath(FRANCE_OUTLINE), []);
   const corsicaPath = useMemo(() => pointsToPath(CORSICA_OUTLINE), []);
 
   return (
     <div className="relative w-full max-w-2xl mx-auto">
       {/* Map Container */}
-      <div className="relative aspect-[1/1] md:aspect-[4/4]">
+      <div
+        className="relative aspect-[1/1] md:aspect-[4/4] rounded-3xl border border-[var(--card-border)]"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1.2px), radial-gradient(circle at 50% 25%, rgba(79,70,229,0.25), rgba(255,255,255,0.02) 65%)",
+          backgroundSize: "26px 26px, 100% 100%",
+        }}
+      >
         <svg
           viewBox="0 0 400 400"
           className="w-full h-full"
@@ -142,6 +172,14 @@ export default function FranceMap() {
                 <feMergeNode in="SourceGraphic" />
               </feMerge>
             </filter>
+            <linearGradient id="networkLineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="var(--accent-cyan)" />
+              <stop offset="100%" stopColor="var(--accent-purple)" />
+            </linearGradient>
+            <radialGradient id="hubGlow">
+              <stop offset="0%" stopColor="var(--accent-cyan)" stopOpacity="0.85" />
+              <stop offset="100%" stopColor="var(--accent-cyan)" stopOpacity="0" />
+            </radialGradient>
           </defs>
 
           {/* France mainland outline */}
@@ -168,6 +206,53 @@ export default function FranceMap() {
             initial={{ pathLength: 0, opacity: 0 }}
             animate={{ pathLength: 1, opacity: 1 }}
             transition={{ duration: 1, delay: 1.5, ease: "easeInOut" }}
+          />
+
+          {/* Network links: every city connects to the hub */}
+          <g>
+            {cityPositions
+              .filter((city) => city.name !== hub.name)
+              .map((city, index) => (
+                <motion.line
+                  key={`link-${city.name}`}
+                  x1={hub.x}
+                  y1={hub.y}
+                  x2={city.x}
+                  y2={city.y}
+                  stroke="url(#networkLineGradient)"
+                  strokeWidth={1.2}
+                  strokeOpacity={0.35}
+                  strokeDasharray="4 7"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{
+                    pathLength: 1,
+                    opacity: 0.35,
+                    strokeDashoffset: [0, -22],
+                  }}
+                  transition={{
+                    pathLength: { duration: 1, delay: 0.6 + index * 0.03 },
+                    opacity: { duration: 0.6, delay: 0.6 + index * 0.03 },
+                    strokeDashoffset: {
+                      duration: 2.4,
+                      repeat: Infinity,
+                      ease: "linear",
+                      delay: 1.2,
+                    },
+                  }}
+                />
+              ))}
+          </g>
+
+          {/* Permanent glow on the hub city, so the network's center reads at a glance */}
+          <motion.circle
+            cx={hub.x}
+            cy={hub.y}
+            r={hub.size * 1.8}
+            fill="url(#hubGlow)"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0.5, 0.9, 0.5], scale: [1, 1.12, 1] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            style={{ pointerEvents: "none" }}
           />
 
           {/* City markers */}
