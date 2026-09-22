@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Search, Send, X, Check, Globe } from "lucide-react";
+import { Search, Send, X, Check, Globe, Info } from "lucide-react";
 import { MHC_ZONES, MhcZone } from "@/lib/mhc-zones";
 import {
   computeQuote,
@@ -295,10 +295,6 @@ export default function QuoteSimulator() {
                     </button>
                   ))}
                 </div>
-                <p className="text-xs text-[var(--text-muted)] mt-2">
-                  Un ciblage par discipline ou filière est aussi possible —
-                  précisez-le dans votre demande de devis.
-                </p>
               </div>
 
               {/* Durée */}
@@ -335,10 +331,6 @@ export default function QuoteSimulator() {
                     semaine{dureeSemaines > 1 ? "s" : ""}
                   </span>
                 </div>
-                <p className="text-xs text-[var(--text-muted)] mt-2">
-                  Le détail du réseau d&apos;affichage (établissements et
-                  emplacements précis) vous sera transmis avec le devis.
-                </p>
               </div>
 
               {selectedZones.length === 0 ? (
@@ -436,6 +428,24 @@ export default function QuoteSimulator() {
                 conditions commerciales spécifiques. Un devis définitif vous
                 sera transmis par notre équipe.
               </p>
+
+              {/* Informations complémentaires regroupées */}
+              <div className="mt-4 bg-[var(--bg-dark)]/40 border border-[var(--card-border)] rounded-xl p-3.5 space-y-2">
+                <div className="flex gap-2 text-xs text-[var(--text-muted)]">
+                  <Info size={14} className="shrink-0 mt-0.5 text-[var(--accent-cyan)]" />
+                  <span>
+                    Un ciblage par discipline ou filière est aussi possible —
+                    précisez-le dans votre demande de devis.
+                  </span>
+                </div>
+                <div className="flex gap-2 text-xs text-[var(--text-muted)]">
+                  <Info size={14} className="shrink-0 mt-0.5 text-[var(--accent-cyan)]" />
+                  <span>
+                    Le détail du réseau d&apos;affichage (établissements et
+                    emplacements précis) vous sera transmis avec le devis.
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
