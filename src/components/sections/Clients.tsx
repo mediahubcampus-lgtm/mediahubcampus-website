@@ -53,6 +53,24 @@ export default function Clients() {
                 />
               </motion.div>
             )}
+            {/* Mascot thumbs up - Mobile */}
+            {MASCOTS.clients && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+                className="flex justify-center mt-4 lg:hidden"
+              >
+                <Image
+                  src="/images/cat-mascot/chat-fait-un-pouve-en-l-air.png"
+                  alt="Chat mascotte pouce en l'air"
+                  width={100}
+                  height={100}
+                  className="w-16 h-auto drop-shadow-lg"
+                />
+              </motion.div>
+            )}
           </motion.div>
 
           {/* Grille statique de logos mis en avant, en grand */}
@@ -74,14 +92,14 @@ export default function Clients() {
                   visible: { opacity: 1, y: 0, scale: 1 },
                 }}
                 transition={{ duration: 0.5 }}
-                className="bg-white rounded-2xl p-6 flex items-center justify-center h-28 sm:h-32 transition-all duration-200 hover:scale-105 hover:shadow-xl"
+                className="bg-white rounded-2xl p-5 flex items-center justify-center h-32 sm:h-40 transition-all duration-200 hover:scale-105 hover:shadow-xl"
               >
                 <Image
                   src={client.logo as string}
                   alt={client.name}
-                  width={200}
-                  height={100}
-                  className="max-h-16 sm:max-h-20 w-auto object-contain"
+                  width={240}
+                  height={130}
+                  className="max-h-24 sm:max-h-28 w-auto max-w-full object-contain"
                 />
               </motion.div>
             ))}
