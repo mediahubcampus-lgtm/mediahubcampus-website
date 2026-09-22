@@ -38,7 +38,14 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored === "fr" || stored === "en" || stored === "zh") {
+      if (
+        stored === "fr" ||
+        stored === "en" ||
+        stored === "zh" ||
+        stored === "zhTW" ||
+        stored === "es" ||
+        stored === "ar"
+      ) {
         setLocaleState(stored);
       }
     } catch {
@@ -47,10 +54,18 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     setIsHydrated(true);
   }, []);
 
-  // Garde l'attribut lang du document synchronisé avec la langue active (SEO/accessibilité)
+  // Garde l'attribut lang (SEO/accessibilité) synchronisé
   useEffect(() => {
     if (!isHydrated) return;
-    document.documentElement.lang = locale === "zh" ? "zh-CN" : locale;
+    const langByLocale: Record<Locale, string> = {
+      fr: "fr",
+      en: "en",
+      zh: "zh-CN",
+      zhTW: "zh-TW",
+      es: "es",
+      ar: "ar",
+    };
+    document.documentElement.lang = langByLocale[locale];
   }, [locale, isHydrated]);
 
   const setLocale = useCallback((next: Locale) => {
