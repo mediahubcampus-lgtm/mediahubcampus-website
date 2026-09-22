@@ -12,11 +12,11 @@ import {
   Users,
   BookOpen,
   Map as MapIcon,
-  List,
+  PieChart,
   type LucideIcon,
 } from "lucide-react";
 import FranceMap from "@/components/ui/FranceMap";
-import CityList from "@/components/ui/CityList";
+import CityPieChart from "@/components/ui/CityPieChart";
 import { useMascots } from "@/context/MascotContext";
 import { CITIES } from "@/lib/constants";
 
@@ -158,14 +158,24 @@ export default function Cities() {
           className="grid grid-cols-3 gap-3 sm:gap-6 max-w-2xl mx-auto mb-10"
         >
           {[
-            { value: CITIES.length, suffix: "", label: "villes universitaires" },
+            {
+              value: CITIES.length,
+              suffix: "",
+              decimals: 0,
+              label: "villes universitaires",
+            },
             {
               value: Math.round((totalStudents / 1000000) * 100) / 100,
               suffix: "M",
               decimals: 2,
               label: "étudiants touchés",
             },
-            { value: IMPLANTATIONS.length, suffix: "", label: "types d'implantations" },
+            {
+              value: IMPLANTATIONS.length,
+              suffix: "",
+              decimals: 0,
+              label: "types d'implantations",
+            },
           ].map((stat) => (
             <div
               key={stat.label}
@@ -207,8 +217,8 @@ export default function Cities() {
                   : "text-[var(--text-muted)] hover:text-white"
               }`}
             >
-              <List size={16} />
-              Liste
+              <PieChart size={16} />
+              Répartition
             </button>
           </div>
         </div>
@@ -240,7 +250,7 @@ export default function Cities() {
             transition={{ duration: 0.5, ease: easeOutQuart }}
             className="relative z-10"
           >
-            {view === "map" ? <FranceMap /> : <CityList />}
+            {view === "map" ? <FranceMap /> : <CityPieChart />}
           </motion.div>
         </div>
 
