@@ -15,10 +15,12 @@ function AnimatedCounter({
   value,
   suffix = "",
   decimals = 0,
+  decimalSeparator = ".",
 }: {
   value: number;
   suffix?: string;
   decimals?: number;
+  decimalSeparator?: string;
 }) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
@@ -45,9 +47,14 @@ function AnimatedCounter({
     return () => clearInterval(timer);
   }, [isInView, value]);
 
+  const formatted =
+    decimals > 0
+      ? count.toFixed(decimals).replace(".", decimalSeparator)
+      : Math.floor(count);
+
   return (
     <span ref={ref}>
-      {decimals > 0 ? count.toFixed(decimals) : Math.floor(count)}
+      {formatted}
       {suffix}
     </span>
   );
@@ -80,7 +87,7 @@ const itemVariants = {
 
 export default function Statistics() {
   const { MASCOTS } = useMascots();
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   return (
     <div className="relative">
@@ -162,6 +169,7 @@ export default function Statistics() {
                   value={stat.value}
                   suffix={stat.suffix}
                   decimals={stat.decimals}
+                  decimalSeparator={locale === "fr" ? "," : "."}
                 />
               </div>
               <div className="text-[var(--text-muted)]">

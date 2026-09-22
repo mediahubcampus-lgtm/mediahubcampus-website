@@ -68,7 +68,8 @@ const OUTER_R = 140;
 const INNER_R = 82;
 
 export default function CityPieChart() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
+  const decimalSeparator = locale === "fr" ? "," : ".";
   const cityWord = (count: number) =>
     count > 1 ? t("cityPieChart.cityCount.other", { count }) : t("cityPieChart.cityCount.one", { count });
   const regions: RegionGroup[] = useMemo(() => {
@@ -153,7 +154,7 @@ export default function CityPieChart() {
           {/* Center label */}
           <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none px-6 text-center">
             <div className="text-3xl sm:text-4xl font-bold text-white">
-              {formatStudents(totalStudents)}
+              {formatStudents(totalStudents, decimalSeparator)}
             </div>
             <div className="text-xs sm:text-sm text-[var(--text-muted)] mt-1">
               {t("cityPieChart.studentsReached")}
@@ -197,7 +198,7 @@ export default function CityPieChart() {
                 </span>
                 <span className="text-right shrink-0">
                   <span className="block text-sm font-semibold text-[var(--accent-cyan)]">
-                    {formatStudents(r.total)}
+                    {formatStudents(r.total, decimalSeparator)}
                   </span>
                   <span className="block text-xs text-[var(--text-muted)]">{pct}%</span>
                 </span>
@@ -251,7 +252,7 @@ export default function CityPieChart() {
                       />
                     </span>
                     <span className="w-12 shrink-0 text-right text-xs text-[var(--accent-cyan)] font-semibold">
-                      {formatStudents(city.students)}
+                      {formatStudents(city.students, decimalSeparator)}
                     </span>
                   </div>
                 );

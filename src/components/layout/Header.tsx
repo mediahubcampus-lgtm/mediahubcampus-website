@@ -57,16 +57,22 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo - larger than header, uses overflow */}
-          <Link href="/" className="flex items-center gap-2">
-            <Image
-              src="/logos/brand/logo-cropped.svg"
-              alt="MediaHub Campus"
-              width={320}
-              height={80}
-              className="h-12 md:h-14 w-auto"
-              priority
-            />
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-2">
+              <Image
+                src="/logos/brand/logo-cropped.svg"
+                alt="MediaHub Campus"
+                width={320}
+                height={80}
+                className="h-12 md:h-14 w-auto"
+                priority
+              />
+            </Link>
+            {/* Language switcher - visible directly next to the logo on mobile */}
+            <div className="md:hidden">
+              <LanguageSwitcher />
+            </div>
+          </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
@@ -123,7 +129,6 @@ export default function Header() {
                 {t(NAV_KEY_BY_HREF[link.href] ?? "nav.services")}
               </Link>
             ))}
-            <LanguageSwitcher className="self-start" />
             <a
               href={SITE_CONFIG.pdfUrl}
               download
