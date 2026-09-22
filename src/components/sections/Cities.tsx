@@ -23,10 +23,12 @@ function AnimatedCounter({
   value,
   suffix = "",
   decimals = 0,
+  decimalSeparator = ".",
 }: {
   value: number;
   suffix?: string;
   decimals?: number;
+  decimalSeparator?: string;
 }) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
@@ -52,7 +54,9 @@ function AnimatedCounter({
 
   return (
     <span ref={ref}>
-      {decimals > 0 ? count.toFixed(decimals) : Math.floor(count)}
+      {decimals > 0
+        ? count.toFixed(decimals).replace(".", decimalSeparator)
+        : Math.floor(count)}
       {suffix}
     </span>
   );
@@ -99,7 +103,8 @@ const itemVariants = {
 
 export default function Cities() {
   const { MASCOTS } = useMascots();
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
+  const decimalSeparator = locale === "fr" || locale === "es" ? "," : ".";
 
   const totalStudents = useMemo(
     () => CITIES.reduce((sum, c) => sum + c.students, 0),
@@ -185,6 +190,7 @@ export default function Cities() {
                   value={stat.value}
                   suffix={stat.suffix}
                   decimals={stat.decimals}
+                  decimalSeparator={decimalSeparator}
                 />
               </div>
               <div className="text-xs sm:text-sm text-[var(--text-muted)] leading-tight">
