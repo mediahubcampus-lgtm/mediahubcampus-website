@@ -53,6 +53,24 @@ export default function Clients() {
                 />
               </motion.div>
             )}
+            {/* Mascot thumbs up - Mobile */}
+            {MASCOTS.clients && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+                className="flex justify-center mt-4 lg:hidden"
+              >
+                <Image
+                  src="/images/cat-mascot/chat-fait-un-pouve-en-l-air.png"
+                  alt="Chat mascotte pouce en l'air"
+                  width={100}
+                  height={100}
+                  className="w-16 h-auto drop-shadow-lg"
+                />
+              </motion.div>
+            )}
           </motion.div>
 
           {/* Grille statique de logos mis en avant, en grand */}

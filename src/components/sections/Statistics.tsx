@@ -130,14 +130,14 @@ export default function Statistics() {
               whileInView={{ opacity: 0.7, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.2 }}
-              className="absolute -top-8 left-1/2 -translate-x-1/2 lg:hidden z-0"
+              className="absolute -top-20 left-1/2 -translate-x-1/2 lg:hidden z-0"
             >
               <Image
                 src="/images/cat-mascot/chat-applaudit-souriant.png"
                 alt="Chat mascotte applaudit"
                 width={120}
                 height={120}
-                className="w-24 h-auto drop-shadow-lg"
+                className="w-20 h-auto drop-shadow-lg"
               />
             </motion.div>
           )}

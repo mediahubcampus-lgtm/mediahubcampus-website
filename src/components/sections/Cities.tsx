@@ -200,14 +200,14 @@ export default function Cities() {
               whileInView={{ opacity: 0.5, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.2 }}
-              className="absolute -bottom-4 left-1/2 -translate-x-1/2 lg:hidden z-0"
+              className="absolute -top-16 left-1/2 -translate-x-1/2 lg:hidden z-0"
             >
               <Image
                 src="/images/cat-mascot/chat-chapeau-graduate-sur-vélo.png"
                 alt="Chat mascotte sur vélo"
                 width={160}
                 height={160}
-                className="w-32 h-auto drop-shadow-lg"
+                className="w-28 h-auto drop-shadow-lg"
               />
             </motion.div>
           )}
