@@ -92,18 +92,6 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 0.8, ease: easeOutQuart }}
         >
-          {/* Badge */}
-          <motion.div
-            className="inline-flex items-center gap-2 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-full px-4 py-2 mb-8"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <span className="text-[var(--accent-cyan)] text-sm font-medium">
-              OOH • Événementiel
-            </span>
-          </motion.div>
-
           {/* Main headline */}
           <motion.h1
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
