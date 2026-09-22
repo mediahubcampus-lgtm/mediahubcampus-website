@@ -46,7 +46,7 @@ export default function LanguageSwitcher({ className = "" }: { className?: strin
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl shadow-xl overflow-hidden z-50">
+        <div className="absolute right-0 mt-2 w-48 bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-xl shadow-xl overflow-hidden z-50">
           {LOCALES.map((l) => (
             <button
               key={l.value}
