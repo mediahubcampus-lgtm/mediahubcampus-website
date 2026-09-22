@@ -9,6 +9,9 @@ const LOCALES: { value: Locale; short: string; flag: string }[] = [
   { value: "fr", short: "FR", flag: "🇫🇷" },
   { value: "en", short: "EN", flag: "🇬🇧" },
   { value: "zh", short: "中文", flag: "🇨🇳" },
+  { value: "zhTW", short: "繁體", flag: "🇹🇼" },
+  { value: "es", short: "ES", flag: "🇪🇸" },
+  { value: "ar", short: "AR", flag: "🇸🇦" },
 ];
 
 export default function LanguageSwitcher({ className = "" }: { className?: string }) {
@@ -43,7 +46,7 @@ export default function LanguageSwitcher({ className = "" }: { className?: strin
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-44 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl shadow-xl overflow-hidden z-50">
+        <div className="absolute right-0 mt-2 w-48 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl shadow-xl overflow-hidden z-50">
           {LOCALES.map((l) => (
             <button
               key={l.value}

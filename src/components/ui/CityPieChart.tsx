@@ -69,7 +69,7 @@ const INNER_R = 82;
 
 export default function CityPieChart() {
   const { t, locale } = useLanguage();
-  const decimalSeparator = locale === "fr" ? "," : ".";
+  const decimalSeparator = locale === "fr" || locale === "es" ? "," : ".";
   const cityWord = (count: number) =>
     count > 1 ? t("cityPieChart.cityCount.other", { count }) : t("cityPieChart.cityCount.one", { count });
   const regions: RegionGroup[] = useMemo(() => {
