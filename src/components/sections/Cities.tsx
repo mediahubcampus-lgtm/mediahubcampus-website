@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import {
   Landmark,
@@ -12,8 +13,48 @@ import {
   BookOpen,
   type LucideIcon,
 } from "lucide-react";
-import FranceMap from "@/components/ui/FranceMap";
+import CityPieChart from "@/components/ui/CityPieChart";
 import { useMascots } from "@/context/MascotContext";
+import { CITIES } from "@/lib/constants";
+
+function AnimatedCounter({
+  value,
+  suffix = "",
+  decimals = 0,
+}: {
+  value: number;
+  suffix?: string;
+  decimals?: number;
+}) {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+
+  useEffect(() => {
+    if (!isInView) return;
+    const duration = 1600;
+    const steps = 50;
+    const increment = value / steps;
+    let current = 0;
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= value) {
+        setCount(value);
+        clearInterval(timer);
+      } else {
+        setCount(current);
+      }
+    }, duration / steps);
+    return () => clearInterval(timer);
+  }, [isInView, value]);
+
+  return (
+    <span ref={ref}>
+      {decimals > 0 ? count.toFixed(decimals) : Math.floor(count)}
+      {suffix}
+    </span>
+  );
+}
 
 // Location types with their specific icons
 const IMPLANTATIONS: { label: string; icon: LucideIcon }[] = [
@@ -57,6 +98,11 @@ const itemVariants = {
 export default function Cities() {
   const { MASCOTS } = useMascots();
 
+  const totalStudents = useMemo(
+    () => CITIES.reduce((sum, c) => sum + c.students, 0),
+    []
+  );
+
   return (
     <div className="relative">
       {/* Full-width background */}
@@ -99,9 +145,55 @@ export default function Cities() {
           )}
         </motion.div>
 
-        {/* Interactive Map with mascot behind on mobile */}
+        {/* Animated network stats */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="grid grid-cols-3 gap-3 sm:gap-6 max-w-2xl mx-auto mb-10"
+        >
+          {[
+            {
+              value: CITIES.length,
+              suffix: "",
+              decimals: 0,
+              label: "villes universitaires",
+            },
+            {
+              value: Math.round((totalStudents / 1000000) * 100) / 100,
+              suffix: "M",
+              decimals: 2,
+              label: "étudiants touchés",
+            },
+            {
+              value: IMPLANTATIONS.length,
+              suffix: "",
+              decimals: 0,
+              label: "types d'implantations",
+            },
+          ].map((stat) => (
+            <div
+              key={stat.label}
+              className="text-center bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl py-5 px-2"
+            >
+              <div className="text-2xl sm:text-4xl font-bold text-[var(--accent-cyan)] mb-1">
+                <AnimatedCounter
+                  value={stat.value}
+                  suffix={stat.suffix}
+                  decimals={stat.decimals}
+                />
+              </div>
+              <div className="text-xs sm:text-sm text-[var(--text-muted)] leading-tight">
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* Répartition par région (camembert) with mascot behind on mobile */}
         <div className="relative mb-12">
-          {/* Mascot - Mobile (bigger, behind map) */}
+          {/* Mascot - Mobile (bigger, behind chart) */}
           {MASCOTS.cities && (
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
@@ -120,13 +212,13 @@ export default function Cities() {
             </motion.div>
           )}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, filter: "blur(8px)" }}
+            initial={{ opacity: 0, scale: 0.97, filter: "blur(6px)" }}
             whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 1, ease: easeOutQuart }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: easeOutQuart }}
             className="relative z-10"
           >
-            <FranceMap />
+            <CityPieChart />
           </motion.div>
         </div>
 

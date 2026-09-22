@@ -76,30 +76,87 @@ export const SERVICES = [
   },
 ];
 
-export const CITIES = [
-  { name: "Île-de-France", students: 750000, lat: 48.8566, lng: 2.3522 },
-  { name: "Lyon", students: 110000, lat: 45.764, lng: 4.8357 },
-  { name: "Lille", students: 90000, lat: 50.6292, lng: 3.0573 },
-  { name: "Toulouse", students: 85000, lat: 43.6047, lng: 1.4442 },
-  { name: "Bordeaux", students: 150000, lat: 44.8378, lng: -0.5792 },
-  { name: "Montpellier", students: 60000, lat: 43.6108, lng: 3.8767 },
-  { name: "Rennes", students: 55000, lat: 48.1173, lng: -1.6778 },
-  { name: "Strasbourg", students: 50000, lat: 48.5734, lng: 7.7521 },
-  { name: "Grenoble", students: 45000, lat: 45.1885, lng: 5.7245 },
-  { name: "Nantes", students: 60000, lat: 47.2184, lng: -1.5536 },
-  { name: "Marseille", students: 45000, lat: 43.2965, lng: 5.3698 },
-  { name: "Nancy", students: 45000, lat: 48.6921, lng: 6.1844 },
-  { name: "Nice", students: 30000, lat: 43.7102, lng: 7.262 },
-  { name: "Rouen", students: 35000, lat: 49.4432, lng: 1.0993 },
-  { name: "Clermont-Ferrand", students: 75000, lat: 45.7772, lng: 3.087 },
-  { name: "Aix-en-Provence", students: 30000, lat: 43.5297, lng: 5.4474 },
-  { name: "Caen", students: 25000, lat: 49.1829, lng: -0.3707 },
-  { name: "Dijon", students: 25000, lat: 47.322, lng: 5.0415 },
-  { name: "Reims", students: 25000, lat: 49.2583, lng: 4.0317 },
-  { name: "Tours", students: 25000, lat: 47.3941, lng: 0.6848 },
-  { name: "Orléans", students: 20000, lat: 47.9029, lng: 1.909 },
-  { name: "Le Havre", students: 9000, lat: 49.4944, lng: 0.1079 },
-  { name: "Le Mans", students: 9000, lat: 48.0061, lng: 0.1996 },
+// Données réelles issues du fichier de référence commercial
+// (Regie_Publicitaire_Systeme_Commercial_2026-2027.xlsx, feuille TARIFS_CAMPUS).
+// - students      = "Audience affichage" (base du chiffre "2,19M étudiants touchés")
+// - totalStudents = "Total étudiants zone"
+// - ots           = "ODV / 4 semaines" (Occasions de Voir)
+// - panels        = "Nb affiches A2"
+// - cpm           = "CPM 1000 étudiants touchés"
+export interface CityData {
+  name: string;
+  region: string;
+  departement: string;
+  students: number;
+  totalStudents: number;
+  ots: number;
+  panels: number;
+  cpm: number;
+  lat: number;
+  lng: number;
+}
+
+export const CITIES: CityData[] = [
+  { name: "Île-de-France", region: "Île-de-France", departement: "Île-de-France", students: 750000, totalStudents: 950000, ots: 60000000, panels: 1000, cpm: 7.33, lat: 48.8566, lng: 2.3522 },
+  { name: "Bordeaux", region: "Nouvelle-Aquitaine", departement: "Gironde", students: 150000, totalStudents: 220000, ots: 12000000, panels: 400, cpm: 14, lat: 44.8378, lng: -0.5792 },
+  { name: "Lyon", region: "Auvergne-Rhône-Alpes", departement: "Rhône", students: 110000, totalStudents: 150000, ots: 8800000, panels: 400, cpm: 16.36, lat: 45.764, lng: 4.8357 },
+  { name: "Lille", region: "Hauts-de-France", departement: "Nord", students: 90000, totalStudents: 110000, ots: 7200000, panels: 400, cpm: 20, lat: 50.6292, lng: 3.0573 },
+  { name: "Toulouse", region: "Occitanie", departement: "Haute-Garonne", students: 85000, totalStudents: 110000, ots: 6800000, panels: 400, cpm: 21.18, lat: 43.6047, lng: 1.4442 },
+  { name: "Clermont-Ferrand", region: "Auvergne-Rhône-Alpes", departement: "Puy-de-Dôme", students: 75000, totalStudents: 95000, ots: 6000000, panels: 200, cpm: 18, lat: 45.7772, lng: 3.087 },
+  { name: "Montpellier", region: "Occitanie", departement: "Hérault", students: 60000, totalStudents: 75000, ots: 4800000, panels: 200, cpm: 22.5, lat: 43.6108, lng: 3.8767 },
+  { name: "Nantes", region: "Pays de la Loire", departement: "Loire-Atlantique", students: 60000, totalStudents: 74000, ots: 4800000, panels: 200, cpm: 22.5, lat: 47.2184, lng: -1.5536 },
+  { name: "Rennes", region: "Bretagne", departement: "Ille-et-Vilaine", students: 55000, totalStudents: 65000, ots: 4400000, panels: 200, cpm: 24.55, lat: 48.1173, lng: -1.6778 },
+  { name: "Strasbourg", region: "Grand Est", departement: "Bas-Rhin", students: 50000, totalStudents: 60000, ots: 4000000, panels: 200, cpm: 27, lat: 48.5734, lng: 7.7521 },
+  { name: "Grenoble", region: "Auvergne-Rhône-Alpes", departement: "Isère", students: 45000, totalStudents: 55000, ots: 3600000, panels: 200, cpm: 30, lat: 45.1885, lng: 5.7245 },
+  { name: "Marseille", region: "Provence-Alpes-Côte d’Azur", departement: "Bouches-du-Rhône", students: 45000, totalStudents: 65000, ots: 3600000, panels: 200, cpm: 30, lat: 43.2965, lng: 5.3698 },
+  { name: "Nancy", region: "Grand Est", departement: "Meurthe-et-Moselle", students: 45000, totalStudents: 55000, ots: 3600000, panels: 200, cpm: 30, lat: 48.6921, lng: 6.1844 },
+  { name: "Angers", region: "Pays de la Loire", departement: "Maine-et-Loire", students: 40000, totalStudents: 50000, ots: 3200000, panels: 200, cpm: 33.75, lat: 47.4784, lng: -0.5632 },
+  { name: "Rouen", region: "Normandie", departement: "Seine-Maritime", students: 35000, totalStudents: 50000, ots: 2800000, panels: 200, cpm: 38.57, lat: 49.4432, lng: 1.0993 },
+  { name: "Aix-en-Provence", region: "Provence-Alpes-Côte d’Azur", departement: "Bouches-du-Rhône", students: 30000, totalStudents: 40000, ots: 2400000, panels: 150, cpm: 41.67, lat: 43.5297, lng: 5.4474 },
+  { name: "Amiens", region: "Hauts-de-France", departement: "Somme", students: 30000, totalStudents: 38000, ots: 2400000, panels: 150, cpm: 41.67, lat: 49.8942, lng: 2.2957 },
+  { name: "Nice", region: "Provence-Alpes-Côte d’Azur", departement: "Alpes-Maritimes", students: 30000, totalStudents: 40000, ots: 2400000, panels: 200, cpm: 45, lat: 43.7102, lng: 7.262 },
+  { name: "Caen", region: "Normandie", departement: "Calvados", students: 25000, totalStudents: 35000, ots: 2000000, panels: 150, cpm: 50, lat: 49.1829, lng: -0.3707 },
+  { name: "Dijon", region: "Bourgogne-Franche-Comté", departement: "Côte-d’Or", students: 25000, totalStudents: 40000, ots: 2000000, panels: 150, cpm: 50, lat: 47.322, lng: 5.0415 },
+  { name: "Reims", region: "Grand Est", departement: "Marne", students: 25000, totalStudents: 36000, ots: 2000000, panels: 150, cpm: 50, lat: 49.2583, lng: 4.0317 },
+  { name: "Saint-Étienne", region: "Auvergne-Rhône-Alpes", departement: "Loire", students: 25000, totalStudents: 35000, ots: 2000000, panels: 150, cpm: 50, lat: 45.4397, lng: 4.3872 },
+  { name: "Tours", region: "Centre-Val de Loire", departement: "Indre-et-Loire", students: 25000, totalStudents: 35000, ots: 2000000, panels: 150, cpm: 50, lat: 47.3941, lng: 0.6848 },
+  { name: "Brest", region: "Bretagne", departement: "Finistère", students: 20000, totalStudents: 25000, ots: 1600000, panels: 150, cpm: 57.5, lat: 48.3904, lng: -4.4861 },
+  { name: "Metz", region: "Grand Est", departement: "Moselle", students: 20000, totalStudents: 25000, ots: 1600000, panels: 150, cpm: 57.5, lat: 49.1193, lng: 6.1757 },
+  { name: "Orléans", region: "Centre-Val de Loire", departement: "Loiret", students: 20000, totalStudents: 25000, ots: 1600000, panels: 150, cpm: 57.5, lat: 47.9029, lng: 1.909 },
+  { name: "Besançon", region: "Bourgogne-Franche-Comté", departement: "Doubs", students: 15000, totalStudents: 25000, ots: 1200000, panels: 120, cpm: 63.33, lat: 47.2378, lng: 6.0241 },
+  { name: "Nîmes", region: "Occitanie", departement: "Gard", students: 15000, totalStudents: 20000, ots: 1200000, panels: 200, cpm: 90, lat: 43.8367, lng: 4.3601 },
+  { name: "Poitiers", region: "Nouvelle-Aquitaine", departement: "Vienne", students: 15000, totalStudents: 25000, ots: 1200000, panels: 150, cpm: 76.67, lat: 46.5802, lng: 0.3404 },
+  { name: "Chambéry", region: "Auvergne-Rhône-Alpes", departement: "Savoie", students: 13000, totalStudents: 27000, ots: 1040000, panels: 150, cpm: 88.46, lat: 45.5646, lng: 5.9178 },
+  { name: "La Rochelle", region: "Nouvelle-Aquitaine", departement: "Charente-Maritime", students: 12000, totalStudents: 15000, ots: 960000, panels: 150, cpm: 95.83, lat: 46.1603, lng: -1.1511 },
+  { name: "Toulon - La Garde", region: "Provence-Alpes-Côte d’Azur", departement: "Var", students: 12000, totalStudents: 15000, ots: 960000, panels: 200, cpm: 108.33, lat: 43.1242, lng: 5.928 },
+  { name: "Limoges", region: "Nouvelle-Aquitaine", departement: "Haute-Vienne", students: 10000, totalStudents: 18000, ots: 800000, panels: 120, cpm: 95, lat: 45.8336, lng: 1.2611 },
+  { name: "Pau", region: "Nouvelle-Aquitaine", departement: "Pyrénées-Atlantiques", students: 10000, totalStudents: 15000, ots: 800000, panels: 120, cpm: 95, lat: 43.2951, lng: -0.3708 },
+  { name: "Le Havre", region: "Normandie", departement: "Seine-Maritime", students: 9000, totalStudents: 12000, ots: 720000, panels: 150, cpm: 127.78, lat: 49.4944, lng: 0.1079 },
+  { name: "Le Mans", region: "Pays de la Loire", departement: "Sarthe", students: 9000, totalStudents: 13000, ots: 720000, panels: 150, cpm: 127.78, lat: 48.0061, lng: 0.1996 },
+  { name: "Annecy", region: "Auvergne-Rhône-Alpes", departement: "Haute-Savoie", students: 8000, totalStudents: 10000, ots: 640000, panels: 100, cpm: 100, lat: 45.8992, lng: 6.1294 },
+  { name: "La Roche-sur-Yon", region: "Pays de la Loire", departement: "Vendée", students: 7000, totalStudents: 10000, ots: 560000, panels: 100, cpm: 114.29, lat: 46.6705, lng: -1.4267 },
+  { name: "Perpignan", region: "Occitanie", departement: "Pyrénées-Orientales", students: 7000, totalStudents: 10000, ots: 560000, panels: 150, cpm: 164.29, lat: 42.6887, lng: 2.8948 },
+  { name: "Troyes", region: "Grand Est", departement: "Aube", students: 7000, totalStudents: 13000, ots: 560000, panels: 200, cpm: 192.86, lat: 48.2973, lng: 4.0744 },
+  { name: "Valence", region: "Auvergne-Rhône-Alpes", departement: "Drôme", students: 7000, totalStudents: 10000, ots: 560000, panels: 120, cpm: 135.71, lat: 44.9334, lng: 4.8924 },
+  { name: "Valenciennes", region: "Hauts-de-France", departement: "Nord", students: 7000, totalStudents: 15000, ots: 560000, panels: 100, cpm: 114.29, lat: 50.3574, lng: 3.5233 },
+  { name: "Avignon", region: "Provence-Alpes-Côte d’Azur", departement: "Vaucluse", students: 6500, totalStudents: 10000, ots: 520000, panels: 120, cpm: 146.15, lat: 43.9493, lng: 4.8055 },
+  { name: "Cannes - Valbonne", region: "Provence-Alpes-Côte d’Azur", departement: "Alpes-Maritimes", students: 5500, totalStudents: 7000, ots: 440000, panels: 100, cpm: 236.36, lat: 43.5528, lng: 7.0174 },
+  { name: "Laval", region: "Pays de la Loire", departement: "Mayenne", students: 5000, totalStudents: 8000, ots: 400000, panels: 150, cpm: 230, lat: 48.0736, lng: -0.7686 },
+  { name: "Mulhouse", region: "Grand Est", departement: "Haut-Rhin", students: 5000, totalStudents: 7000, ots: 400000, panels: 100, cpm: 160, lat: 47.7508, lng: 7.3359 },
+  { name: "Beauvais", region: "Hauts-de-France", departement: "Oise", students: 4500, totalStudents: 6000, ots: 360000, panels: 120, cpm: 211.11, lat: 49.4295, lng: 2.0807 },
+  { name: "Lorient", region: "Bretagne", departement: "Morbihan", students: 4000, totalStudents: 6000, ots: 320000, panels: 100, cpm: 200, lat: 47.7482, lng: -3.366 },
+  { name: "Quimper", region: "Bretagne", departement: "Finistère", students: 4000, totalStudents: 7000, ots: 320000, panels: 100, cpm: 200, lat: 47.996, lng: -4.1024 },
+  { name: "Évreux", region: "Normandie", departement: "Eure", students: 3000, totalStudents: 3000, ots: 240000, panels: 100, cpm: 250, lat: 49.027, lng: 1.151 },
+  { name: "Saint-Nazaire", region: "Pays de la Loire", departement: "Loire-Atlantique", students: 3000, totalStudents: 5000, ots: 240000, panels: 100, cpm: 250, lat: 47.2733, lng: -2.2137 },
+  { name: "Béziers", region: "Occitanie", departement: "Hérault", students: 2500, totalStudents: 4500, ots: 200000, panels: 100, cpm: 300, lat: 43.3442, lng: 3.2158 },
+  { name: "Bayonne", region: "Nouvelle-Aquitaine", departement: "Pyrénées-Atlantiques", students: 2200, totalStudents: 4000, ots: 176000, panels: 120, cpm: 431.82, lat: 43.4929, lng: -1.4748 },
+  { name: "Agen", region: "Nouvelle-Aquitaine", departement: "Lot-et-Garonne", students: 2000, totalStudents: 3000, ots: 160000, panels: 100, cpm: 375, lat: 44.2033, lng: 0.6167 },
+  { name: "Blois", region: "Centre-Val de Loire", departement: "Loir-et-Cher", students: 2000, totalStudents: 4000, ots: 160000, panels: 100, cpm: 375, lat: 47.5861, lng: 1.3359 },
+  { name: "Bourges", region: "Centre-Val de Loire", departement: "Cher", students: 2000, totalStudents: 5000, ots: 160000, panels: 100, cpm: 375, lat: 47.081, lng: 2.3987 },
+  { name: "Châteauroux", region: "Centre-Val de Loire", departement: "Indre", students: 2000, totalStudents: 2000, ots: 160000, panels: 80, cpm: 350, lat: 46.8106, lng: 1.691 },
+  { name: "Chartres", region: "Centre-Val de Loire", departement: "Eure-et-Loir", students: 1500, totalStudents: 2000, ots: 120000, panels: 80, cpm: 466.67, lat: 48.4439, lng: 1.4894 },
+  { name: "Colmar", region: "Grand Est", departement: "Haut-Rhin", students: 1500, totalStudents: 2000, ots: 120000, panels: 80, cpm: 466.67, lat: 48.0794, lng: 7.3585 },
+  { name: "Auxerre", region: "Bourgogne-Franche-Comté", departement: "Yonne", students: 1100, totalStudents: 2000, ots: 88000, panels: 80, cpm: 636.36, lat: 47.7982, lng: 3.573 },
 ];
 
 export const TARGET_LOCATIONS = [
