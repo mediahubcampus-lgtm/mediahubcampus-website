@@ -8,6 +8,7 @@ import Link from "next/link";
 import { Fragment } from "react";
 import { SITE_CONFIG } from "@/lib/constants";
 import { useLanguage } from "@/context/LanguageContext";
+import { trackEvent } from "@/lib/gtag";
 
 // Easing curve
 const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
@@ -150,6 +151,7 @@ export default function Hero() {
             <a
               href={SITE_CONFIG.pdfUrl}
               download
+              onClick={() => trackEvent("brochure_download", { location: "hero" })}
               className="inline-flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:scale-105"
             >
               <Download size={22} />

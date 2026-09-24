@@ -14,6 +14,7 @@ import {
 import { BUDGET_RANGES } from "@/lib/constants";
 import { useLanguage } from "@/context/LanguageContext";
 import type { TranslationKey } from "@/lib/i18n/translations";
+import { trackEvent } from "@/lib/gtag";
 
 const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
 
@@ -96,6 +97,12 @@ export default function QuoteSimulator() {
       : "Universités + Lycées";
 
   const handleRequestQuote = () => {
+    trackEvent("quote_request", {
+      network: network,
+      zone_count: selectedZoneObjects.length,
+      budget_ht_net: Math.round(result.budgetHTNet),
+    });
+
     const zoneNames = selectedZoneObjects.map((z) => z.zone).join(", ");
     const message = [
       `Devis simulé en ligne :`,

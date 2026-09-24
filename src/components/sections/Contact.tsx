@@ -9,6 +9,7 @@ import { useMascots } from "@/context/MascotContext";
 import { useLanguage } from "@/context/LanguageContext";
 import type { TranslationKey } from "@/lib/i18n/translations";
 import { CAMPAIGN_TYPES, BUDGET_RANGES } from "@/lib/constants";
+import { trackEvent } from "@/lib/gtag";
 
 const QUOTE_PREFILL_KEY = "mhc_quote_prefill";
 
@@ -57,6 +58,10 @@ export default function Contact() {
       });
 
       if (response.ok) {
+        trackEvent("generate_lead", {
+          campaign_type: formData.campaignType,
+          budget_range: formData.budget,
+        });
         setStatus("success");
         setFormData(initialFormData);
       } else {
