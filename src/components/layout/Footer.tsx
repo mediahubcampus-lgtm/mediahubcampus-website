@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Download } from "lucide-react";
 import { SITE_CONFIG, NAV_LINKS } from "@/lib/constants";
 import { useLanguage } from "@/context/LanguageContext";
+import { useCookieConsent } from "@/context/CookieConsentContext";
 import type { TranslationKey } from "@/lib/i18n/translations";
 import { trackEvent } from "@/lib/gtag";
 
@@ -19,6 +20,7 @@ const NAV_KEY_BY_HREF: Record<string, TranslationKey> = {
 
 export default function Footer() {
   const { t } = useLanguage();
+  const { openSettings } = useCookieConsent();
   return (
     <footer className="bg-[var(--bg-dark)] border-t border-[var(--card-border)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -91,6 +93,14 @@ export default function Footer() {
               >
                 {t("footer.politiqueConfidentialite")}
               </Link>
+              <span className="text-[var(--card-border)]">|</span>
+              <button
+                type="button"
+                onClick={openSettings}
+                className="text-[var(--text-muted)] hover:text-white transition-colors"
+              >
+                {t("footer.manageCookies")}
+              </button>
             </div>
           </div>
           <div className="mt-4 text-center">

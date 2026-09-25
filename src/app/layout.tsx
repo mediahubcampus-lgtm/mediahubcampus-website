@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { MascotProvider } from "@/context/MascotContext";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { CookieConsentProvider } from "@/context/CookieConsentContext";
 import PeekingMascot from "@/components/ui/PeekingMascot";
+import CookieBanner from "@/components/ui/CookieBanner";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -145,27 +147,19 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} antialiased`}>
         <LanguageProvider>
-          <MascotProvider>
-            <Header />
-            <main>{children}</main>
-            <Footer />
-            <PeekingMascot />
-          </MascotProvider>
+          <CookieConsentProvider>
+            <MascotProvider>
+              <Header />
+              <main>{children}</main>
+              <Footer />
+              <PeekingMascot />
+            </MascotProvider>
+            <CookieBanner />
+            {/* Google Analytics 4 : chargé uniquement après consentement (RGPD) */}
+            <GoogleAnalytics measurementId="G-2HS4P2C6DV" />
+          </CookieConsentProvider>
         </LanguageProvider>
         <Analytics />
-        {/* Google Analytics 4 */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-2HS4P2C6DV"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-2HS4P2C6DV');
-          `}
-        </Script>
       </body>
     </html>
   );
