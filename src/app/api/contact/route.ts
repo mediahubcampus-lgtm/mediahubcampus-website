@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     }
 
     const { error } = await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL || "noreply@url5309.mediahubcampus.com",
+      from: process.env.RESEND_FROM_EMAIL || "noreply@mediahubcampus.com",
       to: (process.env.CONTACT_EMAILS || "alfred@mediahubcampus.com").split(",").map(e => e.trim()),
       replyTo: email,
       subject: `Nouveau contact: ${name} — ${campaignType}`,
@@ -46,7 +46,8 @@ export async function POST(request: Request) {
         <p>${message.replace(/\n/g, "<br>")}</p>
         <hr>
         <p style="color: #666; font-size: 12px;">
-          Envoyé depuis le formulaire de contact MediaHub Campus
+          Envoyé depuis le formulaire de contact MediaHub Campus<br>
+          MediaHub Campus &mdash; 4 Rue Guénot, 75011 Paris
         </p>
       `,
       text: `
@@ -62,6 +63,9 @@ Budget indicatif: ${budget || "Non renseigné"}
 
 Message:
 ${message}
+
+--
+MediaHub Campus - 4 Rue Guénot, 75011 Paris
       `.trim(),
     });
 
