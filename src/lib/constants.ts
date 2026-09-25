@@ -48,7 +48,7 @@ export const SERVICES = [
     description:
       "12 000 tables, 800 établissements, 50 min d'exposition. 91% des Français fréquentent les terrasses.",
     icon: "Coffee",
-    image: "/images/gallery/Photos MediaTables.png",
+    image: "/images/gallery/Photos MediaTables.jpg",
   },
   {
     id: "event",

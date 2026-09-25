@@ -12,11 +12,20 @@ import {
 } from "lucide-react";
 import { SERVICES } from "@/lib/constants";
 import { useMascots } from "@/context/MascotContext";
+import { useLanguage } from "@/context/LanguageContext";
+import type { TranslationKey } from "@/lib/i18n/translations";
 import {
   blurRevealVariants,
   staggerContainerVariants,
   staggerItemVariants,
 } from "@/lib/useScrollAnimations";
+
+const SERVICE_KEYS: Record<string, { title: TranslationKey; description: TranslationKey }> = {
+  affichage: { title: "services.affichage.title", description: "services.affichage.description" },
+  scolaire: { title: "services.scolaire.title", description: "services.scolaire.description" },
+  mediatables: { title: "services.mediatables.title", description: "services.mediatables.description" },
+  event: { title: "services.event.title", description: "services.event.description" },
+};
 
 const iconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   Megaphone,
@@ -29,6 +38,7 @@ const iconMap: Record<string, React.ComponentType<{ size?: number; className?: s
 
 export default function Services() {
   const { MASCOTS } = useMascots();
+  const { t } = useLanguage();
 
   return (
     <section id="services" className="py-20">
@@ -41,13 +51,13 @@ export default function Services() {
           className="text-center mb-16 relative"
         >
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Nos{" "}
+            {t("services.heading.pre")}{" "}
             <span className="bg-gradient-to-r from-[var(--accent-cyan)] to-[var(--accent-purple)] bg-clip-text text-transparent">
-              Services
+              {t("services.heading.highlight")}
             </span>
           </h2>
           <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
-            Des solutions complètes pour toucher la cible étudiante
+            {t("services.subtitle")}
           </p>
           {/* Mascot - Desktop */}
           {MASCOTS.services && (
@@ -98,6 +108,9 @@ export default function Services() {
           >
             {SERVICES.map((service) => {
               const Icon = iconMap[service.icon];
+              const keys = SERVICE_KEYS[service.id];
+              const title = keys ? t(keys.title) : service.title;
+              const description = keys ? t(keys.description) : service.description;
               return (
                 <motion.div
                   key={service.id}
@@ -108,7 +121,7 @@ export default function Services() {
                   <div className="relative flex-1 min-h-0 overflow-hidden">
                     <Image
                       src={service.image}
-                      alt={service.title}
+                      alt={title}
                       fill
                       className="object-cover object-top transition-transform duration-500 group-hover:scale-110"
                     />
@@ -124,9 +137,9 @@ export default function Services() {
                     </div>
                   </div>
                   <div className="p-6">
-                    <h3 className="text-2xl font-semibold mb-2">{service.title}</h3>
+                    <h3 className="text-2xl font-semibold mb-2">{title}</h3>
                     <p className="text-[var(--text-muted)] text-sm leading-relaxed">
-                      {service.description}
+                      {description}
                     </p>
                   </div>
                 </motion.div>

@@ -1,9 +1,24 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Download } from "lucide-react";
 import { SITE_CONFIG, NAV_LINKS } from "@/lib/constants";
+import { useLanguage } from "@/context/LanguageContext";
+import type { TranslationKey } from "@/lib/i18n/translations";
+import { trackEvent } from "@/lib/gtag";
+
+const NAV_KEY_BY_HREF: Record<string, TranslationKey> = {
+  "/#services": "nav.services",
+  "/#cible": "nav.cible",
+  "/#reseau": "nav.reseau",
+  "/references": "nav.references",
+  "/simulateur-devis": "nav.simulateur",
+  "/#contact": "nav.contact",
+};
 
 export default function Footer() {
+  const { t } = useLanguage();
   return (
     <footer className="bg-[var(--bg-dark)] border-t border-[var(--card-border)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -20,13 +35,13 @@ export default function Footer() {
               />
             </div>
             <p className="text-[var(--text-muted)] text-sm">
-              {SITE_CONFIG.tagline}
+              {t("footer.tagline")}
             </p>
           </div>
 
           {/* Links */}
           <div>
-            <h3 className="font-semibold mb-4">Navigation</h3>
+            <h3 className="font-semibold mb-4">{t("footer.navigation")}</h3>
             <ul className="space-y-2">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
@@ -34,7 +49,7 @@ export default function Footer() {
                     href={link.href}
                     className="text-[var(--text-muted)] hover:text-white transition-colors text-sm"
                   >
-                    {link.label}
+                    {t(NAV_KEY_BY_HREF[link.href] ?? "nav.services")}
                   </Link>
                 </li>
               ))}
@@ -43,14 +58,15 @@ export default function Footer() {
 
           {/* CTA */}
           <div>
-            <h3 className="font-semibold mb-4">Documentation</h3>
+            <h3 className="font-semibold mb-4">{t("footer.documentation")}</h3>
             <a
               href={SITE_CONFIG.pdfUrl}
               download
+              onClick={() => trackEvent("brochure_download", { location: "footer" })}
               className="inline-flex items-center gap-2 bg-[var(--card-bg)] hover:bg-[var(--primary)] border border-[var(--card-border)] text-white px-4 py-2.5 rounded-lg text-sm transition-colors"
             >
               <Download size={16} />
-              <span>Télécharger la Plaquette 2026-2027</span>
+              <span>{t("footer.downloadBrochure")}</span>
             </a>
           </div>
         </div>
@@ -59,28 +75,27 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-[var(--card-border)]">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-[var(--text-muted)] text-sm">
-              &copy; {new Date().getFullYear()} MediaHub Campus. Tous droits
-              réservés.
+              &copy; {new Date().getFullYear()} MediaHub Campus. {t("footer.rights")}
             </p>
             <div className="flex items-center gap-4 text-sm">
               <Link
                 href="/mentions-legales"
                 className="text-[var(--text-muted)] hover:text-white transition-colors"
               >
-                Mentions légales
+                {t("footer.mentionsLegales")}
               </Link>
               <span className="text-[var(--card-border)]">|</span>
               <Link
                 href="/politique-confidentialite"
                 className="text-[var(--text-muted)] hover:text-white transition-colors"
               >
-                Politique de confidentialité
+                {t("footer.politiqueConfidentialite")}
               </Link>
             </div>
           </div>
           <div className="mt-4 text-center">
             <p className="text-[var(--text-muted)] text-xs">
-              Conçu et développé par{" "}
+              {t("footer.designedBy")}{" "}
               <a
                 href="https://customdigital.fr/"
                 target="_blank"

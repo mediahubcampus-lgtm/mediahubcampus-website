@@ -4,10 +4,12 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { Home, ArrowLeft } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
 
 export default function NotFound() {
+  const { t } = useLanguage();
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-4">
       <div className="text-center max-w-lg">
@@ -37,11 +39,10 @@ export default function NotFound() {
             404
           </h1>
           <h2 className="text-2xl sm:text-3xl font-semibold text-white mb-4">
-            Page introuvable
+            {t("notFound.title")}
           </h2>
           <p className="text-[var(--text-muted)] text-lg mb-8">
-            Oups ! La page que vous recherchez semble avoir disparu dans les
-            couloirs du campus...
+            {t("notFound.description")}
           </p>
         </motion.div>
 
@@ -57,14 +58,14 @@ export default function NotFound() {
             className="inline-flex items-center justify-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white px-6 py-3 rounded-xl font-semibold transition-all hover:scale-105"
           >
             <Home size={20} />
-            <span>Retour à l&apos;accueil</span>
+            <span>{t("notFound.home")}</span>
           </Link>
           <button
             onClick={() => window.history.back()}
             className="inline-flex items-center justify-center gap-2 bg-[var(--card-bg)] hover:bg-[var(--card-border)] border border-[var(--card-border)] text-white px-6 py-3 rounded-xl font-semibold transition-all"
           >
             <ArrowLeft size={20} />
-            <span>Page précédente</span>
+            <span>{t("notFound.back")}</span>
           </button>
         </motion.div>
       </div>
