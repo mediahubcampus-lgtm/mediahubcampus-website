@@ -6,6 +6,7 @@ import { Download } from "lucide-react";
 import { SITE_CONFIG, NAV_LINKS } from "@/lib/constants";
 import { useLanguage } from "@/context/LanguageContext";
 import type { TranslationKey } from "@/lib/i18n/translations";
+import { trackEvent } from "@/lib/gtag";
 
 const NAV_KEY_BY_HREF: Record<string, TranslationKey> = {
   "/#services": "nav.services",
@@ -61,6 +62,7 @@ export default function Footer() {
             <a
               href={SITE_CONFIG.pdfUrl}
               download
+              onClick={() => trackEvent("brochure_download", { location: "footer" })}
               className="inline-flex items-center gap-2 bg-[var(--card-bg)] hover:bg-[var(--primary)] border border-[var(--card-border)] text-white px-4 py-2.5 rounded-lg text-sm transition-colors"
             >
               <Download size={16} />

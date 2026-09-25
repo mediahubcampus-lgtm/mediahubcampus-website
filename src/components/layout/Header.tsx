@@ -9,6 +9,7 @@ import { NAV_LINKS, SITE_CONFIG } from "@/lib/constants";
 import { useLanguage } from "@/context/LanguageContext";
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 import type { TranslationKey } from "@/lib/i18n/translations";
+import { trackEvent } from "@/lib/gtag";
 
 const NAV_KEY_BY_HREF: Record<string, TranslationKey> = {
   "/#services": "nav.services",
@@ -93,6 +94,7 @@ export default function Header() {
             <a
               href={SITE_CONFIG.pdfUrl}
               download
+              onClick={() => trackEvent("brochure_download", { location: "header_desktop" })}
               className="inline-flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white px-5 py-2.5 rounded-lg font-medium transition-colors"
             >
               <Download size={18} />
@@ -132,6 +134,10 @@ export default function Header() {
             <a
               href={SITE_CONFIG.pdfUrl}
               download
+              onClick={() => {
+                trackEvent("brochure_download", { location: "header_mobile" });
+                setIsMobileMenuOpen(false);
+              }}
               className="inline-flex items-center justify-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white px-5 py-3 rounded-lg font-medium transition-colors mt-2"
             >
               <Download size={18} />
