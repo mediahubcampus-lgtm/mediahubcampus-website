@@ -19,6 +19,8 @@ import { trackEvent } from "@/lib/gtag";
 const easeOutQuart = [0.25, 0.1, 0.25, 1] as const;
 
 const DUREE_OPTIONS = [4, 8, 12, 16, 24, 52];
+const MIN_DUREE_SEMAINES = 3;
+const MINIMUM_COMMANDE_HT = 450;
 
 const NETWORK_OPTIONS: { value: NetworkType; labelKey: TranslationKey }[] = [
   { value: "universites", labelKey: "simulator.network.universites" },
@@ -38,7 +40,7 @@ export default function QuoteSimulator() {
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [selectedZones, setSelectedZones] = useState<string[]>([]);
-  const [dureeSemaines, setDureeSemaines] = useState(4);
+  const [dureeSemaines, setDureeSemaines] = useState(MIN_DUREE_SEMAINES + 1);
   const [network, setNetwork] = useState<NetworkType>("universites");
   const [copied, setCopied] = useState(false);
 
@@ -77,6 +79,9 @@ export default function QuoteSimulator() {
     () => computeQuote(selectedZoneObjects, dureeSemaines, network),
     [selectedZoneObjects, dureeSemaines, network]
   );
+
+  const belowMinimum =
+    selectedZones.length > 0 && result.budgetHTNet < MINIMUM_COMMANDE_HT;
 
   const toggleZone = (zone: string) => {
     setSelectedZones((prev) =>
@@ -330,10 +335,12 @@ export default function QuoteSimulator() {
                 <div className="relative">
                   <input
                     type="number"
-                    min={1}
+                    min={MIN_DUREE_SEMAINES}
                     value={dureeSemaines}
                     onChange={(e) =>
-                      setDureeSemaines(Math.max(1, Number(e.target.value) || 1))
+                      setDureeSemaines(
+                        Math.max(MIN_DUREE_SEMAINES, Number(e.target.value) || MIN_DUREE_SEMAINES)
+                      )
                     }
                     className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg pl-4 pr-24 py-2.5 text-white focus:outline-none focus:border-[var(--primary)] transition-colors"
                   />
@@ -415,12 +422,20 @@ export default function QuoteSimulator() {
                 </div>
               )}
 
+              {belowMinimum && (
+                <p className="text-xs text-amber-400 bg-amber-400/10 border border-amber-400/30 rounded-lg px-3 py-2 mb-3">
+                  {t("simulator.results.belowMinimum", {
+                    amount: formatEUR(MINIMUM_COMMANDE_HT),
+                  })}
+                </p>
+              )}
+
               <div className="space-y-2">
                 <motion.button
                   onClick={handleRequestQuote}
-                  disabled={selectedZones.length === 0}
-                  whileHover={{ scale: selectedZones.length ? 1.02 : 1 }}
-                  whileTap={{ scale: selectedZones.length ? 0.98 : 1 }}
+                  disabled={selectedZones.length === 0 || belowMinimum}
+                  whileHover={{ scale: selectedZones.length && !belowMinimum ? 1.02 : 1 }}
+                  whileTap={{ scale: selectedZones.length && !belowMinimum ? 0.98 : 1 }}
                   className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold bg-[var(--primary)] hover:bg-[var(--primary-hover)] disabled:opacity-40 disabled:cursor-not-allowed text-white transition-colors"
                 >
                   <Send size={18} />
@@ -428,7 +443,7 @@ export default function QuoteSimulator() {
                 </motion.button>
                 <button
                   onClick={handleCopySummary}
-                  disabled={selectedZones.length === 0}
+                  disabled={selectedZones.length === 0 || belowMinimum}
                   className="w-full text-sm text-[var(--text-muted)] hover:text-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors py-2"
                 >
                   {copied ? t("simulator.results.copied") : t("simulator.results.copySummary")}
