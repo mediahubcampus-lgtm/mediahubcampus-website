@@ -65,6 +65,17 @@ export const translations = {
   "footer.mentionsLegales": { fr: "Mentions légales", en: "Legal Notice", zh: "法律声明", zhTW: "法律聲明", es: "Aviso Legal", ar: "الإشعار القانوني" },
   "footer.politiqueConfidentialite": { fr: "Politique de confidentialité", en: "Privacy Policy", zh: "隐私政策", zhTW: "隱私政策", es: "Política de Privacidad", ar: "سياسة الخصوصية" },
   "footer.designedBy": { fr: "Conçu et développé par", en: "Designed and developed by", zh: "设计开发", zhTW: "設計開發", es: "Diseñado y desarrollado por", ar: "تصميم وتطوير" },
+  "footer.manageCookies": { fr: "Gérer les cookies", en: "Manage Cookies", zh: "管理 Cookie", zhTW: "管理 Cookie", es: "Gestionar Cookies", ar: "إدارة ملفات تعريف الارتباط" },
+
+  // ---------------------------------------------------------------------
+  // Cookies
+  // ---------------------------------------------------------------------
+  "cookies.title": { fr: "Nous respectons votre vie privée", en: "We respect your privacy", zh: "我们尊重您的隐私", zhTW: "我們尊重您的隱私", es: "Respetamos tu privacidad", ar: "نحن نحترم خصوصيتك" },
+  "cookies.description": { fr: "Nous utilisons des cookies de mesure d'audience (Google Analytics) pour comprendre comment vous utilisez notre site.", en: "We use audience measurement cookies (Google Analytics) to understand how you use our site.", zh: "我们使用受众分析 Cookie（Google Analytics）来了解您如何使用我们的网站。", zhTW: "我們使用受眾分析 Cookie（Google Analytics）以瞭解您如何使用我們的網站。", es: "Utilizamos cookies de medición de audiencia (Google Analytics) para entender cómo utilizas nuestro sitio.", ar: "نستخدم ملفات تعريف ارتباط لقياس الجمهور (Google Analytics) لفهم كيفية استخدامك لموقعنا." },
+  "cookies.learnMore": { fr: "En savoir plus", en: "Learn more", zh: "了解更多", zhTW: "瞭解更多", es: "Saber más", ar: "معرفة المزيد" },
+  "cookies.accept": { fr: "Tout accepter", en: "Accept all", zh: "全部接受", zhTW: "全部接受", es: "Aceptar todo", ar: "قبول الكل" },
+  "cookies.decline": { fr: "Tout refuser", en: "Decline all", zh: "全部拒绝", zhTW: "全部拒絕", es: "Rechazar todo", ar: "رفض الكل" },
+  "cookies.close": { fr: "Fermer", en: "Close", zh: "关闭", zhTW: "關閉", es: "Cerrar", ar: "إغلاق" },
 
   // ---------------------------------------------------------------------
   // Hero
