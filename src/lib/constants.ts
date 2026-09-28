@@ -14,7 +14,6 @@ export const MASCOTS_CONFIG = {
   servicesBottom: true, // chips cat overlapping cards
   target: true,
   statistics: true,
-  cities: true,
   clients: true,
   contact: true,
 };

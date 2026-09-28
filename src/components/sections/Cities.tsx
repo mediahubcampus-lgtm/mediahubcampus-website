@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import Image from "next/image";
 import {
   Landmark,
   GraduationCap,
@@ -14,7 +13,6 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import CityPieChart from "@/components/ui/CityPieChart";
-import { useMascots } from "@/context/MascotContext";
 import { useLanguage } from "@/context/LanguageContext";
 import type { TranslationKey } from "@/lib/i18n/translations";
 import { CITIES } from "@/lib/constants";
@@ -102,7 +100,6 @@ const itemVariants = {
 };
 
 export default function Cities() {
-  const { MASCOTS } = useMascots();
   const { t, locale } = useLanguage();
   const decimalSeparator = locale === "fr" || locale === "es" ? "," : ".";
 
@@ -133,24 +130,6 @@ export default function Cities() {
           <p className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto">
             {t("cities.subtitle")}
           </p>
-          {/* Mascot - Desktop (behind text) */}
-          {MASCOTS.cities && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 0.6, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="absolute right-[calc(50%-410px)] -top-0 hidden lg:block -z-10"
-            >
-              <Image
-                src="/images/cat-mascot/chat-chapeau-graduate-sur-vélo.png"
-                alt="Chat mascotte sur vélo"
-                width={260}
-                height={260}
-                className="w-56 h-auto drop-shadow-lg"
-              />
-            </motion.div>
-          )}
         </motion.div>
 
         {/* Animated network stats */}
@@ -202,24 +181,6 @@ export default function Cities() {
 
         {/* Répartition par région (camembert) with mascot behind on mobile */}
         <div className="relative mb-12">
-          {/* Mascot - Mobile (bigger, behind chart) */}
-          {MASCOTS.cities && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 0.5, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-              className="absolute -top-16 left-1/2 -translate-x-1/2 lg:hidden z-0"
-            >
-              <Image
-                src="/images/cat-mascot/chat-chapeau-graduate-sur-vélo.png"
-                alt="Chat mascotte sur vélo"
-                width={160}
-                height={160}
-                className="w-28 h-auto drop-shadow-lg"
-              />
-            </motion.div>
-          )}
           <motion.div
             initial={{ opacity: 0, scale: 0.97, filter: "blur(6px)" }}
             whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
