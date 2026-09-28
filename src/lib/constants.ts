@@ -284,7 +284,7 @@ export const CLIENT_LOGOS: ClientLogo[] = [
   { name: "Antaria Pharma", logo: "/logos/clients/Logo Antaria Pharma.png", category: "Grandes Marques & Entreprises" },
   { name: "OPM", logo: "/logos/clients/Logo OPM.webp", category: "Grandes Marques & Entreprises" },
   { name: "Kurokawa", logo: "/logos/clients/Logo Kurokawa.png", category: "Grandes Marques & Entreprises" },
-  { name: "Quai Branly", logo: "/logos/clients/Logo Quai Branly.svg", category: "Culture & Médias" },
+  { name: "Quai Branly", logo: "/logos/clients/Logo Quai Branly.png", category: "Culture & Médias" },
   { name: "Festival TV de Monte-Carlo", logo: "/logos/clients/Logo Festival TV Monte-Carlo.png", category: "Culture & Médias" },
   { name: "Département Loire-Atlantique", logo: "/logos/clients/Logo Departement Loire-Atlantique.jpg", category: "Institutions & Collectivités" },
   { name: "Département Essonne", logo: "/logos/clients/Logo Departement Essonne.png", category: "Institutions & Collectivités" },

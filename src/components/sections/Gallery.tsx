@@ -120,7 +120,6 @@ export default function Gallery() {
                   src={GALLERY_PHOTOS[currentIndex].src}
                   alt={GALLERY_PHOTOS[currentIndex].alt}
                   fill
-                  priority
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 900px"
                 />
