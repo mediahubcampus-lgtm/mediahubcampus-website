@@ -94,6 +94,7 @@ export default function PeekingMascot() {
   useEffect(() => {
     const interacted = localStorage.getItem("mascotInteracted");
     if (interacted === "true") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- lecture ponctuelle de localStorage au montage (hydratation), pas une synchronisation continue
       setHasInteracted(true);
     }
     setIsHydrated(true);
@@ -108,6 +109,7 @@ export default function PeekingMascot() {
   useEffect(() => {
     // Wait for hydration and check if user has interacted
     if (!isHydrated || hasInteracted || mascotsEnabled) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- réinitialise la mascotte "peeking" dès que ces conditions changent, pas une synchronisation continue
       setIsPeeking(false);
       return;
     }

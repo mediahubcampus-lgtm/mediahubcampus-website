@@ -26,6 +26,7 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored === "accepted" || stored === "declined") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- lecture ponctuelle de localStorage au montage (hydratation), pas une synchronisation continue
       setStatus(stored);
     }
     setIsHydrated(true);

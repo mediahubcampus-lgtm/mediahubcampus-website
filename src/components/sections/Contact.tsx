@@ -39,6 +39,7 @@ export default function Contact() {
       const raw = localStorage.getItem(QUOTE_PREFILL_KEY);
       if (!raw) return;
       const prefill = JSON.parse(raw);
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- lecture ponctuelle du préremplissage localStorage au montage, pas une synchronisation continue
       setFormData((prev) => ({ ...prev, ...prefill }));
       localStorage.removeItem(QUOTE_PREFILL_KEY);
     } catch {
