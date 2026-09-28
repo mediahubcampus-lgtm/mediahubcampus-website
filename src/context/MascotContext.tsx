@@ -21,6 +21,7 @@ export function MascotProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const stored = localStorage.getItem("mascotsEnabled");
     if (stored === "true") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- lecture ponctuelle de localStorage au montage (hydratation), pas une synchronisation continue
       setMascotsEnabled(true);
     }
     setIsHydrated(true);

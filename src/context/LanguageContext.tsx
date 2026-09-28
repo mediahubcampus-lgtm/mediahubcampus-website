@@ -46,6 +46,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         stored === "es" ||
         stored === "ar"
       ) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- lecture ponctuelle de localStorage au montage (hydratation), pas une synchronisation continue
         setLocaleState(stored);
       }
     } catch {
