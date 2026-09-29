@@ -136,6 +136,12 @@ export default function QuoteSimulator() {
           )})`
         : null,
       `Budget TTC : ${formatEUR(result.budgetTTC)}`,
+      result.audiencePartielle || result.odvPartiels
+        ? `(cumul partiel : audience/ODV non disponibles pour le ciblage précis)`
+        : null,
+      result.zonesSansReseau.length > 0
+        ? `(hors réseau demandé : ${result.zonesSansReseau.join(", ")})`
+        : null,
     ]
       .filter(Boolean)
       .join("\n");
@@ -446,6 +452,8 @@ export default function QuoteSimulator() {
                         count: formatNumber(result.etablissementsCiblesCumules),
                         total: formatNumber(result.etablissementsTotalCumules),
                       })}
+                      {(result.audiencePartielle || result.odvPartiels) &&
+                        ` — ${t("simulator.results.partialNotice")}`}
                     </p>
                   )}
                   <div className="flex justify-between text-sm">
@@ -454,6 +462,7 @@ export default function QuoteSimulator() {
                     </span>
                     <span className="font-medium">
                       {formatNumber(result.audienceCumulee)}
+                      {result.audiencePartielle && "*"}
                     </span>
                   </div>
                   {network !== "lycees" && (
@@ -463,6 +472,7 @@ export default function QuoteSimulator() {
                       </span>
                       <span className="font-medium">
                         {formatNumber(result.odvCumules)}
+                        {result.odvPartiels && "*"}
                       </span>
                     </div>
                   )}
@@ -516,6 +526,14 @@ export default function QuoteSimulator() {
                 <p className="text-xs text-amber-400 bg-amber-400/10 border border-amber-400/30 rounded-lg px-3 py-2 mb-3">
                   {t("simulator.results.belowMinimum", {
                     amount: formatEUR(MINIMUM_COMMANDE_HT),
+                  })}
+                </p>
+              )}
+
+              {result.zonesSansReseau.length > 0 && (
+                <p className="text-xs text-amber-400 bg-amber-400/10 border border-amber-400/30 rounded-lg px-3 py-2 mb-3">
+                  {t("simulator.results.zonesSansReseau", {
+                    zones: result.zonesSansReseau.join(", "),
                   })}
                 </p>
               )}
