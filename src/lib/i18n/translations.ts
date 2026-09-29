@@ -410,6 +410,7 @@ export const translations = {
     es: "También es posible una segmentación aún más precisa por disciplina académica — indíquelo en su solicitud de presupuesto.",
     ar: "يمكن أيضًا استهداف أكثر دقة حسب التخصص الأكاديمي — يرجى ذكر ذلك في طلب عرض السعر.",
   },
+  "simulator.results.advancedTargeting": { fr: "Ciblage avancé (catégorie, filière)", en: "Advanced targeting (category, track)", zh: "高级定向(类别、学科方向)", zhTW: "進階定向(類別、學科方向)", es: "Segmentación avanzada (categoría, área)", ar: "استهداف متقدم (الفئة، المسار)" },
   "simulator.results.categorie": { fr: "Catégorie ciblée (Campus)", en: "Targeted category (Campus)", zh: "定向类别(校园)", zhTW: "定向類別(校園)", es: "Categoría segmentada (Campus)", ar: "الفئة المستهدفة (الحرم الجامعي)" },
   "simulator.results.filiere": { fr: "Filière ciblée (Lycées)", en: "Targeted track (High schools)", zh: "定向学科方向(中学)", zhTW: "定向學科方向(中學)", es: "Área segmentada (Institutos)", ar: "المسار المستهدف (المدارس الثانوية)" },
   "simulator.results.establishments": { fr: "{{count}} établissement(s) ciblé(s) sur {{total}}", en: "{{count}} targeted institution(s) out of {{total}}", zh: "已定向 {{count}} 家机构,共 {{total}} 家", zhTW: "已定向 {{count}} 間機構,共 {{total}} 間", es: "{{count}} institución(es) segmentada(s) de {{total}}", ar: "{{count}} مؤسسة مستهدفة من أصل {{total}}" },

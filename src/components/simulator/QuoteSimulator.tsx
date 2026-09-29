@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Search, Send, X, Check, Globe, Info } from "lucide-react";
+import { Search, Send, X, Check, Globe, Info, SlidersHorizontal, ChevronDown } from "lucide-react";
 import { MHC_ZONES, MhcZone } from "@/lib/mhc-zones";
 import {
   computeQuote,
@@ -46,6 +46,7 @@ export default function QuoteSimulator() {
   const [network, setNetwork] = useState<NetworkType>("universites");
   const [categorie, setCategorie] = useState("Tous");
   const [filiere, setFiliere] = useState("Tous");
+  const [showTargeting, setShowTargeting] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const allZoneNames = useMemo(() => MHC_ZONES.map((z) => z.zone), []);
@@ -330,45 +331,68 @@ export default function QuoteSimulator() {
                 </div>
               </div>
 
-              {/* Catégorie ciblée (Campus) */}
-              {network !== "lycees" && (
-                <div className="mb-5">
-                  <label className="block text-sm font-medium mb-2">
-                    {t("simulator.results.categorie")}
-                  </label>
-                  <select
-                    value={categorie}
-                    onChange={(e) => setCategorie(e.target.value)}
-                    className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-[var(--primary)] transition-colors"
-                  >
-                    {CATEGORIE_OPTIONS.map((opt) => (
-                      <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
+              {/* Ciblage avancé (Catégorie / Filière) - replié par défaut pour ne pas surcharger */}
+              <div className="mb-5">
+                <button
+                  type="button"
+                  onClick={() => setShowTargeting((v) => !v)}
+                  className="w-full flex items-center justify-between gap-2 text-sm text-[var(--text-muted)] hover:text-white transition-colors py-1"
+                >
+                  <span className="inline-flex items-center gap-1.5">
+                    <SlidersHorizontal size={14} />
+                    {t("simulator.results.advancedTargeting")}
+                    {(categorie !== "Tous" || filiere !== "Tous") && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-cyan)]" />
+                    )}
+                  </span>
+                  <ChevronDown
+                    size={16}
+                    className={`transition-transform ${showTargeting ? "rotate-180" : ""}`}
+                  />
+                </button>
 
-              {/* Filière ciblée (Lycées) */}
-              {network !== "universites" && (
-                <div className="mb-5">
-                  <label className="block text-sm font-medium mb-2">
-                    {t("simulator.results.filiere")}
-                  </label>
-                  <select
-                    value={filiere}
-                    onChange={(e) => setFiliere(e.target.value)}
-                    className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-[var(--primary)] transition-colors"
-                  >
-                    {FILIERE_OPTIONS.map((opt) => (
-                      <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
+                {showTargeting && (
+                  <div className="mt-3 space-y-3">
+                    {network !== "lycees" && (
+                      <div>
+                        <label className="block text-xs text-[var(--text-muted)] mb-1.5">
+                          {t("simulator.results.categorie")}
+                        </label>
+                        <select
+                          value={categorie}
+                          onChange={(e) => setCategorie(e.target.value)}
+                          className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[var(--primary)] transition-colors"
+                        >
+                          {CATEGORIE_OPTIONS.map((opt) => (
+                            <option key={opt.value} value={opt.value}>
+                              {opt.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+
+                    {network !== "universites" && (
+                      <div>
+                        <label className="block text-xs text-[var(--text-muted)] mb-1.5">
+                          {t("simulator.results.filiere")}
+                        </label>
+                        <select
+                          value={filiere}
+                          onChange={(e) => setFiliere(e.target.value)}
+                          className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[var(--primary)] transition-colors"
+                        >
+                          {FILIERE_OPTIONS.map((opt) => (
+                            <option key={opt.value} value={opt.value}>
+                              {opt.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
 
               {/* Durée */}
               <div className="mb-6">
@@ -417,14 +441,12 @@ export default function QuoteSimulator() {
               ) : (
                 <div className="space-y-3 mb-6">
                   {(categorie !== "Tous" || filiere !== "Tous") && (
-                    <div className="flex justify-between text-sm">
-                      <span className="text-[var(--text-muted)]">
-                        {t("simulator.results.establishments", {
-                          count: formatNumber(result.etablissementsCiblesCumules),
-                          total: formatNumber(result.etablissementsTotalCumules),
-                        })}
-                      </span>
-                    </div>
+                    <p className="text-xs text-[var(--text-muted)] -mt-1">
+                      {t("simulator.results.establishments", {
+                        count: formatNumber(result.etablissementsCiblesCumules),
+                        total: formatNumber(result.etablissementsTotalCumules),
+                      })}
+                    </p>
                   )}
                   <div className="flex justify-between text-sm">
                     <span className="text-[var(--text-muted)]">
