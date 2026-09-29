@@ -10,6 +10,8 @@ import {
   formatEUR,
   formatNumber,
   NetworkType,
+  CATEGORIE_OPTIONS,
+  FILIERE_OPTIONS,
 } from "@/lib/quote-calculator";
 import { BUDGET_RANGES } from "@/lib/constants";
 import { useLanguage } from "@/context/LanguageContext";
@@ -42,6 +44,8 @@ export default function QuoteSimulator() {
   const [selectedZones, setSelectedZones] = useState<string[]>([]);
   const [dureeSemaines, setDureeSemaines] = useState(MIN_DUREE_SEMAINES + 1);
   const [network, setNetwork] = useState<NetworkType>("universites");
+  const [categorie, setCategorie] = useState("Tous");
+  const [filiere, setFiliere] = useState("Tous");
   const [copied, setCopied] = useState(false);
 
   const allZoneNames = useMemo(() => MHC_ZONES.map((z) => z.zone), []);
@@ -76,8 +80,16 @@ export default function QuoteSimulator() {
   );
 
   const result = useMemo(
-    () => computeQuote(selectedZoneObjects, dureeSemaines, network),
-    [selectedZoneObjects, dureeSemaines, network]
+    () =>
+      computeQuote(
+        selectedZoneObjects,
+        dureeSemaines,
+        network,
+        categorie,
+        "Tous",
+        filiere
+      ),
+    [selectedZoneObjects, dureeSemaines, network, categorie, filiere]
   );
 
   const belowMinimum =
@@ -113,6 +125,8 @@ export default function QuoteSimulator() {
       `Devis simulé en ligne :`,
       `Réseau : ${networkLabel}`,
       `Zones (${selectedZoneObjects.length}) : ${zoneNames}`,
+      categorie !== "Tous" ? `Catégorie ciblée (Campus) : ${categorie}` : null,
+      filiere !== "Tous" ? `Filière ciblée (Lycées) : ${filiere}` : null,
       `Durée : ${dureeSemaines} semaines`,
       `Budget HT net : ${formatEUR(result.budgetHTNet)}`,
       result.tauxRemise > 0
@@ -148,12 +162,16 @@ export default function QuoteSimulator() {
     const text = [
       `Réseau : ${networkLabel}`,
       `Zones (${selectedZoneObjects.length}) : ${zoneNames || "aucune"}`,
+      categorie !== "Tous" ? `Catégorie ciblée (Campus) : ${categorie}` : null,
+      filiere !== "Tous" ? `Filière ciblée (Lycées) : ${filiere}` : null,
       `Durée : ${dureeSemaines} semaines`,
       `Budget HT net : ${formatEUR(result.budgetHTNet)}`,
       `Remise : ${Math.round(result.tauxRemise * 100)}%`,
       `TVA (20%) : ${formatEUR(result.tva)}`,
       `Budget TTC : ${formatEUR(result.budgetTTC)}`,
-    ].join("\n");
+    ]
+      .filter(Boolean)
+      .join("\n");
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
@@ -312,6 +330,46 @@ export default function QuoteSimulator() {
                 </div>
               </div>
 
+              {/* Catégorie ciblée (Campus) */}
+              {network !== "lycees" && (
+                <div className="mb-5">
+                  <label className="block text-sm font-medium mb-2">
+                    {t("simulator.results.categorie")}
+                  </label>
+                  <select
+                    value={categorie}
+                    onChange={(e) => setCategorie(e.target.value)}
+                    className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-[var(--primary)] transition-colors"
+                  >
+                    {CATEGORIE_OPTIONS.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {/* Filière ciblée (Lycées) */}
+              {network !== "universites" && (
+                <div className="mb-5">
+                  <label className="block text-sm font-medium mb-2">
+                    {t("simulator.results.filiere")}
+                  </label>
+                  <select
+                    value={filiere}
+                    onChange={(e) => setFiliere(e.target.value)}
+                    className="w-full bg-[var(--bg-dark)] border border-[var(--card-border)] rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-[var(--primary)] transition-colors"
+                  >
+                    {FILIERE_OPTIONS.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
               {/* Durée */}
               <div className="mb-6">
                 <label className="block text-sm font-medium mb-2">
@@ -358,6 +416,16 @@ export default function QuoteSimulator() {
                 </p>
               ) : (
                 <div className="space-y-3 mb-6">
+                  {(categorie !== "Tous" || filiere !== "Tous") && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-[var(--text-muted)]">
+                        {t("simulator.results.establishments", {
+                          count: formatNumber(result.etablissementsCiblesCumules),
+                          total: formatNumber(result.etablissementsTotalCumules),
+                        })}
+                      </span>
+                    </div>
+                  )}
                   <div className="flex justify-between text-sm">
                     <span className="text-[var(--text-muted)]">
                       {t("simulator.results.audience")}
