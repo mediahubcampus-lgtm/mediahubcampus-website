@@ -136,9 +136,6 @@ export default function QuoteSimulator() {
           )})`
         : null,
       `Budget TTC : ${formatEUR(result.budgetTTC)}`,
-      result.audiencePartielle || result.odvPartiels
-        ? `(cumul partiel : audience/ODV non disponibles pour le ciblage précis)`
-        : null,
       result.zonesSansReseau.length > 0
         ? `(hors réseau demandé : ${result.zonesSansReseau.join(", ")})`
         : null,
@@ -452,8 +449,6 @@ export default function QuoteSimulator() {
                         count: formatNumber(result.etablissementsCiblesCumules),
                         total: formatNumber(result.etablissementsTotalCumules),
                       })}
-                      {(result.audiencePartielle || result.odvPartiels) &&
-                        ` — ${t("simulator.results.partialNotice")}`}
                     </p>
                   )}
                   <div className="flex justify-between text-sm">
@@ -462,7 +457,6 @@ export default function QuoteSimulator() {
                     </span>
                     <span className="font-medium">
                       {formatNumber(result.audienceCumulee)}
-                      {result.audiencePartielle && "*"}
                     </span>
                   </div>
                   {network !== "lycees" && (
@@ -472,7 +466,6 @@ export default function QuoteSimulator() {
                       </span>
                       <span className="font-medium">
                         {formatNumber(result.odvCumules)}
-                        {result.odvPartiels && "*"}
                       </span>
                     </div>
                   )}
